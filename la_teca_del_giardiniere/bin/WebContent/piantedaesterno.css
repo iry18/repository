@@ -1,0 +1,150 @@
+@charset "ISO-8859-1";
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f8f4; /* Sfondo leggermente verdognolo */
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #e0f2e0; /* Sfondo chiaro per l'header */
+    padding: 20px 0;
+    border-bottom: 1px solid #d0e0d0;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #558b2f; /* Verde scuro per i link */
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.hero {
+    background-color: #f0fff0; /* Sfondo ancora più chiaro per la sezione hero */
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero-image {
+    margin-bottom: 20px;
+}
+
+.hero-image img {
+    max-width: 150px; /* Regola la dimensione dell'immagine della pianta sorridente */
+    height: auto;
+}
+
+.hero-text {
+    max-width: 700px;
+}
+
+.hero-text h1 {
+    color: #2e7d32; /* Verde più intenso per il titolo */
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.hero-text p {
+    color: #444;
+    font-size: 0.95em;
+    margin-bottom: 15px;
+}
+
+.plants-grid {
+    max-width: 960px;
+    margin: 40px auto;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Griglia responsiva */
+    gap: 20px;
+}
+
+.plant-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+.plant-card img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.plant-card h3 {
+    color: #388e3c; /* Verde medio per i nomi delle piante */
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.plant-card p {
+    color: #777;
+    font-size: 0.85em;
+}
+
+footer {
+    background-color: #e0f2e0;
+    padding: 20px 0;
+    text-align: center;
+    color: #558b2f;
+    font-size: 0.8em;
+    border-top: 1px solid #d0e0d0;
+}
+
+/* Potrebbe essere necessario aggiungere stili più specifici per allineamenti e margini precisi */
+/* Stile specifico per l'hero della pagina delle piante da esterno */
+.hero.hero-outdoor {
+    background-color: #dcedc8; /* Un verde più chiaro per distinguere */
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.hero.hero-outdoor .hero-content {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.hero.hero-outdoor h1 {
+    color: #388e3c; /* Verde più intenso */
+    font-size: 2.8em;
+    margin-bottom: 15px;
+}
+
+.hero.hero-outdoor p {
+    color: #43a047; /* Verde leggermente più scuro */
+    font-size: 1.1em;
+}
+
+/* Stile per indicare la pagina corrente nella navigazione (opzionale) */
+nav ul li a.current-page {
+    color: #2e7d32;
+    font-weight: bold;
+    /* Potresti aggiungere un bordo o un'altra indicazione */
+}
+
+/* Potresti voler adattare ulteriormente la griglia se necessario */
