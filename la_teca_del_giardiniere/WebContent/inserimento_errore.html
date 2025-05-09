@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inserimento Non Riuscito - La Teca del Giardiniere</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #dc3545; /* Rosso */
+            margin-bottom: 20px;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        .error-message {
+            color: #721c24;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            text-decoration: none;
+            background-color: #dc3545; 
+            color: white;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Inserimento Non Riuscito!</h1>
+        <p>Si è verificato un errore durante l'inserimento dei dati della pianta nel database.</p>
+        <div id="errorMessage" class="error-message">
+            </div>
+        <div class="button-container">
+            <a href="inserimento_pianta.html" class="button">Riprova l'Inserimento</a>
+            <a href="index.html" class="button">Torna alla Home</a>
+        </div>
+    </div>
+
+    <script>
+        // Funzione JavaScript per recuperare il parametro "errore" dall'URL
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        // Mostra il messaggio di errore se presente nell'URL
+        var errorMessage = getParameterByName('errore');
+        if (errorMessage) {
+            document.getElementById('errorMessage').innerText = "Errore: " + errorMessage;
+        }
+    </script>
+</body>
+</html>

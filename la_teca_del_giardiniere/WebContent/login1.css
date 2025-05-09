@@ -1,0 +1,210 @@
+body {
+    font-family: 'Montserrat', sans-serif; /* Font simile all'immagine */
+    margin: 0;
+    padding: 0;
+    background-color: #d7eddd; /* Tonalità di sfondo simile */
+    display: flex;
+    justify-content: center; /* Centra orizzontalmente */
+    align-items: center; /* Centra verticalmente */
+    min-height: 100vh;
+}
+
+.container {
+    background-color: #f5f5f5; /* Sfondo del contenuto principale */
+    display: flex;
+    flex-direction: row-reverse; /* Inverte l'ordine degli elementi flex */
+    max-width: 960px; /* Larghezza massima per adattarsi al layout */
+    width: 100%;
+    border-radius: 0; /* Rimosso l'arrotondamento dal contenitore principale */
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Aggiunta un'ombra leggera per staccare dal background */
+}
+
+/* Ridimensiona tutte le immagini all'interno della classe "logo-container" */
+.logo-container img {
+    width: 150px;
+    height: auto;
+}
+
+/* Ridimensiona l'immagine con l'ID "edera-top" */ #edera-top {
+    width: 100%; /* Rende l'immagine larga quanto il suo contenitore */
+    height: auto;
+}
+
+/* Imposta una larghezza massima per le icone social */
+.social-icons img {
+    max-width: 30px;
+    height: auto;
+}
+
+.left-section {
+    background-color: #d7eddd; /* Stesso colore dello sfondo per un effetto coeso */
+    padding: 40px; /* Riduzione del padding */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra il contenuto orizzontalmente */
+    justify-content: center;
+    width: 40%;
+    box-sizing: border-box;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px; /* Riduzione del margine */
+}
+
+.logo-container img {
+    width: 80px; /* Regola la dimensione del logo */
+    height: auto;
+    margin-right: 15px;
+}
+
+.logo-text h1,
+.logo-text h2,
+.logo-text h3,
+.logo-text h4 {
+    margin: 0;
+    line-height: 1;
+    font-weight: normal;
+}
+
+.logo-text h1 {
+    font-size: 1em; /* Aumento della dimensione */
+}
+
+.logo-text h2 {
+    font-size: 1.5em; /* Aumento della dimensione */
+}
+
+.logo-text h3 {
+    font-size: 1em; /* Aumento della dimensione */
+}
+
+.logo-text h4 {
+    font-size: 1.8em; /* Aumento della dimensione */
+}
+
+.tagline {
+    color: #555;
+    font-size: 0.9em; /* Riduzione della dimensione */
+    line-height: 1.5; /* Aumento dell'interlinea */
+    text-align: center; /* Centra il testo */
+    margin-top: 10px; /* Aggiungi un po' di spazio sopra */
+}
+
+.right-section.navigation-section {
+    background-color: #f9f9f9; /* Sfondo più chiaro */
+    padding: 30px;
+    width: 60%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra orizzontalmente il contenuto */
+    position: relative;
+}
+
+.top-decoration {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: -40px; /* Sposta in alto */
+    left: 0;
+    z-index: 10;
+}
+
+.top-decoration img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.main-nav {
+    width: 80%;
+    margin-top: 90px; /* Regola il margine superiore */
+    margin-bottom: 30px;
+}
+
+.main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Allinea gli elementi in orizzontale */
+    flex-direction: column; /* Li dispone in colonna */
+    align-items: stretch; /* Fa in modo che gli elementi si estendano in orizzontale */
+}
+
+.main-nav li {
+    margin-bottom: 10px;
+}
+
+.main-nav li a {
+    display: block;
+    background-color: #d7eddd; /* Sfondo più chiaro */
+    color: #333;
+    padding: 15px 20px; /* Riduzione del padding */
+    text-decoration: none;
+    border-radius: 0; /* Rimosso l'arrotondamento dai link */
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9em; /* Riduzione della dimensione */
+    border: 1px solid #ccc; /* Aggiunta cornice ai link */
+}
+
+.main-nav li a:hover {
+    background-color: #d7eddd;
+    color: #222;
+}
+
+/* Stile specifico per il link LOGIN */
+.main-nav ul li:last-child a { /* Se LOGIN è l'ultimo elemento della lista */
+    background: none;
+    border: none;
+    color: #008080; /* Colore tipico dei link */
+    font-weight: bold;
+    padding: 15px 20px; /* Mantiene il padding per l'interazione */
+}
+
+.main-nav ul li:last-child a:hover { /* Se LOGIN è l'ultimo elemento della lista */
+    text-decoration: underline; /* Sottolinea al passaggio del mouse */
+    background: none;
+}
+
+/* Responsive Design (Opzionale) */
+@media (max-width: 960px) {
+    .container {
+        flex-direction: column; /* Mantiene l'impilamento verticale su schermi piccoli */
+        align-items: center;
+        border-radius: 0; /* Rimuovi l'arrotondamento su schermi piccoli */
+        border: 1px solid #ccc; /* Aggiunta cornice anche su schermi piccoli */
+    }
+    .left-section,
+    .right-section.navigation-section {
+        width: 95%;
+        padding: 20px;
+        align-items: center;
+        text-align: center;
+    }
+    .logo-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .logo-container img {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    .main-nav {
+        width: 100%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .top-decoration {
+        position: static; /* Rimuove il posizionamento assoluto su schermi piccoli */
+        margin-bottom: 10px;
+    }
+
+    .main-nav ul {
+        align-items: stretch; /* Gli elementi si estendono anche su schermi piccoli */
+    }
+}
