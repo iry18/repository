@@ -1,0 +1,178 @@
+@charset "ISO-8859-1";
+/* Stili generali del body e del container */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Allinea in alto, non al centro verticale */
+    min-height: 100vh; /* Assicura che occupi almeno l'altezza della viewport */
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1200px; /* Larghezza massima per evitare tabelle troppo larghe */
+    box-sizing: border-box; /* Include padding e border nella larghezza */
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* Stili per i messaggi di stato (successo/errore) */
+.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Stili per la tabella */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Rimuove lo spazio tra i bordi delle celle */
+    margin-top: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+table th, table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Bordi inferiori per le righe */
+}
+
+table th {
+    background-color: #4CAF50; /* Verde più scuro per l'intestazione */
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Sfondo alternato per le righe */
+}
+
+table tbody tr:hover {
+    background-color: #e2f0e2; /* Colore al passaggio del mouse sulle righe */
+}
+
+/* Stili per le celle delle azioni (Modifica, Elimina) */
+table td:last-child {
+    white-space: nowrap; /* Evita che i link vadano a capo */
+}
+
+table td a {
+    text-decoration: none;
+    color: #007bff; /* Blu per i link */
+    margin-right: 10px;
+    transition: color 0.3s ease;
+}
+
+table td a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+table td a.delete-link { /* Puoi usare una classe specifica per il link di eliminazione */
+    color: #dc3545; /* Rosso per il link di eliminazione */
+}
+
+table td a.delete-link:hover {
+    color: #bd2130;
+}
+
+/* Stili per il messaggio "Non ci sono piante" */
+p {
+    text-align: center;
+    color: #666;
+    margin-top: 30px;
+    font-style: italic;
+}
+
+/* Stili per il link di ritorno alla home */
+.back-link {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.back-link a {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.back-link a:hover {
+    background-color: #0056b3;
+}
+
+/* Media Queries per la responsività (opzionale ma consigliato) */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    table tr {
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+    table td {
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
+        text-align: right;
+    }
+    table td:before {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+    }
+    /* Assegna le etichette ai campi per la modalità mobile */
+    table td:nth-of-type(1):before { content: "ID:"; }
+    table td:nth-of-type(2):before { content: "Nome Comune:"; }
+    table td:nth-of-type(3):before { content: "Tipo:"; }
+    table td:nth-of-type(4):before { content: "Nome Scientifico:"; }
+    table td:nth-of-type(5):before { content: "Categoria:"; }
+    table td:nth-of-type(6):before { content: "Prezzo:"; }
+    table td:nth-of-type(7):before { content: "Disponibilità:"; }
+    table td:nth-of-type(8):before { content: "Azioni:"; }
+}

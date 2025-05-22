@@ -28,4 +28,32 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>WebContent/WebContent/images/edera.png</name>
+			<type>1</type>
+			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/edera.png</locationURI>
+		</link>
+		<link>
+			<name>WebContent/WebContent/images/logo.png</name>
+			<type>1</type>
+			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/logo.png</locationURI>
+		</link>
+		<link>
+			<name>WebContent/WebContent/WEB-INF/lib/javax.servlet.jsp.jstl-api-1.2.1.jar</name>
+			<type>1</type>
+			<locationURI>copy_PARENT/Downloads/javax.servlet.jsp.jstl-api-1.2.1.jar</locationURI>
+		</link>
+		<link>
+			<name>WebContent/WebContent/WEB-INF/lib/taglibs-standard-jstlel-1.2.5.jar</name>
+			<type>1</type>
+			<locationURI>copy_PARENT/Downloads/taglibs-standard-jstlel-1.2.5.jar</locationURI>
+		</link>
+	</linkedResources>
+	<variableList>
+		<variable>
+			<name>copy_PARENT</name>
+			<value>$%7BPARENT-3-PROJECT_LOC%7D</value>
+		</variable>
+	</variableList>
 </projectDescription>
