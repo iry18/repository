@@ -1,8 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> <%-- Importa per la formattazione della data --%>
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <html>
 <head>
     <title>Registrazione</title>
@@ -28,7 +25,7 @@
         Email: <input type="email" name="email"><br>
         Password: <input type="password" name="password"><br>
         Indirizzo: <input type="text" name="indirizzo"><br>
-        Citt√†: <input type="text" name="citta"><br>
+        Citt‡: <input type="text" name="citta"><br>
         CAP: <input type="text" name="cap"><br>
         Telefono: <input type="text" name="telefono"><br>
         Provincia: <input type="text" name="provincia"><br>

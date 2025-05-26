@@ -1,7 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> <%-- Importa per la formattazione della data --%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+
 
 <!DOCTYPE html>
 <html lang="it">
@@ -40,7 +39,7 @@
         </c:if>
 
         <form action="pianteServlet" method="post">
-            <%-- Campo HIDDEN per l'ID in modalit√† modifica --%>
+            <%-- Campo HIDDEN per l'ID in modalit‡ modifica --%>
             <c:if test="${modalita == 'modifica' and not empty pianta.id}">
                 <input type="hidden" name="id" value="${pianta.id}">
             </c:if>
@@ -105,7 +104,7 @@
                        value="<fmt:formatNumber value="${pianta.prezzo}" pattern="0.00"/>"> <%-- Pre-popola con formattazione --%>
             </div>
             <div class="form-group">
-                <label for="Disponibilita">Disponibilit√†:</label>
+                <label for="Disponibilita">Disponibilit‡:</label>
                 <input type="text" id="Disponibilita" name="Disponibilita"
                        value="${pianta.disponibilita}"> <%-- Pre-popola --%>
             </div>
