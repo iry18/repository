@@ -1,6 +1,3 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html lang="it">
@@ -8,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestione Utenti - Area Amministratore</title>
-    <link rel="stylesheet" href="admin.css"> </head>
+    <link rel="stylesheet" href="dettaglioutente.css"> </head>
 <body>
     <div class="container">
         <h1>Gestione Utenti</h1>

@@ -11,7 +11,7 @@ Permettere a un amministratore di visualizzare i dettagli di un utente specifico
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dettagli Utente - ${utente.nome} ${utente.cognome}</title>
-    <link rel="stylesheet" href="dettaglioutente.css"> <%-- Crea un CSS per questa pagina --%>
+    <link rel="stylesheet" href="dettaglioutente.css"> 
 </head>
 <body>
     <div class="container">

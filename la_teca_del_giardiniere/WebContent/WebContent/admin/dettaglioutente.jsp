@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dettagli Utente e Ordini - Area Amministratore</title>
-    <link rel="stylesheet" href="admin.css"> </head>
+    <link rel="stylesheet" href="dettaglioutente.css"> </head>
 <body>
     <div class="container">
         <h1>Dettagli Utente</h1>

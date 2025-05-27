@@ -1,0 +1,205 @@
+@charset "ISO-8859-1";
+
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #d7eddd; /* Sfondo verde chiaro */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Allinea in alto per form potenzialmente più lunghi */
+    min-height: 100vh;
+    padding-top: 40px; /* Spazio in alto */
+    padding-bottom: 40px; /* Spazio in basso */
+    box-sizing: border-box; /* Include padding nel calcolo dell'altezza */
+}
+
+.register-container { /* Usiamo il nome che hai nel JSP per coerenza */
+    background-color: #fff; /* Sfondo bianco per il contenitore del form */
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Ombra simile agli altri form */
+    width: 100%;
+    max-width: 500px; /* Larghezza massima per il form di registrazione */
+    box-sizing: border-box;
+    text-align: center; /* Centra il contenuto del container, es. titolo */
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2em;
+    text-align: center; /* Centra il titolo principale */
+    border-bottom: 1px solid #eee; /* Linea di separazione */
+    padding-bottom: 10px;
+}
+
+/* Stili per i messaggi di errore/successo */
+.message {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+.message.error {
+    color: #d8000c;
+    background-color: #ffbaba;
+    border: 1px solid #d8000c;
+}
+
+.message.success {
+    color: #005200;
+    background-color: #d4edda;
+    border: 1px solid #005200;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left; /* Allinea label e input a sinistra */
+}
+
+.form-group label {
+    display: block; /* Ogni label su una nuova riga */
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="tel"] { /* Ho incluso tel per il campo telefono */
+    width: calc(100% - 20px); /* Larghezza completa meno il padding */
+    padding: 12px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box; /* Include padding e border nella larghezza */
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="password"]:focus,
+.form-group input[type="tel"]:focus {
+    border-color: #008080; /* Colore al focus */
+    outline: none; /* Rimuove l'outline predefinito del browser */
+    box-shadow: 0 0 5px rgba(0, 128, 128, 0.3); /* Ombra leggera al focus */
+}
+
+/* Stile specifico per la checkbox isAdmin */
+.form-group input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2); /* Ingrandisce un po' la checkbox */
+    vertical-align: middle; /* Allinea al centro con il testo */
+}
+
+.form-group label[for="isAdmin"] {
+    display: inline-block; /* Rende la label adiacente alla checkbox */
+    margin-bottom: 0;
+    font-weight: normal;
+}
+
+/* Nuovo stile per il div che contiene i pulsanti */
+.form-actions {
+    margin-top: 25px; /* Spazio sopra i pulsanti */
+    text-align: center; /* Centra i pulsanti se ce n'è uno solo */
+}
+
+/* Stile comune per tutti i pulsanti all'interno di form-actions */
+.form-actions .button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    width: 100%; /* I pulsanti prendono la larghezza piena */
+    box-sizing: border-box;
+    display: block; /* Ogni pulsante sulla sua riga */
+}
+
+/* Stile specifico per il pulsante "Salva Modifiche" */
+.form-actions .update-button {
+    background-color: #008080; /* Verde acqua */
+    color: white;
+}
+
+.form-actions .update-button:hover {
+    background-color: #006666; /* Tonalità più scura al hover */
+}
+
+/* Stile specifico per il pulsante "Registrati" */
+.form-actions .register-button {
+    background-color: #28a745; /* Un verde più standard */
+    color: white;
+}
+
+.form-actions .register-button:hover {
+    background-color: #218838;
+}
+
+/* Stile per i link di ritorno */
+.back-link {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.back-link a {
+    color: #008080;
+    text-decoration: none;
+    font-size: 0.95em;
+    margin: 0 10px; /* Spazio tra i link */
+    padding: 8px 15px;
+    border: 1px solid #008080;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: inline-block; /* Per applicare padding e margin */
+}
+
+.back-link a:hover {
+    background-color: #008080;
+    color: white;
+}
+
+/* Stile aggiuntivo per il link "Torna all'elenco Utenti" se vuoi differenziarlo */
+.button-back-list {
+    /* Puoi aggiungere stili specifici se vuoi che questo link sia diverso da "Torna alla Home" */
+    /* Ad esempio: background-color: #f0f0f0; color: #555; */
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .register-container {
+        padding: 25px;
+        margin: 15px;
+    }
+    h1 {
+        font-size: 1.8em;
+    }
+    .form-group label {
+        font-size: 0.85em;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="password"],
+    .form-group input[type="tel"] {
+        padding: 10px;
+        font-size: 0.95em;
+    }
+    .form-actions .button {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+    .back-link a {
+        display: block; /* Su mobile, i link di ritorno possono andare su righe separate */
+        margin: 10px auto;
+        width: 90%;
+    }
+}

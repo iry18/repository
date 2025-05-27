@@ -1,0 +1,63 @@
+@charset "ISO-8859-1";
+
+body {
+    font-family: 'Montserrat', sans-serif; /* Un font moderno e leggibile */
+    margin: 0;
+    padding: 20px;
+    background-color: #d7eddd; /* Stesso sfondo verde chiaro */
+    color: #333;
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Allinea in alto per evitare che sia sempre al centro verticale */
+    min-height: 100vh; /* Minimo altezza della viewport per centrare verticalmente */
+}
+
+/* Contenitore principale per centrare il contenuto e dare un'estetica pulita */
+.container {
+    max-width: 900px; /* Larghezza massima per il contenuto */
+    width: 95%; /* Occupa quasi tutta la larghezza disponibile su schermi più piccoli */
+    margin: 40px auto; /* Margine superiore e inferiore, auto per centrare orizzontalmente */
+    background-color: #ffffff; /* Sfondo bianco per il contenuto */
+    padding: 30px;
+    border-radius: 8px; /* Bordi leggermente arrotondati */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Ombra leggera */
+    text-align: center; /* Centra il testo all'interno del contenitore */
+}
+
+/* Titolo della pagina */
+h1 {
+    color: #008080; /* Colore più scuro per il titolo */
+    margin-bottom: 25px;
+    font-size: 2.2em;
+    font-weight: 600;
+}
+
+h2 {
+    color: #006666;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 1.6em;
+    font-weight: 500;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+/* Stili per le sezioni dei dettagli (utente e ordini) */
+.user-details-section, .orders-section {
+    text-align: left; /* Allinea il testo a sinistra all'interno delle sezioni */
+    margin-bottom: 30px;
+    background-color: #fcfcfc;
+    padding: 20px;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+}
+
+.user-details-section p {
+    margin-bottom: 8px;
+    font-size: 1.05em;
+    color: #555;
+}
+
+.user-details-section p strong {
+    color: #006666; /* Colore più sc

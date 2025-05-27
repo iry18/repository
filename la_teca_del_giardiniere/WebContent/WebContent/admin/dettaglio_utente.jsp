@@ -1,115 +1,93 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    
+
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Dettagli Utente</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css"> <%-- Assicurati che il percorso sia corretto --%>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .container { max-width: 900px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        h1, h2 { color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
-        .user-details, .order-list { margin-bottom: 30px; }
-        .user-details p, .order-item p { margin: 5px 0; }
-        .order-item { border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 5px; }
-        .order-item h3 { margin-top: 0; color: #555; }
-        .order-details-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .order-details-table th, .order-details-table td { border: 1px solid #eee; padding: 8px; text-align: left; }
-        .order-details-table th { background-color: #f2f2f2; }
-        .no-data { color: #888; font-style: italic; }
-        .button-back { display: inline-block; padding: 10px 15px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; margin-top: 20px; }
-        .button-back:hover { background-color: #0056b3; }
-        .message.error { color: red; }
-        .message.success { color: green; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dettagli Utente - <c:out value="${utente.nome}"/> <c:out value="${utente.cognome}"/></title>
+    <link rel="stylesheet" href="dettaglioutente.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="container">
-        <h1>Dettagli Utente</h1>
+        <h1>Dettagli Utente: <c:out value="${utente.nome}"/> <c:out value="${utente.cognome}"/></h1>
 
-        <c:if test="${not empty requestScope.messaggio}">
-            <div class="message ${requestScope.tipoMessaggio}">${requestScope.messaggio}</div>
+        <c:if test="${not empty messaggio}">
+            <div class="message <c:out value="${tipoMessaggio}"/>">
+                <p><c:out value="${messaggio}"/></p>
+            </div>
         </c:if>
 
-        <div class="user-details">
-            <h2>Informazioni Utente</h2>
-            <c:choose>
-                <c:when test="${not empty requestScope.utente}">
-                    <p><strong>Nome:</strong> ${requestScope.utente.nome}</p>
-                    <p><strong>Cognome:</strong> ${requestScope.utente.cognome}</p>
-                    <p><strong>Email:</strong> ${requestScope.utente.email}</p>
-                    <p><strong>Indirizzo:</strong> ${requestScope.utente.indirizzo}, ${requestScope.utente.citta}, ${requestScope.utente.CAP} (${requestScope.utente.provincia})</p>
-                    <p><strong>Telefono:</strong> ${requestScope.utente.telefono}</p>
-                    <p><strong>Data Registrazione:</strong> <fmt:formatDate value="${requestScope.utente.data_registrazione}" pattern="dd/MM/yyyy HH:mm:ss" /></p>
-                    <p><strong>Ruoli:</strong>
-                        <c:if test="${not empty requestScope.utente.ruoli}">
-                            <c:forEach var="ruolo" items="${requestScope.utente.ruoli}" varStatus="loop">
-                                ${ruolo}<c:if test="${!loop.last}">, </c:if>
+        <c:if test="${not empty utente}">
+            <div class="user-details-section">
+                <h2>Informazioni Utente</h2>
+                <p><strong>ID Utente:</strong> <c:out value="${utente.id}"/></p>
+                <p><strong>Nome:</strong> <c:out value="${utente.nome}"/></p>
+                <p><strong>Cognome:</strong> <c:out value="${utente.cognome}"/></p>
+                <p><strong>Email:</strong> <c:out value="${utente.email}"/></p>
+                <p><strong>Amministratore:</strong>
+                    <c:choose>
+                        <c:when test="${utente.isAdmin}">Sì</c:when> <%-- Assicurati che la classe registrazione abbia un metodo getIsAdmin() --%>
+                        <c:otherwise>No</c:otherwise>
+                    </c:choose>
+                </p>
+                <p><strong>Indirizzo:</strong> <c:out value="${utente.indirizzo}"/></p>
+                <p><strong>Città:</strong> <c:out value="${utente.citta}"/></p>
+                <p><strong>CAP:</strong> <c:out value="${utente.CAP}"/></p>
+                <p><strong>Telefono:</strong> <c:out value="${utente.telefono}"/></p>
+                <p><strong>Data Registrazione:</strong> <fmt:formatDate value="${utente.data_registrazione}" pattern="dd/MM/yyyy HH:mm:ss"/></p>
+            </div>
+
+            <div class="action-buttons">
+                <%-- Link per modificare l'utente. Assicurati che esista una servlet per la modifica --%>
+                <a href="${pageContext.request.contextPath}/admin/modificautenteServlet?id=<c:out value="${utente.id}"/>" class="button edit-button">Modifica Profilo</a>
+                <%-- Link per eliminare l'utente (solo per admin, con conferma) --%>
+                <a href="${pageContext.request.contextPath}/admin/eliminautenteServlet?id=<c:out value="${utente.id}"/>" class="button delete-button" onclick="return confirm('Sei sicuro di voler eliminare questo utente?');">Elimina Utente</a>
+            </div>
+
+            <div class="orders-section">
+                <h2>Ordini Effettuati</h2>
+                <c:if test="${not empty ordiniUtente}">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID Ordine</th>
+                                <th>Data Ordine</th>
+                                <th>Totale</th>
+                                <th>Stato</th>
+                                <th>Dettagli</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="ordine" items="${ordiniUtente}">
+                                <tr>
+                                    <td><c:out value="${ordine.id}" /></td>
+                                    <td><fmt:formatDate value="${ordine.dataOrdine}" pattern="dd/MM/yyyy HH:mm"/></td>
+                                    <td><fmt:formatNumber value="${ordine.totale}" type="currency" currencySymbol="€"/></td>
+                                    <td><c:out value="${ordine.stato}" /></td>
+                                    <td><a href="${pageContext.request.contextPath}/admin/dettaglioordineServlet?id=<c:out value="${ordine.id}"/>">Visualizza</a></td>
+                                </tr>
                             </c:forEach>
-                        </c:if>
-                        <c:if test="${empty requestScope.utente.ruoli}">
-                            Nessun ruolo assegnato.
-                        </c:if>
-                    </p>
-                </c:when>
-                <c:otherwise>
-                    <p class="no-data">Nessun dettaglio utente disponibile.</p>
-                </c:otherwise>
-            </c:choose>
+                        </tbody>
+                    </table>
+                </c:if>
+                <c:if test="${empty ordiniUtente}">
+                    <p>Nessun ordine trovato per questo utente.</p>
+                </c:if>
+            </div>
+        </c:if>
+        <c:if test="${empty utente && empty messaggio}">
+            <p>Nessun utente trovato o selezionato per la visualizzazione.</p>
+        </c:if>
+
+        <div class="back-links">
+            <a href="${pageContext.request.contextPath}/index.jsp" class="button back-button">Torna alla Home</a>
+            <a href="${pageContext.request.contextPath}/admin/utentiServlet" class="button back-button">Torna all'Elenco Utenti</a>
         </div>
-
-        <div class="order-list">
-            <h2>Ordini dell'Utente</h2>
-            <c:choose>
-                <c:when test="${not empty requestScope.ordiniUtente}">
-                    <c:forEach var="ordine" items="${requestScope.ordiniUtente}">
-                        <div class="order-item">
-                            <h3>Ordine #${ordine.ordine_id} - <fmt:formatDate value="${ordine.data_ordine}" pattern="dd/MM/yyyy HH:mm" /></h3>
-                            <p><strong>Totale:</strong> <fmt:formatNumber value="${ordine.tot_ordine}" type="currency" currencySymbol="€" maxFractionDigits="2"/></p>
-                            <p><strong>Stato:</strong> ${ordine.stato_ordine}</p>
-                            <p><strong>Metodo Pagamento:</strong> ${ordine.metodo_pagamento}</p>
-                            <p><strong>Spedizione a:</strong> ${ordine.citta_spedizione}, ${ordine.paese_spedizione} (${ordine.CAP_spedizione})</p>
-                            <p><strong>Note:</strong> ${ordine.note}</p>
-
-                            <h4>Dettagli Ordine:</h4>
-                            <c:choose>
-                                <c:when test="${not empty ordine.dettagliOrdine}">
-                                    <table class="order-details-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Prodotto</th>
-                                                <th>Quantità</th>
-                                                <th>Prezzo Unitario</th>
-                                                <th>Subtotale</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach var="dettaglio" items="${ordine.dettagliOrdine}">
-                                                <tr>
-                                                    <td>${dettaglio.nomeProdotto}</td>
-                                                    <td>${dettaglio.quantita}</td>
-                                                    <td><fmt:formatNumber value="${dettaglio.prezzo_unitario}" type="currency" currencySymbol="€" maxFractionDigits="2"/></td>
-                                                    <td><fmt:formatNumber value="${dettaglio.prezzo_unitario * dettaglio.quantita}" type="currency" currencySymbol="€" maxFractionDigits="2"/></td>
-                                                </tr>
-                                            </c:forEach>
-                                        </tbody>
-                                    </table>
-                                </c:when>
-                                <c:otherwise>
-                                    <p class="no-data">Nessun dettaglio per questo ordine.</p>
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
-                    </c:forEach>
-                </c:when>
-                <c:otherwise>
-                    <p class="no-data">Questo utente non ha ordini.</p>
-                </c:otherwise>
-            </c:choose>
-        </div>
-
-        <a href="${pageContext.request.contextPath}/admin/utentiServlet" class="button-back">Torna alla Lista Utenti</a>
     </div>
 </body>
 </html>

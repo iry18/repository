@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accedi - La Teca del Giardiniere</title>
-    <link rel="stylesheet" href="login1.css"> <%-- Puoi creare un CSS specifico per il form di login --%>
+    <link rel="stylesheet" href="login.css"> <%-- Link per login --%>
+     <%-- Link per tornare alla home --%>
 </head>
 <body>
     <div class="login-container"> <%-- Contenitore per il form di login --%>
