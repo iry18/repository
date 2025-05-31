@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import src.com.la_teca_del_giardiniere.classes.registrazione;
+import src.com.la_teca_del_giardiniere.classes.Utente;
 import src.com.la_teca_del_giardiniere.dao.UtenteDAO;
 
 @WebServlet("/VisualizzaUtentiServlet")
@@ -29,7 +29,7 @@ public class VisualizzaUtentiServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            List<registrazione> listaUtenti = utenteDao.getAllUtentiConRuoli(); // Usa il metodo corretto
+            List<Utente> listaUtenti = utenteDao.getAllUtentiConRuoli(); // Usa il metodo corretto
             request.setAttribute("listaUtenti", listaUtenti);
             request.getRequestDispatcher("/visualizza_utenti.jsp").forward(request, response);
         } catch (SQLException e) {

@@ -1,17 +1,23 @@
 package src.com.la_teca_del_giardiniere.dao;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
-import src.com.la_teca_del_giardiniere.classes.registrazione;
+import src.com.la_teca_del_giardiniere.classes.Utente; // <--- CAMBIATO QUI! Importa la classe Utente
+import src.com.la_teca_del_giardiniere.util.PasswordHashing;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UtenteDAO {
 
+    private static final Logger LOGGER = Logger.getLogger(UtenteDAO.class.getName());
     private MysqlDataSource dataSource;
 
     public UtenteDAO() throws SQLException {
@@ -23,303 +29,240 @@ public class UtenteDAO {
         dataSource.setDatabaseName("la_teca_del_giardiniere");
         dataSource.setUseSSL(false);
         dataSource.setAllowPublicKeyRetrieval(true);
+        LOGGER.info("MysqlDataSource inizializzato.");
     }
 
     private Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }
 
-    // 1. Metodo per aggiungere un nuovo utente e assegnargli un ruolo
-    public void aggiungiUtenteConRuolo(registrazione utente, String nomeRuolo) throws SQLException {
+    /**
+     * Aggiunge un nuovo utente al database e gli assegna un ruolo.
+     * La password viene hashata prima di essere salvata.
+     * @param utente L'oggetto Utente da salvare (con password hashata)
+     * @throws SQLException In caso di errori SQL
+     */
+    public void aggiungiUtenteRegistrato(Utente utente) throws SQLException { // <--- CAMBIATO QUI (da aggiungiUtenteConRuolo)
         Connection connection = null;
-        PreparedStatement preparedStatementUtente = null;
-        PreparedStatement preparedStatementRuolo = null;
-        PreparedStatement preparedStatementGetRuoloId = null;
-        ResultSet generatedKeys = null;
-        ResultSet ruoloResult = null;
-
-        String sqlUtente = "INSERT INTO utente (nome, cognome, email, password, indirizzo, citta, CAP, telefono, data_registrazione, provincia) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        String sqlRuolo = "INSERT INTO utente_ruolo (utente_id, ruolo_id) VALUES (?, ?)";
-        String sqlGetRuoloId = "SELECT ruolo_id FROM ruolo WHERE nome_ruolo = ?";
-
         try {
             connection = getConnection();
             connection.setAutoCommit(false); // Inizia la transazione
 
-            // Inserisci l'utente
-            preparedStatementUtente = connection.prepareStatement(sqlUtente, PreparedStatement.RETURN_GENERATED_KEYS);
-            preparedStatementUtente.setString(1, utente.getNome());
-            preparedStatementUtente.setString(2, utente.getCognome());
-            preparedStatementUtente.setString(3, utente.getEmail());
-            preparedStatementUtente.setString(4, utente.getPassword());
-            preparedStatementUtente.setString(5, utente.getIndirizzo());
-            preparedStatementUtente.setString(6, utente.getCitta());
-            preparedStatementUtente.setInt(7, utente.getCAP());
-            preparedStatementUtente.setInt(8, utente.getTelefono());
-            preparedStatementUtente.setTimestamp(9, utente.getData_registrazione());
-            preparedStatementUtente.setString(10, utente.getProvincia());
-            preparedStatementUtente.executeUpdate();
+            String sqlUtente = "INSERT INTO utente (nome, cognome, email, password_hash, indirizzo, citta, CAP, telefono, data_registrazione, provincia, isAdmin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; // <--- AGGIUNTO 'provincia' e 'isAdmin'
 
-            // Ottieni l'ID dell'utente appena inserito
-            generatedKeys = preparedStatementUtente.getGeneratedKeys();
-            int utenteId = 0;
-            if (generatedKeys.next()) {
-                utenteId = generatedKeys.getInt(1);
-            } else {
-                throw new SQLException("Creazione utente fallita, nessun ID generato.");
+            try (PreparedStatement preparedStatementUtente = connection.prepareStatement(sqlUtente, Statement.RETURN_GENERATED_KEYS)) {
+                preparedStatementUtente.setString(1, utente.getNome());
+                preparedStatementUtente.setString(2, utente.getCognome());
+                preparedStatementUtente.setString(3, utente.getEmail());
+                preparedStatementUtente.setString(4, utente.getPasswordHash()); // Usa getPasswordHash()
+                preparedStatementUtente.setString(5, utente.getIndirizzo());
+                preparedStatementUtente.setString(6, utente.getCitta());
+                preparedStatementUtente.setInt(7, utente.getCAP());
+                preparedStatementUtente.setString(8, utente.getTelefono()); // Usa String per telefono
+                preparedStatementUtente.setTimestamp(9, utente.getData_registrazione());
+                preparedStatementUtente.setString(10, utente.getProvincia()); // <--- IMPOSTA LA PROVINCIA
+                preparedStatementUtente.setBoolean(11, utente.isAdmin()); // <--- IMPOSTA isAdmin
+
+                preparedStatementUtente.executeUpdate();
+
+                try (ResultSet generatedKeys = preparedStatementUtente.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        utente.setId(generatedKeys.getInt(1)); // Imposta l'ID generato nell'oggetto Utente
+                        LOGGER.info("Utente " + utente.getEmail() + " registrato con ID: " + utente.getId());
+                    } else {
+                        throw new SQLException("La creazione dell'utente ha fallito, nessun ID generato.");
+                    }
+                }
             }
+            connection.commit(); // Conferma la transazione
 
-            // Ottieni l'ID del ruolo
-            preparedStatementGetRuoloId = connection.prepareStatement(sqlGetRuoloId);
-            preparedStatementGetRuoloId.setString(1, nomeRuolo);
-            ruoloResult = preparedStatementGetRuoloId.executeQuery();
-            int ruoloId = 0;
-            if (ruoloResult.next()) {
-                ruoloId = ruoloResult.getInt("ruolo_id");
-            } else {
-                throw new SQLException("Ruolo '" + nomeRuolo + "' non trovato nel database.");
-            }
-
-            // associazione utente-ruolo nella tabella utente_ruolo
-            preparedStatementRuolo = connection.prepareStatement(sqlRuolo);
-            preparedStatementRuolo.setInt(1, utenteId);
-            preparedStatementRuolo.setInt(2, ruoloId);
-            preparedStatementRuolo.executeUpdate();
-
-            connection.commit(); // Commit della transazione
         } catch (SQLException e) {
             if (connection != null) {
-                connection.rollback(); // Rollback in caso di errore
+                try {
+                    connection.rollback(); // Esegui il rollback in caso di errore
+                } catch (SQLException ex) {
+                    LOGGER.log(Level.SEVERE, "Errore durante il rollback della transazione.", ex);
+                }
             }
+            LOGGER.log(Level.SEVERE, "Errore SQL durante l'aggiunta dell'utente: " + e.getMessage(), e);
+            throw e; // Rilancia l'eccezione per essere gestita dal chiamante
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    LOGGER.log(Level.WARNING, "Errore nella chiusura della connessione al database.", e);
+                }
+            }
+        }
+    }
+
+    /**
+     * Recupera un utente tramite email, includendo la password hashata e i ruoli.
+     * @param email L'email dell'utente
+     * @return L'oggetto Utente se trovato, altrimenti null.
+     * @throws SQLException In caso di errori SQL.
+     */
+    public Utente getUtenteByEmailWithRuoli(String email) throws SQLException {
+        Utente utente = null;
+        String sql = "SELECT id, nome, cognome, email, password_hash, indirizzo, citta, CAP, telefono, data_registrazione, provincia, isAdmin FROM utente WHERE email = ?"; // <--- AGGIUNTO 'provincia', 'isAdmin'
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, email);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    utente = new Utente();
+                    utente.setId(resultSet.getInt("id"));
+                    utente.setNome(resultSet.getString("nome"));
+                    utente.setCognome(resultSet.getString("cognome"));
+                    utente.setEmail(resultSet.getString("email"));
+                    utente.setPasswordHash(resultSet.getString("password_hash"));
+                    utente.setIndirizzo(resultSet.getString("indirizzo"));
+                    utente.setCitta(resultSet.getString("citta"));
+                    utente.setCAP(resultSet.getInt("CAP"));
+                    utente.setTelefono(resultSet.getString("telefono")); // Recupera come String
+                    utente.setData_registrazione(resultSet.getTimestamp("data_registrazione"));
+                    utente.setProvincia(resultSet.getString("provincia")); // <--- RECUPERA PROVINCIA
+                    utente.setAdmin(resultSet.getBoolean("isAdmin")); // <--- RECUPERA isAdmin
+                    // La lista dei ruoli verrà generata dal metodo getRuoli() della classe Utente
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Errore SQL durante il recupero dell'utente per email: " + email, e);
             throw e;
-        } finally {
-            if (generatedKeys != null) try { generatedKeys.close(); } catch (SQLException e) {}
-            if (ruoloResult != null) try { ruoloResult.close(); } catch (SQLException e) {}
-            if (preparedStatementUtente != null) try { preparedStatementUtente.close(); } catch (SQLException e) {}
-            if (preparedStatementRuolo != null) try { preparedStatementRuolo.close(); } catch (SQLException e) {}
-            if (preparedStatementGetRuoloId != null) try { preparedStatementGetRuoloId.close(); } catch (SQLException e) {}
-            if (connection != null) try { connection.setAutoCommit(true); connection.close(); } catch (SQLException e) {}
-        }
-    }
-
-    // Metodo semplificato per la registrazione (assume sempre il ruolo 'compratore')
-    public void aggiungiUtenteRegistrato(registrazione utente) throws SQLException {
-        aggiungiUtenteConRuolo(utente, "compratore");
-    }
-
-    // 2. Metodo per recuperare le informazioni dell'utente in base all'email (per il login) includendo anche i ruoli
-    public registrazione getUtenteByEmailWithRuoli(String email) throws SQLException {
-        registrazione utente = null;
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        String sql = "SELECT u.*, r.nome_ruolo FROM utente u " +
-                     "LEFT JOIN utente_ruolo ur ON u.utente_id = ur.utente_id " +
-                     "LEFT JOIN ruolo r ON ur.ruolo_id = r.ruolo_id " +
-                     "WHERE u.email = ?";
-
-        try {
-            connection = getConnection();
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, email);
-            resultSet = preparedStatement.executeQuery();
-
-            List<String> ruoli = new ArrayList<>();
-            while (resultSet.next()) {
-                if (utente == null) {
-                    utente = new registrazione();
-                    utente.setNome(resultSet.getString("nome"));
-                    utente.setCognome(resultSet.getString("cognome"));
-                    utente.setEmail(resultSet.getString("email"));
-                    utente.setPassword(resultSet.getString("password"));
-                    utente.setIndirizzo(resultSet.getString("indirizzo"));
-                    utente.setCitta(resultSet.getString("citta"));
-                    utente.setCAP(resultSet.getInt("CAP"));
-                    utente.setTelefono(resultSet.getInt("telefono"));
-                    utente.setData_registrazione(resultSet.getTimestamp("data_registrazione"));
-                    utente.setProvincia(resultSet.getString("provincia"));
-                }
-                String ruolo = resultSet.getString("nome_ruolo");
-                if (ruolo != null && !ruoli.contains(ruolo)) {
-                    ruoli.add(ruolo);
-                }
-            }
-            if (utente != null) {
-                utente.setRuoli(ruoli);
-            }
-        } finally {
-            if (resultSet != null) try { resultSet.close(); } catch (SQLException e) {}
-            if (preparedStatement != null) try { preparedStatement.close(); } catch (SQLException e) {}
-            if (connection != null) try { connection.close(); } catch (SQLException e) {}
         }
         return utente;
     }
 
-    // 3. Metodi per filtrare gli utenti per ruolo
-    public List<registrazione> getUsersByRuolo(String nomeRuolo) throws SQLException {
-        List<registrazione> utenti = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+    /**
+     * Recupera tutti gli utenti dal database, inclusi i loro ruoli (basati su isAdmin).
+     * @return Una lista di oggetti Utente.
+     * @throws SQLException In caso di errori SQL.
+     */
+    public List<Utente> getAllUtentiConRuoli() throws SQLException {
+        List<Utente> listaUtenti = new ArrayList<>();
+        String sql = "SELECT id, nome, cognome, email, password_hash, indirizzo, citta, CAP, telefono, data_registrazione, provincia, isAdmin FROM utente"; // <--- AGGIUNTO 'provincia', 'isAdmin'
 
-        String sql = "SELECT u.* FROM utente u " +
-                     "JOIN utente_ruolo ur ON u.utente_id = ur.utente_id " +
-                     "JOIN ruolo r ON ur.ruolo_id = r.ruolo_id " +
-                     "WHERE r.nome_ruolo = ?";
-
-        try {
-            connection = getConnection();
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, nomeRuolo);
-            resultSet = preparedStatement.executeQuery();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
-                registrazione utente = new registrazione();
+                Utente utente = new Utente();
+                utente.setId(resultSet.getInt("id"));
                 utente.setNome(resultSet.getString("nome"));
                 utente.setCognome(resultSet.getString("cognome"));
                 utente.setEmail(resultSet.getString("email"));
+                utente.setPasswordHash(resultSet.getString("password_hash"));
                 utente.setIndirizzo(resultSet.getString("indirizzo"));
                 utente.setCitta(resultSet.getString("citta"));
                 utente.setCAP(resultSet.getInt("CAP"));
-                utente.setTelefono(resultSet.getInt("telefono"));
+                utente.setTelefono(resultSet.getString("telefono"));
                 utente.setData_registrazione(resultSet.getTimestamp("data_registrazione"));
-                utente.setProvincia(resultSet.getString("provincia"));
-                utenti.add(utente);
+                utente.setProvincia(resultSet.getString("provincia")); // <--- RECUPERA PROVINCIA
+                utente.setAdmin(resultSet.getBoolean("isAdmin")); // <--- RECUPERA isAdmin
+                listaUtenti.add(utente);
             }
-        } finally {
-            if (resultSet != null) try { resultSet.close(); } catch (SQLException e) {}
-            if (preparedStatement != null) try { preparedStatement.close(); } catch (SQLException e) {}
-            if (connection != null) try { connection.close(); } catch (SQLException e) {}
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Errore SQL durante il recupero di tutti gli utenti.", e);
+            throw e;
         }
-        return utenti;
+        return listaUtenti;
     }
 
-    public List<registrazione> getAllVenditori() throws SQLException {
-        return getUsersByRuolo("venditore");
-    }
-
-    public List<registrazione> getAllCompratori() throws SQLException {
-        return getUsersByRuolo("compratore");
-    }
-
-    public List<registrazione> getAllUtentiConRuoli() throws SQLException {
-        List<registrazione> utenti = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        String sql = "SELECT u.*, GROUP_CONCAT(r.nome_ruolo SEPARATOR ', ') AS ruoli " +
-                     "FROM utente u " +
-                     "LEFT JOIN utente_ruolo ur ON u.utente_id = ur.utente_id " +
-                     "LEFT JOIN ruolo r ON ur.ruolo_id = r.ruolo_id " +
-                     "GROUP BY u.utente_id";
-
-        try {
-            connection = getConnection();
-            preparedStatement = connection.prepareStatement(sql);
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                registrazione utente = new registrazione();
-                utente.setNome(resultSet.getString("nome"));
-                utente.setCognome(resultSet.getString("cognome"));
-                utente.setEmail(resultSet.getString("email"));
-                utente.setIndirizzo(resultSet.getString("indirizzo"));
-                utente.setCitta(resultSet.getString("citta"));
-                utente.setCAP(resultSet.getInt("CAP"));
-                utente.setTelefono(resultSet.getInt("telefono"));
-                utente.setData_registrazione(resultSet.getTimestamp("data_registrazione"));
-                utente.setProvincia(resultSet.getString("provincia"));
-                String ruoliStr = resultSet.getString("ruoli");
-                
-                if (ruoliStr != null) {
-                    utente.setRuoli(List.of(ruoliStr.split(", ")));
-                } else {
-                    utente.setRuoli(new ArrayList<>());
-                }
-                utenti.add(utente);
-            }
-        } finally {
-            if (resultSet != null) try { resultSet.close(); } catch (SQLException e) {}
-            if (preparedStatement != null) try { preparedStatement.close(); } catch (SQLException e) {}
-            if (connection != null) try { connection.close(); } catch (SQLException e) {}
-        }
-        return utenti;
-    }
-
+    /**
+     * Controlla se un'email esiste già nel database.
+     * @param email L'email da controllare.
+     * @return true se l'email esiste, false altrimenti.
+     * @throws SQLException In caso di errori SQL.
+     */
     public boolean checkEmailExists(String email) throws SQLException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        boolean exists = false;
-
         String sql = "SELECT COUNT(*) FROM utente WHERE email = ?";
-
-        try {
-            connection = getConnection();
-            preparedStatement = connection.prepareStatement(sql);
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, email);
-            resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                exists = resultSet.getInt(1) > 0;
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1) > 0;
+                }
             }
-        } finally {
-            if (resultSet != null) try { resultSet.close(); } catch (SQLException e) {}
-            if (preparedStatement != null) try { preparedStatement.close(); } catch (SQLException e) {}
-            if (connection != null) try { connection.close(); } catch (SQLException e) {}
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Errore SQL durante il controllo dell'email esistente: " + email, e);
+            throw e;
         }
-        return exists;
+        return false;
     }
 
-    // Metodo per recuperare un utente con tutti i suoi ruoli dato l'utente_id (potrebbe essere utile in futuro)
-    public registrazione getUtenteByIdWithRuoli(int utenteId) throws SQLException {
-        registrazione utente = null;
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+    /**
+     * Recupera un utente tramite ID, inclusi i ruoli.
+     * @param id L'ID dell'utente.
+     * @return L'oggetto Utente se trovato, altrimenti null.
+     * @throws SQLException In caso di errori SQL.
+     */
+    public Utente getUtenteByIdWithRuoli(int id) throws SQLException {
+        Utente utente = null;
+        String sql = "SELECT id, nome, cognome, email, password_hash, indirizzo, citta, CAP, telefono, data_registrazione, provincia, isAdmin FROM utente WHERE id = ?";
 
-        String sql = "SELECT u.*, r.nome_ruolo FROM utente u " +
-                     "LEFT JOIN utente_ruolo ur ON u.utente_id = ur.utente_id " +
-                     "LEFT JOIN ruolo r ON ur.ruolo_id = r.ruolo_id " +
-                     "WHERE u.utente_id = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-        try {
-            connection = getConnection();
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, utenteId);
-            resultSet = preparedStatement.executeQuery();
-
-            List<String> ruoli = new ArrayList<>();
-            while (resultSet.next()) {
-                if (utente == null) {
-                    utente = new registrazione();
+            preparedStatement.setInt(1, id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    utente = new Utente();
+                    utente.setId(resultSet.getInt("id"));
                     utente.setNome(resultSet.getString("nome"));
                     utente.setCognome(resultSet.getString("cognome"));
                     utente.setEmail(resultSet.getString("email"));
-                    utente.setPassword(resultSet.getString("password"));
+                    utente.setPasswordHash(resultSet.getString("password_hash"));
                     utente.setIndirizzo(resultSet.getString("indirizzo"));
                     utente.setCitta(resultSet.getString("citta"));
                     utente.setCAP(resultSet.getInt("CAP"));
-                    utente.setTelefono(resultSet.getInt("telefono"));
+                    utente.setTelefono(resultSet.getString("telefono"));
                     utente.setData_registrazione(resultSet.getTimestamp("data_registrazione"));
                     utente.setProvincia(resultSet.getString("provincia"));
-                    utente.setUtente_id(utenteId); // Imposta l'ID dell'utente
-                }
-                String ruolo = resultSet.getString("nome_ruolo");
-                if (ruolo != null && !ruoli.contains(ruolo)) {
-                    ruoli.add(ruolo);
+                    utente.setAdmin(resultSet.getBoolean("isAdmin"));
                 }
             }
-            if (utente != null) {
-                utente.setRuoli(ruoli);
-            }
-        } finally {
-            if (resultSet != null) try { resultSet.close(); } catch (SQLException e) {}
-            if (preparedStatement != null) try { preparedStatement.close(); } catch (SQLException e) {}
-            if (connection != null) try { connection.close(); } catch (SQLException e) {}
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Errore SQL durante il recupero dell'utente per ID: " + id, e);
+            throw e;
         }
         return utente;
+    }
+
+    /**
+     * Aggiorna i dati di un utente esistente.
+     * @param utente L'oggetto Utente con i dati aggiornati.
+     * @return true se l'aggiornamento è riuscito, false altrimenti.
+     * @throws SQLException In caso di errori SQL.
+     */
+    public boolean updateUtente(Utente utente) throws SQLException {
+        String sql = "UPDATE utente SET nome = ?, cognome = ?, email = ?, password_hash = ?, indirizzo = ?, citta = ?, CAP = ?, telefono = ?, provincia = ?, isAdmin = ? WHERE id = ?"; // <--- AGGIORNATA QUERY
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setString(1, utente.getNome());
+            preparedStatement.setString(2, utente.getCognome());
+            preparedStatement.setString(3, utente.getEmail());
+            preparedStatement.setString(4, utente.getPasswordHash()); // Assicurati che sia l'hash
+            preparedStatement.setString(5, utente.getIndirizzo());
+            preparedStatement.setString(6, utente.getCitta());
+            preparedStatement.setInt(7, utente.getCAP());
+            preparedStatement.setString(8, utente.getTelefono());
+            preparedStatement.setString(9, utente.getProvincia()); // <--- Imposta provincia
+            preparedStatement.setBoolean(10, utente.isAdmin()); // <--- Imposta isAdmin
+            preparedStatement.setInt(11, utente.getId());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Errore SQL durante l'aggiornamento dell'utente con ID: " + utente.getId(), e);
+            throw e;
+        }
     }
 }

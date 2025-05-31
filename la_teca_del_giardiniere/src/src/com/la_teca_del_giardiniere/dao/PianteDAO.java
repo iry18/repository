@@ -5,15 +5,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;     // Import per java.sql.Types per setNull
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger; // Per un logging più robusto
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
-import src.com.la_teca_del_giardiniere.classes.piante;
+import src.com.la_teca_del_giardiniere.classes.Piante; // CAMBIATO: da 'Piante' a 'Pianta'
 
 public class PianteDAO {
 
+    private static final Logger LOGGER = Logger.getLogger(PianteDAO.class.getName()); // Logger
     private MysqlDataSource dataSource;
 
     public PianteDAO() throws SQLException {
@@ -25,43 +29,68 @@ public class PianteDAO {
         dataSource.setDatabaseName("la_teca_del_giardiniere");
         dataSource.setUseSSL(false);
         dataSource.setAllowPublicKeyRetrieval(true);
+        LOGGER.info("PianteDAO inizializzato con successo.");
     }
 
-
-    // Metodo per aggiungere una nuova pianta nel database
-    public void aggiungiPianta(piante pianta) throws SQLException {
-        String sql = "INSERT INTO piante(NomeComune, Tipo, NomeScientificoBotanico, Categoria, DescrizioneBreve, DescrizioneDettagliata, EsposizioneLuminosa, TipoDiTerreno, TemperaturaIdeale, FrequenzaIrrigazione, Prezzo, Disponibilita, Data_inserimento) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    /**
+     * Metodo per aggiungere una nuova pianta nel database.
+     *
+     * @param pianta L'oggetto Pianta da aggiungere.
+     * @throws SQLException Se si verifica un errore SQL.
+     */
+    public void aggiungiPianta(Piante pianta) throws SQLException { // CAMBIATO: da 'piante' a 'Pianta'
+        String sql = "INSERT INTO piante(" +
+                     "NomeComune, Tipo, NomeScientificoBotanico, Categoria, " +
+                     "Descrizione, EsposizioneLuminosa, TipoDiTerreno, TemperaturaIdeale, " +
+                     "FrequenzaIrrigazione, Prezzo, QuantitaDisponibile, Data_inserimento, Immagine) " +
+                     "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, pianta.getNomeComune());
-            preparedStatement.setBoolean(2, pianta.isTipo());
-            preparedStatement.setString(3, pianta.getNomeScientificoBotanico());
+            preparedStatement.setString(2, pianta.getTipo()); // CAMBIATO: da setBoolean a setString
+            preparedStatement.setString(3, pianta.getNomeBotanico()); // CAMBIATO: Nome Scientifico Botanico
             preparedStatement.setString(4, pianta.getCategoria());
-            preparedStatement.setString(5, pianta.getDescrizioneBreve());
-            preparedStatement.setString(6, pianta.getDescrizioneDettagliata());
-            preparedStatement.setString(7, pianta.getEsposizioneLuminosa());
-            preparedStatement.setString(8, pianta.getTipoDiTerreno());
+            preparedStatement.setString(5, pianta.getDescrizione()); // CAMBIATO: unito breve e dettagliata
+            preparedStatement.setString(6, pianta.getEsposizioneLuminosa());
+            preparedStatement.setString(7, pianta.getTipoDiTerreno());
+
+            // Gestione dei valori Integer che possono essere null
             if (pianta.getTemperaturaIdeale() != null) {
-                preparedStatement.setInt(9, pianta.getTemperaturaIdeale());
+                preparedStatement.setInt(8, pianta.getTemperaturaIdeale());
             } else {
-                preparedStatement.setNull(9, java.sql.Types.INTEGER);
+                preparedStatement.setNull(8, Types.INTEGER); // Utilizzo di java.sql.Types
             }
-            preparedStatement.setString(10, pianta.getFrequenzaIrrigazione());
-            preparedStatement.setFloat(11, pianta.getPrezzo());
-            if (pianta.getDisponibilita() != null) {
-                preparedStatement.setInt(12, pianta.getDisponibilita());
+
+            preparedStatement.setString(9, pianta.getFrequenzaIrrigazione());
+            preparedStatement.setBigDecimal(10, pianta.getPrezzo()); // CAMBIATO: da setFloat a setBigDecimal
+
+            // Gestione dei valori Integer che possono essere null
+            if (pianta.getQuantitaDisponibile() != null) {
+                preparedStatement.setInt(11, pianta.getQuantitaDisponibile());
             } else {
-                preparedStatement.setNull(12, java.sql.Types.INTEGER);
+                preparedStatement.setNull(11, Types.INTEGER); // Utilizzo di java.sql.Types
             }
-            preparedStatement.setTimestamp(13, pianta.getData_inserimento());
+
+            preparedStatement.setTimestamp(12, pianta.getDataInserimento()); // CAMBIATO: data_inserimento a dataInserimento
+            preparedStatement.setString(13, pianta.getUrlImmagine()); // CAMBIATO: Immagine a UrlImmagine
 
             preparedStatement.executeUpdate();
+            LOGGER.log(Level.INFO, "Pianta aggiunta con successo: {0}", pianta.getNomeComune());
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Errore SQL durante l'aggiunta della pianta: " + pianta.getNomeComune(), e);
+            throw e; // Rilancia l'eccezione per essere gestita a livello superiore
         }
     }
 
-    // Metodo per recuperare una pianta dal database tramite il suo NomeComune
-    public piante getPiantaByNomeComune(String nomeComune) throws SQLException {
+    /**
+     * Metodo per recuperare una pianta dal database tramite il suo NomeComune.
+     *
+     * @param nomeComune Il nome comune della pianta da cercare.
+     * @return L'oggetto Pianta corrispondente, o null se non trovato.
+     * @throws SQLException Se si verifica un errore SQL.
+     */
+    public Piante getPiantaByNomeComune(String nomeComune) throws SQLException { // CAMBIATO: da 'piante' a 'Pianta'
         String sql = "SELECT * FROM piante WHERE NomeComune = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -74,13 +103,21 @@ public class PianteDAO {
                     return null;
                 }
             }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Errore SQL durante il recupero della pianta per nome: " + nomeComune, e);
+            throw e;
         }
     }
 
-    // Metodo per recuperare tutte le piante dal database
-    public List<piante> getAllPiante() throws SQLException {
+    /**
+     * Metodo per recuperare tutte le piante dal database.
+     *
+     * @return Una lista di oggetti Pianta.
+     * @throws SQLException Se si verifica un errore SQL.
+     */
+    public List<Piante> getAllPiante() throws SQLException { // CAMBIATO: da 'piante' a 'Pianta'
         String sql = "SELECT * FROM piante";
-        List<piante> listaPiante = new ArrayList<>();
+        List<Piante> listaPiante = new ArrayList<>(); // CAMBIATO: da 'piante' a 'Pianta'
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
@@ -88,12 +125,21 @@ public class PianteDAO {
             while (resultSet.next()) {
                 listaPiante.add(mapResultSetToPianta(resultSet));
             }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Errore SQL durante il recupero di tutte le piante.", e);
+            throw e;
         }
         return listaPiante;
     }
 
-    // Metodo per recuperare una pianta dal database tramite il suo ID
-    public piante getPiantaById(int id) throws SQLException {
+    /**
+     * Metodo per recuperare una pianta dal database tramite il suo ID.
+     *
+     * @param id L'ID della pianta da cercare.
+     * @return L'oggetto Pianta corrispondente, o null se non trovato.
+     * @throws SQLException Se si verifica un errore SQL.
+     */
+    public Piante getPiantaById(int id) throws SQLException { // CAMBIATO: da 'piante' a 'Pianta'
         String sql = "SELECT * FROM piante WHERE id = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -102,79 +148,128 @@ public class PianteDAO {
                 if (resultSet.next()) {
                     return mapResultSetToPianta(resultSet);
                 }
-                return null; // Nessuna pianta trovata con questo ID
+                return null;
             }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Errore SQL durante il recupero della pianta per ID: " + id, e);
+            throw e;
         }
     }
 
-    // Metodo per aggiornare i dati di una pianta nel database tramite il suo ID
-    public void aggiornaPianta(piante pianta) throws SQLException {
-        String sql = "UPDATE piante SET NomeComune = ?, Tipo = ?, NomeScientificoBotanico = ?, Categoria = ?, DescrizioneBreve = ?, DescrizioneDettagliata = ?, EsposizioneLuminosa = ?, TipoDiTerreno = ?, TemperaturaIdeale = ?, FrequenzaIrrigazione = ?, Prezzo = ?, Disponibilita = ?, Data_inserimento = ? WHERE id = ?";
+    /**
+     * Metodo per aggiornare i dati di una pianta nel database tramite il suo ID.
+     *
+     * @param pianta L'oggetto Piante con i dati aggiornati.
+     * @throws SQLException Se si verifica un errore SQL.
+     */
+    public void aggiornaPianta(Piante pianta) throws SQLException { // CAMBIATO: da 'piante' a 'Pianta'
+        String sql = "UPDATE piante SET " +
+                     "NomeComune = ?, Tipo = ?, NomeScientificoBotanico = ?, Categoria = ?, " +
+                     "Descrizione = ?, EsposizioneLuminosa = ?, TipoDiTerreno = ?, TemperaturaIdeale = ?, " +
+                     "FrequenzaIrrigazione = ?, Prezzo = ?, QuantitaDisponibile = ?, Data_inserimento = ?, Immagine = ? " +
+                     "WHERE id = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, pianta.getNomeComune());
-            preparedStatement.setBoolean(2, pianta.isTipo());
-            preparedStatement.setString(3, pianta.getNomeScientificoBotanico());
+            preparedStatement.setString(2, pianta.getTipo()); // CAMBIATO: da setBoolean a setString
+            preparedStatement.setString(3, pianta.getNomeBotanico()); // CAMBIATO: NomeScientificoBotanico
             preparedStatement.setString(4, pianta.getCategoria());
-            preparedStatement.setString(5, pianta.getDescrizioneBreve());
-            preparedStatement.setString(6, pianta.getDescrizioneDettagliata());
-            preparedStatement.setString(7, pianta.getEsposizioneLuminosa());
-            preparedStatement.setString(8, pianta.getTipoDiTerreno());
+            preparedStatement.setString(5, pianta.getDescrizione()); // CAMBIATO: unito breve e dettagliata
+            preparedStatement.setString(6, pianta.getEsposizioneLuminosa());
+            preparedStatement.setString(7, pianta.getTipoDiTerreno());
+
+            // Gestione dei valori Integer che possono essere null
             if (pianta.getTemperaturaIdeale() != null) {
-                preparedStatement.setInt(9, pianta.getTemperaturaIdeale());
+                preparedStatement.setInt(8, pianta.getTemperaturaIdeale());
             } else {
-                preparedStatement.setNull(9, java.sql.Types.INTEGER);
+                preparedStatement.setNull(8, Types.INTEGER);
             }
-            preparedStatement.setString(10, pianta.getFrequenzaIrrigazione());
-            preparedStatement.setFloat(11, pianta.getPrezzo());
-            if (pianta.getDisponibilita() != null) {
-                preparedStatement.setInt(12, pianta.getDisponibilita());
+
+            preparedStatement.setString(9, pianta.getFrequenzaIrrigazione());
+            preparedStatement.setBigDecimal(10, pianta.getPrezzo()); // CAMBIATO: da setFloat a setBigDecimal
+
+            // Gestione dei valori Integer che possono essere null
+            if (pianta.getQuantitaDisponibile() != null) {
+                preparedStatement.setInt(11, pianta.getQuantitaDisponibile());
             } else {
-                preparedStatement.setNull(12, java.sql.Types.INTEGER);
+                preparedStatement.setNull(11, Types.INTEGER);
             }
-            preparedStatement.setTimestamp(13, pianta.getData_inserimento());
-            preparedStatement.setInt(14, pianta.getId()); 
+
+            preparedStatement.setTimestamp(12, pianta.getDataInserimento()); // CAMBIATO: data_inserimento a dataInserimento
+            preparedStatement.setString(13, pianta.getUrlImmagine()); // CAMBIATO: Immagine a UrlImmagine
+            preparedStatement.setInt(14, pianta.getId()); // ID per la clausola WHERE
+
             preparedStatement.executeUpdate();
+            LOGGER.log(Level.INFO, "Pianta aggiornata con successo: {0}", pianta.getNomeComune());
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Errore SQL durante l'aggiornamento della pianta: " + pianta.getNomeComune(), e);
+            throw e;
         }
     }
 
-    // Metodo per eliminare una pianta dal database tramite il suo ID
+    /**
+     * Metodo per eliminare una pianta dal database tramite il suo ID.
+     *
+     * @param idPianta L'ID della pianta da eliminare.
+     * @throws SQLException Se si verifica un errore SQL.
+     */
     public void eliminaPianta(int idPianta) throws SQLException {
         String sql = "DELETE FROM piante WHERE id = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, idPianta);
             preparedStatement.executeUpdate();
+            LOGGER.log(Level.INFO, "Pianta eliminata con successo, ID: {0}", idPianta);
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Errore SQL durante l'eliminazione della pianta con ID: " + idPianta, e);
+            throw e;
         }
         // TODO: Gestire il vincolo di integrità referenziale.
         // Potrebbe essere necessario controllare se ci sono ordini che contengono questa pianta
         // prima di eliminarla o implementare logiche di gestione alternative.
     }
 
-    // Metodo privato per mappare una riga del ResultSet a un oggetto Piante
-    private piante mapResultSetToPianta(ResultSet resultSet) throws SQLException {
-        piante pianta = new piante();
-        pianta.setId(resultSet.getInt("id")); // ASSICURATI CHE LA TUA TABELLA ABBIA UNA COLONNA 'id'
+    /**
+     * Metodo privato per mappare una riga del ResultSet a un oggetto Pianta.
+     *
+     * @param resultSet Il ResultSet da cui leggere i dati.
+     * @return Un oggetto Pianta popolato con i dati del ResultSet.
+     * @throws SQLException Se si verifica un errore SQL durante la lettura del ResultSet.
+     */
+    private Piante mapResultSetToPianta(ResultSet resultSet) throws SQLException { // CAMBIATO: da 'piante' a 'Pianta'
+        Piante pianta = new Piante(); // CAMBIATO: da 'piante' a 'Pianta'
+        pianta.setId(resultSet.getInt("id"));
         pianta.setNomeComune(resultSet.getString("NomeComune"));
-        pianta.setTipo(resultSet.getBoolean("Tipo"));
-        pianta.setNomeScientificoBotanico(resultSet.getString("NomeScientificoBotanico"));
+        pianta.setTipo(resultSet.getString("Tipo")); // CAMBIATO: da getBoolean a getString
+        pianta.setNomeBotanico(resultSet.getString("NomeScientificoBotanico")); // CAMBIATO: Nome Scientifico Botanico
         pianta.setCategoria(resultSet.getString("Categoria"));
-        pianta.setDescrizioneBreve(resultSet.getString("DescrizioneBreve"));
-        pianta.setDescrizioneDettagliata(resultSet.getString("DescrizioneDettagliata"));
+        pianta.setDescrizione(resultSet.getString("Descrizione")); // CAMBIATO: unito breve e dettagliata
         pianta.setEsposizioneLuminosa(resultSet.getString("EsposizioneLuminosa"));
         pianta.setTipoDiTerreno(resultSet.getString("TipoDiTerreno"));
-        Integer temperatura = resultSet.getInt("TemperaturaIdeale");
-        if (!resultSet.wasNull()) { // Verifica se il valore era NULL nel database
+
+        // Recupera TemperaturaIdeale come Integer, gestendo i valori NULL
+        int temperatura = resultSet.getInt("TemperaturaIdeale");
+        if (!resultSet.wasNull()) {
             pianta.setTemperaturaIdeale(temperatura);
+        } else {
+            pianta.setTemperaturaIdeale(null);
         }
+
         pianta.setFrequenzaIrrigazione(resultSet.getString("FrequenzaIrrigazione"));
-        pianta.setPrezzo(resultSet.getFloat("Prezzo"));
-        Integer disponibilita = resultSet.getInt("Disponibilita");
-        if (!resultSet.wasNull()) { // Verifica se il valore era NULL nel database
-            pianta.setDisponibilita(disponibilita);
+        pianta.setPrezzo(resultSet.getBigDecimal("Prezzo")); // CAMBIATO: da getFloat a getBigDecimal
+
+        // Recupera QuantitaDisponibile come Integer, gestendo i valori NULL
+        int disponibilita = resultSet.getInt("QuantitaDisponibile"); // CAMBIATO: Disponibilita a QuantitaDisponibile
+        if (!resultSet.wasNull()) {
+            pianta.setQuantitaDisponibile(disponibilita);
+        } else {
+            pianta.setQuantitaDisponibile(null);
         }
-        pianta.setData_inserimento(resultSet.getTimestamp("Data_inserimento"));
+
+        pianta.setDataInserimento(resultSet.getTimestamp("Data_inserimento")); // CAMBIATO: data_inserimento a dataInserimento
+        pianta.setUrlImmagine(resultSet.getString("Immagine")); // CAMBIATO: Immagine a UrlImmagine
+
         return pianta;
     }
 }

@@ -2,7 +2,6 @@ package src.com.la_teca_del_giardiniere;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,15 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import src.com.la_teca_del_giardiniere.classes.registrazione;
+// Importa la classe Utente che hai rinominato
+import src.com.la_teca_del_giardiniere.classes.Utente; // <--- CAMBIATO QUI!
 import src.com.la_teca_del_giardiniere.dao.UtenteDAO;
 
-@WebServlet("/admin/utentiServlet")
-public class utentiServlet extends HttpServlet {
+@WebServlet("/admin/utentiServlet") // Mantieni l'URL del mapping per ora
+public class UtenteServlet extends HttpServlet { // <--- CAMBIATO QUI: UtentiServlet
     private static final long serialVersionUID = 1L;
     private UtenteDAO utenteDAO;
 
-    public utentiServlet() {
+    public UtenteServlet() { // <--- CAMBIATO QUI: UtentiServlet
         super();
         try {
             utenteDAO = new UtenteDAO();
@@ -32,54 +32,38 @@ public class utentiServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session != null) {
+            // Recupera l'oggetto Utente loggato dalla sessione
+            Utente utenteLoggato = (Utente) session.getAttribute("loggedInUser"); // <--- Recupera l'oggetto Utente
+
             List<String> ruoli = null;
-            Object ruoliObj = session.getAttribute("ruoli");
-            if (ruoliObj instanceof List<?>) {
-                // È una lista, ora possiamo fare il cast sicuro
-                List<?> tempRuoli = (List<?>) ruoliObj;
-                // Verifica che tutti gli elementi della lista siano effettivamente String
-                boolean allStrings = true;
-                for (Object item : tempRuoli) {
-                    if (!(item instanceof String)) {
-                        allStrings = false;
-                        break;
-                    }
-                }
+            if (utenteLoggato != null) {
+                ruoli = utenteLoggato.getRuoli(); // <--- Usa il metodo getRuoli() della classe Utente
+            }
 
-                if (allStrings) {
-                    ruoli = new ArrayList<>(); // Crea una nuova ArrayList di String
-                    for (Object item : tempRuoli) {
-                        ruoli.add((String) item); // Esegui un cast individuale sicuro
-                    }
-                } else {
-                    // Gestisci il caso in cui la lista contiene elementi non-String
-                    System.err.println("Errore: la lista dei ruoli nella sessione contiene elementi non-String.");
-                    ruoli = null; // O una lista vuota, a seconda della tua logica
-                }
-            } // <--- QUESTA PARENTESI CHIUSA ERA IL PROBLEMA
+            // Ho rimosso il blocco di cast e controllo per ruoliObj instanceof List<?>
+            // dato che ora ci affidiamo al metodo getRuoli() della classe Utente.
+            // Questo assume che getRuoli() restituisca sempre una List<String> (anche vuota)
 
-            // Il resto della logica del doGet deve stare all'interno del blocco if (session != null)
             if (ruoli != null && ruoli.contains("amministratore")) {
                 try {
-                    List<registrazione> listaUtenti = utenteDAO.getAllUtentiConRuoli();
+                    List<Utente> listaUtenti = utenteDAO.getAllUtentiConRuoli(); 
                     request.setAttribute("listaUtenti", listaUtenti);
                     request.getRequestDispatcher("/admin/utenti.jsp").forward(request, response);
                 } catch (SQLException e) {
-                    e.printStackTrace(); // Gestire l'errore in modo più appropriato (es. pagina di errore)
+                    e.printStackTrace();
                     request.setAttribute("messaggio", "Errore nel recupero degli utenti.");
                     request.setAttribute("tipoMessaggio", "error");
                     request.getRequestDispatcher("/admin/utenti.jsp").forward(request, response);
                 }
             } else {
                 // Utente non autorizzato
-                response.sendRedirect(request.getContextPath() + "/accesso_negato.html"); // Crea questa pagina
+                response.sendRedirect(request.getContextPath() + "/accesso_negato.html");
             }
         } else {
             // Utente non loggato
             response.sendRedirect(request.getContextPath() + "/login.jsp");
         }
     }
-
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);

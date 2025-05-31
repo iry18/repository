@@ -14,9 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import src.com.la_teca_del_giardiniere.classes.registrazione;
+import src.com.la_teca_del_giardiniere.classes.Utente; // <--- CAMBIATO QUI!
 import src.com.la_teca_del_giardiniere.dao.UtenteDAO;
-import src.com.la_teca_del_giardiniere.util.PasswordHashing; // Assumi che tu abbia questa classe
+import src.com.la_teca_del_giardiniere.util.PasswordHashing;
 
 @WebServlet("/RegistrazioneServlet")
 public class RegistrazioneServlet extends HttpServlet {
@@ -49,7 +49,7 @@ public class RegistrazioneServlet extends HttpServlet {
         String CAPStr = request.getParameter("cap");
         String telefonoStr = request.getParameter("telefono");
         String dataRegistrazioneStr = request.getParameter("data_registrazione");
-        String provincia = request.getParameter("provincia"); // Recupera la provincia
+        String provincia = request.getParameter("provincia");
 
         List<String> errori = new ArrayList<>();
 
@@ -83,7 +83,7 @@ public class RegistrazioneServlet extends HttpServlet {
         }
         if (telefonoStr == null || telefonoStr.trim().isEmpty()) {
             errori.add("Il numero di telefono è obbligatorio.");
-        } else if (!telefonoStr.matches("\\d+")) {
+        } else if (!telefonoStr.matches("\\d+")) { // Regola cambiata per accettare solo cifre
             errori.add("Il numero di telefono deve contenere solo cifre.");
         }
         if (provincia == null || provincia.trim().isEmpty()) {
@@ -94,37 +94,36 @@ public class RegistrazioneServlet extends HttpServlet {
         if (!errori.isEmpty()) {
             request.setAttribute("erroriRegistrazione", errori);
             request.getRequestDispatcher("registrati.jsp").forward(request, response);
-            return; // Non proseguire con la registrazione
+            return;
         }
 
-        registrazione utente = new registrazione();
+        // Crea un'istanza della classe Utente (rinominata)
+        Utente utente = new Utente(); // <--- CAMBIATO QUI!
         utente.setNome(nome);
         utente.setCognome(cognome);
         utente.setEmail(email);
+        // utente.setPassword(hashedPassword); // La password hashata verrà impostata dopo
         utente.setIndirizzo(indirizzo);
         utente.setCitta(citta);
-        utente.setProvincia(provincia);
+        utente.setProvincia(provincia); // <--- Imposta la provincia
 
-        // Conversione per CAP
+        // Conversione per CAP (spostata dopo la validazione della stringa)
         try {
             utente.setCAP(Integer.parseInt(CAPStr));
         } catch (NumberFormatException e) {
-            errori.add("Il formato del CAP non è valido.");
+            errori.add("Il formato del CAP non è valido."); // Questo errore dovrebbe essere già preso dalla regex, ma è una safety net
         }
 
-        // Conversione per telefono
-        try {
-            utente.setTelefono(Integer.parseInt(telefonoStr));
-        } catch (NumberFormatException e) {
-            errori.add("Il formato del numero di telefono non è valido.");
-        }
+        // Conversione per telefono (spostata dopo la validazione della stringa)
+        // TELEFONO VA IMPOSTATO COME STRINGA, non come int nella classe Utente
+        utente.setTelefono(telefonoStr); // <--- Imposta telefono come String, come da Utente.java
 
         // Conversione per data_registrazione
         try {
             if (dataRegistrazioneStr != null && !dataRegistrazioneStr.isEmpty()) {
                 utente.setData_registrazione(Timestamp.valueOf(dataRegistrazioneStr));
             } else {
-                utente.setData_registrazione(new Timestamp(System.currentTimeMillis())); // Imposta la data/ora corrente se non fornita
+                utente.setData_registrazione(new Timestamp(System.currentTimeMillis()));
             }
         } catch (IllegalArgumentException e) {
             errori.add("Il formato della data di registrazione non è valido (yyyy-mm-dd hh:mm:ss).");
@@ -140,18 +139,21 @@ public class RegistrazioneServlet extends HttpServlet {
         try {
             if (utenteDao != null) {
                 // Controlla se l'email esiste già
-            	if (utenteDao.checkEmailExists(email)) {
-            	    request.setAttribute("erroreRegistrazione", "L'email è già registrata. Se hai già un account, puoi effettuare il login.");
-            	    request.getRequestDispatcher("registrati.jsp").forward(request, response);
-            	    return;
-            	}
+                if (utenteDao.checkEmailExists(email)) {
+                    request.setAttribute("erroreRegistrazione", "L'email è già registrata. Se hai già un account, puoi effettuare il login.");
+                    request.getRequestDispatcher("registrati.jsp").forward(request, response);
+                    return;
+                }
 
                 // Cifra la password prima di salvarla
                 String hashedPassword = PasswordHashing.hashPassword(password);
-                utente.setPassword(hashedPassword);
+                utente.setPasswordHash(hashedPassword); // <--- Usa setPasswordHash()
 
-                // Registra l'utente con il ruolo predefinito di "compratore"
-                utenteDao.aggiungiUtenteRegistrato(utente);
+                // Imposta isAdmin a false per default (nuova registrazione non è admin)
+                utente.setAdmin(false); // <--- Imposta il default per i nuovi utenti
+
+                // Registra l'utente con il ruolo predefinito di "compratore" (gestito dal DAO o implicitamente da isAdmin=false)
+                utenteDao.aggiungiUtenteRegistrato(utente); // Assicurati che questo metodo nel DAO gestisca il ruolo
 
                 // Reindirizza alla pagina di login con un messaggio di successo
                 response.sendRedirect("login.jsp?registrazioneSuccesso=true");
@@ -159,17 +161,14 @@ public class RegistrazioneServlet extends HttpServlet {
             } else {
                 request.setAttribute("erroreGenerico", "Errore interno del server. Riprova più tardi.");
                 request.getRequestDispatcher("registrati.jsp").forward(request, response);
-                // Log dell'errore: log.error("Errore nella creazione del DAO");
             }
         } catch (SQLException e) {
             e.printStackTrace();
             request.setAttribute("erroreGenerico", "Si è verificato un errore durante la registrazione. Riprova più tardi.");
             request.getRequestDispatcher("registrati.jsp").forward(request, response);
-            // Log dell'errore: log.error("Errore SQL durante la registrazione", e);
         }
     }
 
-    // Funzione per la validazione dell'email
     private boolean isValidEmail(String email) {
         String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
         Pattern pattern = Pattern.compile(regex);
