@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
-
+    
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La Teca del Giardiniere - Piante da Interno</title>
     <%-- Usa request.getContextPath() per il percorso del CSS --%>
-    <link rel="stylesheet" href="piantedainterni.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/piantedainterni.css"> <%-- AGGIUNTO: /css/ per una migliore organizzazione --%>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -23,8 +23,31 @@
                 <li><a href="piantedainterno.jsp">PIANTE INTERNO</a></li>
                 <li><a href="piantedaesterno.jsp">PIANTE ESTERNO</a></li>
                 <li><a href="accessori.jsp">ACCESSORI</a></li> 
-                <li><a href="<%= request.getContextPath() %>/about-us.jsp">ABOUT US</a></li>
-                <li><a href="<%= request.getContextPath() %>/my-plants.jsp">MY PLANTS</a></li> <%-- Ho cambiato l'estensione del link --%>
+                <li><a href="about-us.jsp">ABOUT US</a></li>
+                <li><a href="my-plants.jsp">MY PLANTS</a></li>
+                <% 
+                    // Assicurati che l'oggetto Utente sia nella sessione e abbia i ruoli corretti
+                    // Questo blocco andrebbe idealmente spostato in un tag file o una taglib personalizzata
+                    // per evitare scriptlet e rendere la JSP più pulita.
+                    src.com.la_teca_del_giardiniere.classes.Utente utenteLoggato = 
+                        (src.com.la_teca_del_giardiniere.classes.Utente) session.getAttribute("loggedInUser");
+                    
+                    if (utenteLoggato != null && (utenteLoggato.isAdmin() || utenteLoggato.getRuoli().contains("venditore"))) {
+                %>
+                    <li><a href="<%= request.getContextPath() %>/ListaPianteServlet">GESTIONE PIANTE</a></li>
+                    <li><a href="<%= request.getContextPath() %>/aggiungi-pianta.jsp">AGGIUNGI PIANTA</a></li>
+                <%
+                    }
+                    if (utenteLoggato != null) {
+                %>
+                    <li><a href="<%= request.getContextPath() %>/logoutServlet">LOGOUT</a></li>
+                <%
+                    } else {
+                %>
+                    <li><a href="<%= request.getContextPath() %>/login.jsp">LOGIN</a></li>
+                <%
+                    }
+                %>
             </ul>
         </nav>
     </header>

@@ -6,13 +6,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Area Amministratore - La Teca del Giardiniere</title>
+    <title>Area Venditore - La Teca del Giardiniere</title>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/homepage.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Stili specifici per la pagina admin, se non vuoi modificarli nel CSS principale */
-        .admin-dashboard {
+        /* Stili simili a adminHome.jsp ma con colori o enfasi diversi se vuoi */
+        .seller-dashboard {
             max-width: 960px;
             margin: 40px auto;
             padding: 20px;
@@ -22,47 +22,47 @@
             text-align: center;
         }
 
-        .admin-dashboard h1 {
+        .seller-dashboard h1 {
             color: #2e7d32;
             font-size: 2.8em;
             margin-bottom: 20px;
         }
 
-        .admin-dashboard p {
+        .seller-dashboard p {
             color: #555;
             font-size: 1.1em;
             margin-bottom: 30px;
         }
 
-        .admin-menu-grid {
+        .seller-menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 25px;
             margin-top: 30px;
         }
 
-        .admin-menu-item {
-            background-color: #e0f2e0; /* Sfondo chiaro per gli item */
+        .seller-menu-item {
+            background-color: #f0fff0; /* Sfondo chiaro leggermente diverso */
             padding: 25px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .admin-menu-item:hover {
+        .seller-menu-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
 
-        .admin-menu-item h3 {
+        .seller-menu-item h3 {
             color: #388e3c;
             font-size: 1.6em;
             margin-bottom: 15px;
         }
 
-        .admin-menu-item a {
+        .seller-menu-item a {
             display: block;
-            background-color: #558b2f; /* Pulsante verde scuro */
+            background-color: #66bb6a; /* Verde più chiaro per i bottoni */
             color: white;
             padding: 12px 20px;
             border-radius: 5px;
@@ -72,8 +72,8 @@
             transition: background-color 0.3s ease;
         }
 
-        .admin-menu-item a:hover {
-            background-color: #386a1a; /* Verde più scuro al hover */
+        .seller-menu-item a:hover {
+            background-color: #43a047; /* Verde più scuro al hover */
         }
 
         /* Stili per eventuali messaggi di errore/successo */
@@ -99,21 +99,21 @@
     <header>
         <nav>
             <ul>
-                <li><a href="homepage.jsp">HOME SITO</a></li>
+                <li><a href="<%= request.getContextPath() %>/venditoreHome.jsp">HOME VENDITORE</a></li>
+                <li><a href="<%= request.getContextPath() %>/index.jsp">HOME SITO</a></li>
                 <li><a href="<%= request.getContextPath() %>/LoginServlet?action=logout">LOGOUT</a></li>
             </ul>
         </nav>
     </header>
 
-    <section class="admin-dashboard">
-        <h1>Benvenuto nell'Area Amministratore</h1>
-        <p>Qui puoi gestire tutti gli aspetti del tuo negozio "La Teca del Giardiniere".</p>
+    <section class="seller-dashboard">
+        <h1>Benvenuto, Venditore!</h1>
+        <p>Qui puoi gestire i prodotti e gli ordini del negozio.</p>
 
         <%
-            // Esempio di come potresti visualizzare un messaggio dopo un'operazione
             String message = (String) request.getAttribute("message");
             if (message != null && !message.isEmpty()) {
-                String messageType = (String) request.getAttribute("messageType"); // "success" o "error"
+                String messageType = (String) request.getAttribute("messageType");
         %>
             <div class="message <%= (messageType != null ? messageType : "") %>">
                 <%= message %>
@@ -122,37 +122,31 @@
             }
         %>
 
-        <div class="admin-menu-grid">
-            <div class="admin-menu-item">
+        <div class="seller-menu-grid">
+            <div class="seller-menu-item">
                 <h3>Gestione Piante</h3>
-                <p>Aggiungi, modifica o elimina piante dal catalogo.</p>
-                <a href="gestione_piante.jsp">Vai alla Gestione Piante</a>
+                <p>Visualizza e modifica le piante del catalogo.</p>
+                <a href="<%= request.getContextPath() %>/PianteServlet?action=list">Gestisci Piante</a>
             </div>
 
-            <div class="admin-menu-item">
+            <div class="seller-menu-item">
                 <h3>Gestione Accessori</h3>
-                <p>Controlla e aggiorna gli accessori disponibili.</p>
-                <a href="gestione-accessori.jsp">Vai alla Gestione Accessori</a>
+                <p>Visualizza e modifica gli accessori disponibili.</p>
+                <a href="<%= request.getContextPath() %>/AccessoriServlet?action=list">Gestisci Accessori</a> <%-- Dovrai creare una AccessoriServlet simile a PianteServlet --%>
             </div>
 
-            <div class="admin-menu-item">
-                <h3>Gestione Utenti</h3>
-                <p>Visualizza e gestisci gli account degli utenti.</p>
-                <a href="<%= request.getContextPath() %>/UtentiServlet">Vai alla Gestione Utenti</a> <%-- Ho usato la tua Servlet UtentiServlet --%>
-            </div>
-
-            <div class="admin-menu-item">
+            <div class="seller-menu-item">
                 <h3>Gestione Ordini</h3>
-                <p>Tieni traccia e elabora gli ordini dei clienti.</p>
-                <a href="<%= request.getContextPath() %>/OrdineServlet">Vai alla Gestione Ordini</a> <%-- Ho ipotizzato una OrdineServlet --%>
+                <p>Visualizza e aggiorna lo stato degli ordini.</p>
+                <a href="<%= request.getContextPath() %>/OrdineServlet?action=listAll">Gestisci Ordini</a>
             </div>
 
-            <%-- Puoi aggiungere altri item di menu qui, es. Gestione Categorie, Statistiche, ecc. --%>
+            <%-- Puoi aggiungere altri item di menu qui, es. Report vendite (semplici) --%>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2025 La Teca del Giardiniere - Area Amministratore</p>
+        <p>&copy; 2025 La Teca del Giardiniere - Area Venditore</p>
     </footer>
 
 </body>

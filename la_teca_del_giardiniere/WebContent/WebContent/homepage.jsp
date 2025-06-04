@@ -17,7 +17,7 @@
                 <li><a href="piantedainterno.jsp">PIANTE INTERNO</a></li>
                 <li><a href="piantedaesterno.jsp">PIANTE ESTERNO</a></li>
                 <li><a href="accessori.jsp">ACCESSORI</a></li> 
-                <li><a href="<%= request.getContextPath() %>/about-us.jsp">ABOUT US</a></li>
+                <li><a href="Carrello.jsp">CARRELLO</a></li>
                 <li><a href="<%= request.getContextPath() %>/menu.jsp">MENU</a></li>
             </ul>
         </nav>

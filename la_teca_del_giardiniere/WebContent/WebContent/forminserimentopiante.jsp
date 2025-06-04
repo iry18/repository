@@ -116,6 +116,15 @@
                        value="<c:if test="${modalita == 'modifica'}"><fmt:formatDate value="${pianta.data_inserimento}" pattern="yyyy-MM-dd HH:mm:ss"/></c:if>">
             </div>
 
+            <%-- INIZIO NUOVO CAMPO IMMAGINE --%>
+            <div class="form-group">
+                <label for="immagine">URL Immagine:</label>
+                <input type="text" id="immagine" name="immagine"
+                       value="<c:if test="${modalita == 'modifica'}">${pianta.immagine}</c:if>">
+                <small class="form-text text-muted">Inserisci l'URL completo o il percorso relativo dell'immagine.</small>
+            </div>
+            <%-- FINE NUOVO CAMPO IMMAGINE --%>
+
             <div class="form-actions"> <%-- Nuovo div per i pulsanti --%>
                 <c:choose>
                     <c:when test="${modalita == 'modifica'}">
