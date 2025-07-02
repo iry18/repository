@@ -13,6 +13,5 @@
 	<classpathentry kind="lib" path="C:/Users/Utente 1/Downloads/mysql-connector-j-8.3.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Utente 1/Desktop/ROBA TSW/tomcat/lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="/la-teca-del-giardiniere/WebContent/WebContent/WEB-INF/lib/jstl-1.2.jar"/>
-	<classpathentry kind="lib" path="/la-teca-del-giardiniere/WebContent/WebContent/WEB-INF/lib/standard-1.1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
