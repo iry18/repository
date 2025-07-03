@@ -11,16 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-// Importa la classe Utente che hai rinominato
-import src.com.la_teca_del_giardiniere.classes.Utente; // <--- CAMBIATO QUI!
-import src.com.la_teca_del_giardiniere.dao.UtenteDAO;
 
-@WebServlet("/admin/utentiServlet") // Mantieni l'URL del mapping per ora
-public class UtenteServlet extends HttpServlet { // <--- CAMBIATO QUI: UtentiServlet
+import src.src.src.src.com.la_teca_del_giardiniere.classes.Utente; // <--- CAMBIATO QUI!
+import src.src.src.src.com.la_teca_del_giardiniere.dao.UtenteDAO;
+
+@WebServlet("/admin/utentiServlet") 
+public class UtenteServlet extends HttpServlet { 
     private static final long serialVersionUID = 1L;
     private UtenteDAO utenteDAO;
 
-    public UtenteServlet() { // <--- CAMBIATO QUI: UtentiServlet
+    public UtenteServlet() { 
         super();
         try {
             utenteDAO = new UtenteDAO();
@@ -40,10 +40,7 @@ public class UtenteServlet extends HttpServlet { // <--- CAMBIATO QUI: UtentiSer
                 ruoli = utenteLoggato.getRuoli(); // <--- Usa il metodo getRuoli() della classe Utente
             }
 
-            // Ho rimosso il blocco di cast e controllo per ruoliObj instanceof List<?>
-            // dato che ora ci affidiamo al metodo getRuoli() della classe Utente.
-            // Questo assume che getRuoli() restituisca sempre una List<String> (anche vuota)
-
+            
             if (ruoli != null && ruoli.contains("amministratore")) {
                 try {
                     List<Utente> listaUtenti = utenteDAO.getAllUtentiConRuoli(); 

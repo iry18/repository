@@ -1,0 +1,289 @@
+/* Stili Globali e Reset */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Stili dell'Header */
+header {
+    background-color: #dcedc8; /* Stesso colore del footer */
+    padding: 20px 30px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+header nav li {
+    margin: 0 15px;
+}
+
+header nav li:first-child {
+    margin-left: 0;
+}
+
+header nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+header nav a:hover {
+    color: #555;
+}
+
+/* Stili del Footer */
+footer {
+    background-color: #dcedc8;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.8em;
+    color: #555;
+    margin-top: 50px;
+}
+
+/* --- Stili specifici della pagina Dettagli Pianta --- */
+.container-dettagli-pianta {
+    max-width: 960px;
+    margin: 40px auto;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto auto;
+    grid-template-areas:
+        "nome-pianta         caratteristiche"
+        "immagine-principale caratteristiche"
+        "cure                consigli-utili"
+        "descrizione-estesa  descrizione-estesa";
+    gap: 30px;
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+}
+
+/* Assegnazione delle sezioni alle aree della griglia */
+.nome-pianta-sezione {
+    grid-area: nome-pianta;
+    text-align: center;
+    z-index: 3;
+}
+
+.nome-pianta-sezione .nome-pianta.small-font {
+    font-size: 1.8em; /* Puoi aggiustare questa dimensione */
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #444;
+}
+
+.nome-scientifico {
+    font-style: italic;
+    color: #777;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+.immagine-principale {
+    grid-area: immagine-principale;
+    text-align: center;
+    z-index: 3;
+}
+
+.immagine-principale img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.caratteristiche-principali {
+    grid-area: caratteristiche;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 3;
+}
+
+.cure {
+    grid-area: cure;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 3;
+}
+
+.consigli-utili {
+    grid-area: consigli-utili;
+    text-align: center;
+    z-index: 3;
+    padding: 20px;
+    background-color: #e8f5e9;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.consigli-utili img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 15px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #555;
+    font-size: 1.4em;
+    text-align: left;
+}
+
+/* Stili per le card con icone (caratteristiche e cure) */
+.info-item-card {
+    display: flex; /* Mantiene icona e contenuto affiancati */
+    align-items: flex-start; /* Allinea gli elementi all'inizio della card */
+    gap: 15px;
+    padding: 10px 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* Contenitore per etichetta e valore */
+.item-content {
+    display: flex;
+    flex-direction: column; /* Impila etichetta e valore verticalmente */
+    flex-grow: 1; /* Permette al contenuto di espandersi */
+}
+
+.item-label {
+    font-weight: bold;
+    color: #444; /* Colore più scuro per l'etichetta */
+    font-size: 0.95em; /* Rendi l'etichetta più piccola */
+    margin-bottom: 2px; /* Piccolo spazio tra etichetta e valore */
+}
+
+.item-value {
+    font-size: 0.9em; /* Rendi il valore più piccolo */
+    color: #666;
+    margin: 0; /* Rimuovi margini predefiniti dal paragrafo */
+    line-height: 1.3; /* Aggiusta l'altezza della riga per una migliore leggibilità */
+}
+
+/* Stili per le icone Font Awesome all'interno delle card */
+.info-item-card i {
+    color: #8fbc8f;
+    font-size: 1.6em;
+    width: 35px;
+    text-align: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.05); /* Rimuovi questa riga una volta che le icone sono visibili */
+    border-radius: 5px;
+    padding: 3px;
+    margin-top: 2px; /* Piccolo aggiustamento per allineare l'icona con l'etichetta */
+}
+
+/* DESCRIZIONE ESTESA */
+.descrizione-estesa {
+    grid-area: descrizione-estesa;
+    margin-top: 20px;
+    z-index: 3;
+}
+
+.descrizione-estesa p {
+    font-size: 1em; /* Reso più piccolo */
+    color: #555;
+    line-height: 1.6; /* Aggiustato line-height */
+}
+
+/* Media Queries per la Responsività */
+@media (max-width: 768px) {
+    .container-dettagli-pianta {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto auto auto;
+        grid-template-areas:
+            "nome-pianta"
+            "immagine-principale"
+            "caratteristiche"
+            "cure"
+            "consigli-utili"
+            "descrizione-estesa"; 
+        padding: 20px;
+        margin: 20px auto;
+    }
+
+    .immagine-principale,
+    .nome-pianta-sezione,
+    .caratteristiche-principali,
+    .cure,
+    .descrizione-estesa,
+    .consigli-utili {
+        grid-column: 1 / -1; 
+    }
+
+    header nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    header nav li {
+        margin: 10px 0;
+    }
+
+    .nome-pianta-sezione .nome-pianta.small-font {
+        font-size: 1.5em; 
+    }
+    .nome-scientifico {
+        font-size: 0.85em;
+    }
+
+    .item-label {
+        font-size: 0.9em;
+    }
+    .item-value {
+        font-size: 0.85em;
+    }
+
+    .info-item-card i {
+        font-size: 1.4em;
+        width: 30px;
+    }
+    
+    .consigli-utili img {
+        max-width: 90%; 
+    }
+    .descrizione-estesa p {
+        font-size: 0.95em; /* Ancora più piccolo su mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .nome-pianta-sezione .nome-pianta.small-font {
+        font-size: 1.2em;
+    }
+    .nome-scientifico {
+        font-size: 0.75em;
+    }
+    .consigli-utili img {
+        max-width: 95%; 
+    }
+    .item-label {
+        font-size: 0.85em;
+    }
+    .item-value {
+        font-size: 0.8em;
+    }
+}

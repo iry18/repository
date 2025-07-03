@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
-import src.com.la_teca_del_giardiniere.classes.Accessori; // Corretto nome classe
+import src.com.la_teca_del_giardiniere.classes.Accessori; 
 
 public class AccessoriDAO {
 

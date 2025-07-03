@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
     <!DOCTYPE html>
 <html lang="it">
@@ -34,7 +35,7 @@
                 <img src="<%= request.getContextPath() %>/images/edera.png" alt="Decorazione Edera">
             </div>
             <nav class="main-nav">
-                <%-- L'action del form punter‡ alla tua Servlet di registrazione --%>
+                <%-- L'action del form punter√† alla tua Servlet di registrazione --%>
                 <form action="<%= request.getContextPath() %>/RegistrazioneServlet" method="post">
                     <div class="form-group">
                         <label for="nome">Nome</label>
@@ -57,7 +58,7 @@
                         <input type="password" id="password" name="password" required>
                     </div>
                     <div class="form-group">
-                        <label for="citta">Citt‡</label>
+                        <label for="citta">Citt√†</label>
                         <input type="text" id="citta" name="citta">
                     </div>
                     <div class="address-group">

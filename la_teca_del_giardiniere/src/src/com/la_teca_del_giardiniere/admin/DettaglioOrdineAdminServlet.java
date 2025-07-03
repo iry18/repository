@@ -26,6 +26,8 @@ public class DettaglioOrdineAdminServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         try {
+            // È preferibile ottenere il DAO tramite ServletContext o un'altra forma di DI
+            // Per test e semplicità, lo istanzio qui, ma valuta un pattern più robusto.
             ordineDAO = new OrdineDAO();
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Errore durante l'inizializzazione del DAO", e);
@@ -37,7 +39,7 @@ public class DettaglioOrdineAdminServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Utente utente = (Utente) session.getAttribute("utenteCorrente");
 
-        if (utente == null || !isAdminOrVenditore(utente)) { // Implementa isAdminOrVenditore()
+        if (utente == null || !isAdminOrVenditore(utente)) {
             response.sendRedirect(request.getContextPath() + "/accesso_negato.html");
             return;
         }
@@ -60,17 +62,20 @@ public class DettaglioOrdineAdminServlet extends HttpServlet {
             }
 
             request.setAttribute("ordine", ordine);
-            request.getRequestDispatcher("/WEB-INF/jsp/admin/dettaglioOrdineAdmin.jsp").forward(request, response);
+            request.setAttribute("isAdminView", true); // Indica che è una vista admin
+            request.getRequestDispatcher("/WEB-INF/jsp/dettaglioOrdine.jsp").forward(request, response); // Inoltra al JSP unico
 
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Errore SQL durante il recupero del dettaglio ordine per admin: " + ordineId, e);
             request.setAttribute("errore", "Errore durante il recupero del dettaglio ordine.");
+            // Potresti voler usare un errore.jsp specifico per l'admin o un errore.jsp generico
             request.getRequestDispatcher("/WEB-INF/jsp/admin/erroreAdmin.jsp").forward(request, response);
         }
     }
 
     private boolean isAdminOrVenditore(Utente utente) {
-        // Stessa logica di isAdminOrVenditore della GestioneOrdiniServlet
-        return true; // Per ora, per test
+        // Implementa la tua logica qui. Esempio:
+        return utente != null && ("ADMIN".equals(utente.getRuolo()) || "VENDITORE".equals(utente.getRuolo()));
+        // Assicurati che la tua classe Utente abbia un metodo getRuolo() o simile.
     }
 }

@@ -26,7 +26,9 @@ public class DettaglioOrdineUtenteServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         try {
-            ordineDAO = new OrdineDAO();
+            // È preferibile ottenere il DAO tramite ServletContext o un'altra forma di DI
+            // Per test e semplicità, lo istanzio qui, ma valuta un pattern più robusto.
+            ordineDAO = new OrdineDAO(); 
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Errore durante l'inizializzazione del DAO", e);
             throw new ServletException("Errore di configurazione del database.", e);
@@ -38,13 +40,13 @@ public class DettaglioOrdineUtenteServlet extends HttpServlet {
         Utente utente = (Utente) session.getAttribute("utenteCorrente");
 
         if (utente == null) {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect(request.getContextPath() + "/login.jsp"); // Usa getContextPath() per percorsi relativi
             return;
         }
 
         int ordineId = 0;
         try {
-            ordineId = Integer.parseInt(request.getParameter("id")); // L'ID dell'ordine viene passato come parametro
+            ordineId = Integer.parseInt(request.getParameter("id"));
         } catch (NumberFormatException e) {
             LOGGER.log(Level.WARNING, "ID ordine non valido fornito: " + request.getParameter("id"), e);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID ordine non valido.");
@@ -52,22 +54,21 @@ public class DettaglioOrdineUtenteServlet extends HttpServlet {
         }
 
         try {
-            // Aggiungi un metodo getOrdineById nel tuo OrdineDAO
-            // Questo metodo dovrebbe anche recuperare i dettagli dell'ordine
             Ordine ordine = ordineDAO.getOrdineById(ordineId);
 
             if (ordine == null || ordine.getUtenteId() != utente.getId()) {
-                // Se l'ordine non esiste o non appartiene all'utente corrente
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, "Accesso non autorizzato all'ordine.");
                 return;
             }
 
             request.setAttribute("ordine", ordine);
-            request.getRequestDispatcher("/WEB-INF/jsp/dettaglioOrdineUtente.jsp").forward(request, response);
+            request.setAttribute("isAdminView", false); // Indica che NON è una vista admin
+            request.getRequestDispatcher("/WEB-INF/jsp/dettaglioOrdine.jsp").forward(request, response); // Inoltra al JSP unico
 
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Errore SQL durante il recupero del dettaglio ordine: " + ordineId, e);
             request.setAttribute("errore", "Errore durante il recupero del dettaglio ordine.");
+            // Potresti voler creare un errore.jsp generico per gli utenti
             request.getRequestDispatcher("/WEB-INF/jsp/errore.jsp").forward(request, response);
         }
     }

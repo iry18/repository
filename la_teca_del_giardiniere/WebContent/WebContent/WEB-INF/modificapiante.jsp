@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -70,7 +70,7 @@
                 <input type="text" id="Prezzo" name="Prezzo" value="${pianta.getPrezzo()}">
             </div>
             <div class="form-group">
-                <label for="Disponibilita">Disponibilit‡:</label>
+                <label for="Disponibilita">Disponibilit√†:</label>
                 <input type="text" id="Disponibilita" name="Disponibilita" value="${pianta.getDisponibilita()}">
             </div>
             <div class="form-group">

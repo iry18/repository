@@ -13,18 +13,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import src.com.la_teca_del_giardiniere.dao.accessoriDAO;
-import src.com.la_teca_del_giardiniere.classes.accessori; // Corretto nome classe
+import src.com.la_teca_del_giardiniere.dao.AccessoriDAO;
+import src.com.la_teca_del_giardiniere.classes.Accessori; // Corretto nome classe
 
 @WebServlet("/admin/modificaAccessorioServlet")
 public class ModificaAccessorioServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private accessoriDAO accessorioDAO;
+    private AccessoriDAO accessorioDAO;
 
     public ModificaAccessorioServlet() {
         super();
         try {
-            accessorioDAO = new accessoriDAO();
+            accessorioDAO = new AccessoriDAO();
         } catch (SQLException e) {
             e.printStackTrace();
             // Gestione più robusta dell'errore di inizializzazione DAO sarebbe opportuna
@@ -54,7 +54,7 @@ public class ModificaAccessorioServlet extends HttpServlet {
 
         try {
             int id = Integer.parseInt(idStr);
-            accessori accessorioEsistente = accessorioDAO.getAccessorioById(id);
+            Accessori accessorioEsistente = accessorioDAO.getAccessorioById(id);
 
             if (accessorioEsistente == null) {
                 session.setAttribute("messaggio", "Accessorio non trovato con ID: " + id);
@@ -115,7 +115,7 @@ public class ModificaAccessorioServlet extends HttpServlet {
             }
 
 
-            accessori accessorio = new accessori();
+            Accessori accessorio = new Accessori();
             accessorio.setId(id);
             accessorio.setNome(nome);
             accessorio.setPrezzo(prezzo);
@@ -127,7 +127,7 @@ public class ModificaAccessorioServlet extends HttpServlet {
             accessorio.setCategoria(categoria);
             // accessorio.setDataInserimento(dataInserimento); // Se modificabile
 
-            boolean aggiornato = accessorioDAO.updateAccessori(accessorio);
+            boolean aggiornato = AccessoriDAO.updateAccessori(accessorio);
 
             if (aggiornato) {
                 session.setAttribute("messaggio", "Accessorio aggiornato con successo!");

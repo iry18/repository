@@ -16,10 +16,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet("/visualizzaOrdiniUtente")
-public class VisualizzaOrdiniUtenteServlet extends HttpServlet {
+@WebServlet("/iMieiOrdini") // Mappatura per l'URL del cliente
+public class ListaOrdiniUtenteServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = Logger.getLogger(VisualizzaOrdiniUtenteServlet.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ListaOrdiniUtenteServlet.class.getName());
 
     private OrdineDAO ordineDAO;
 
@@ -36,19 +36,20 @@ public class VisualizzaOrdiniUtenteServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        Utente utente = (Utente) session.getAttribute("utenteCorrente"); // Assumi che l'utente sia loggato
+        Utente utente = (Utente) session.getAttribute("utenteCorrente");
 
         if (utente == null) {
-            response.sendRedirect("login.jsp"); // Reindirizza al login se non loggato
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
             return;
         }
 
         try {
+            // Assumi che OrdineDAO abbia un metodo getOrdiniByUtenteId
             List<Ordine> ordini = ordineDAO.getOrdiniByUtenteId(utente.getId());
             request.setAttribute("ordini", ordini);
-            request.getRequestDispatcher("/WEB-INF/jsp/storicoOrdiniUtente.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/iMieiOrdini.jsp").forward(request, response);
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Errore SQL durante il recupero degli ordini per l'utente " + utente.getId(), e);
+            LOGGER.log(Level.SEVERE, "Errore SQL durante il recupero degli ordini per l'utente: " + utente.getId(), e);
             request.setAttribute("errore", "Errore durante il recupero dei tuoi ordini.");
             request.getRequestDispatcher("/WEB-INF/jsp/errore.jsp").forward(request, response);
         }

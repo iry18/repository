@@ -30,12 +30,12 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>WebContent/images/edera.png</name>
+			<name>WebContent/WebContent/images/edera.png</name>
 			<type>1</type>
 			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/edera.png</locationURI>
 		</link>
 		<link>
-			<name>WebContent/images/logo.png</name>
+			<name>WebContent/WebContent/images/logo.png</name>
 			<type>1</type>
 			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/logo.png</locationURI>
 		</link>

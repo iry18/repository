@@ -1,4 +1,4 @@
-package src.com.la_teca_del_giardiniere.util;
+package util;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

@@ -14,18 +14,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import src.com.la_teca_del_giardiniere.dao.accessoriDAO;
-import src.com.la_teca_del_giardiniere.classes.accessori;
+import src.com.la_teca_del_giardiniere.dao.AccessoriDAO;
+import src.com.la_teca_del_giardiniere.classes.Accessori;
 
 @WebServlet("/admin/aggiungiAccessorioServlet")
 public class AggiungiAccessorioServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private accessoriDAO accessorioDAO;
+    private AccessoriDAO accessorioDAO;
 
     public AggiungiAccessorioServlet() {
         super();
         try {
-            accessorioDAO = new accessoriDAO();
+            accessorioDAO = new AccessoriDAO();
         } catch (SQLException e) {
             e.printStackTrace();
             System.err.println("Errore durante l'inizializzazione di AccessorioDAO per aggiunta: " + e.getMessage());
@@ -84,7 +84,7 @@ public class AggiungiAccessorioServlet extends HttpServlet {
                  return;
             }
 
-            accessori nuovoAccessorio = new accessori();
+            Accessori nuovoAccessorio = new Accessori();
             nuovoAccessorio.setNome(nome);
             nuovoAccessorio.setPrezzo(prezzo);
             nuovoAccessorio.setDisponibilita(disponibilita);

@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import src.com.la_teca_del_giardiniere.classes.Piante; // CAMBIATO: da 'piante' a 'Pianta'
-import src.com.la_teca_del_giardiniere.classes.Utente; // Import per il controllo isAdmin
-import src.com.la_teca_del_giardiniere.dao.PianteDAO;
+import src.src.src.src.com.la_teca_del_giardiniere.classes.Piante; // CAMBIATO: da 'piante' a 'Pianta'
+import src.src.src.src.com.la_teca_del_giardiniere.classes.Utente; // Import per il controllo isAdmin
+import src.src.src.src.com.la_teca_del_giardiniere.dao.PianteDAO;
 
 // Ho rinominato la servlet per seguire le convenzioni di denominazione (PascalCase)
 @WebServlet("/PianteServlet")
@@ -55,7 +55,7 @@ public class PianteServlet extends HttpServlet { // CAMBIATO: da 'pianteServlet'
 
         // 2. Recupero dati dal form
         List<String> errori = new ArrayList<>();
-        Pianta pianta = new Pianta(); // CAMBIATO: da 'piante' a 'Pianta'
+        Piante pianta = new src.src.src.src.com.la_teca_del_giardiniere.classes.Piante(); // CAMBIATO: da 'piante' a 'Pianta'
 
         // Recupera l'ID (se presente, per la modifica)
         String idStr = request.getParameter("id");
@@ -149,7 +149,7 @@ public class PianteServlet extends HttpServlet { // CAMBIATO: da 'pianteServlet'
             // Se è una modifica e la data non viene fornita, recupera la data esistente dal DB
             // Questo richiede di recuperare l'oggetto pianta dal DB prima di aggiornarlo
             try {
-                Pianta existingPianta = pianteDAO.getPiantaById(idPianta);
+            	src.src.src.src.com.la_teca_del_giardiniere.classes.Piante existingPianta = pianteDAO.getPiantaById(idPianta);
                 if (existingPianta != null) {
                     pianta.setDataInserimento(existingPianta.getDataInserimento());
                 }

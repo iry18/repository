@@ -30,8 +30,7 @@ public class AggiungiAlCarrelloServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         try {
-            // I DAO ora si auto-configurano con MysqlDataSource al momento dell'istanziazione
-            carrelloDAO = new CarrelloDAO();
+           carrelloDAO = new CarrelloDAO();
             pianteDAO = new PianteDAO();
             accessoriDAO = new AccessoriDAO();
         } catch (SQLException e) {

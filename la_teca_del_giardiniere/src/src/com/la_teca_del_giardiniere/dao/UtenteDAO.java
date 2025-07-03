@@ -2,7 +2,7 @@ package src.com.la_teca_del_giardiniere.dao;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 import src.com.la_teca_del_giardiniere.classes.Utente; // <--- CAMBIATO QUI! Importa la classe Utente
-import src.com.la_teca_del_giardiniere.util.PasswordHashing;
+import util.PasswordHashing;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

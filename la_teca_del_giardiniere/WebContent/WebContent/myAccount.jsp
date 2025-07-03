@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La Teca del Giardiniere - Il Mio Account</title>
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/piantedainterni.css"> <%-- O un CSS più generale per l'utente --%>
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/piantedainterni.css"> <%-- O un CSS piÃ¹ generale per l'utente --%>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -210,7 +210,7 @@
             <p><strong>Cognome:</strong> <%= currentUser.getCognome() %></p>
             <p><strong>Username:</strong> <%= currentUser.getUsername() %></p>
             <p><strong>Email:</strong> <%= currentUser.getEmail() %></p>
-            <p><strong>Città:</strong> <%= currentUser.getCitta() %></p>
+            <p><strong>CittÃ :</strong> <%= currentUser.getCitta() %></p>
             <p><strong>Indirizzo:</strong> <%= currentUser.getIndirizzo() %></p>
             <p><strong>CAP:</strong> <%= currentUser.getCap() %></p>
             <p><strong>Provincia:</strong> <%= currentUser.getProvincia() %></p>
@@ -221,13 +221,13 @@
         <div class="cart-section">
             <h3>Il Mio Carrello</h3>
             <% if (carrello.isEmpty()) { %>
-                <p style="text-align: center; color: #777;">Il tuo carrello è vuoto. Inizia a fare acquisti!</p>
+                <p style="text-align: center; color: #777;">Il tuo carrello Ã¨ vuoto. Inizia a fare acquisti!</p>
             <% } else { %>
                 <table class="data-table">
                     <thead>
                         <tr>
                             <th>Prodotto</th>
-                            <th>Quantità</th>
+                            <th>QuantitÃ </th>
                             <th>Prezzo Unitario</th>
                             <th>Subtotale</th>
                             <th>Azioni</th>
@@ -244,18 +244,18 @@
                             <tr>
                                 <td><%= item.getNomeProdotto() %></td>
                                 <td><%= item.getQuantita() %></td>
-                                <td>€<%= String.format("%.2f", item.getPrezzoUnitario()) %></td>
-                                <td>€<%= String.format("%.2f", subtotal) %></td>
+                                <td>â¬<%= String.format("%.2f", item.getPrezzoUnitario()) %></td>
+                                <td>â¬<%= String.format("%.2f", subtotal) %></td>
                                 <td>
                                     <a href="<%= request.getContextPath() %>/CarrelloServlet?action=rimuovi&idProdotto=<%= item.getIdProdotto() %>" class="action-link">Rimuovi</a>
-                                    <%-- Potresti aggiungere link per aumentare/diminuire la quantità --%>
+                                    <%-- Potresti aggiungere link per aumentare/diminuire la quantitÃ  --%>
                                 </td>
                             </tr>
                         <% } %>
                     </tbody>
                 </table>
                 <div class="cart-total">
-                    Totale Carrello: **€<%= String.format("%.2f", totalCartPrice) %>**
+                    Totale Carrello: **â¬<%= String.format("%.2f", totalCartPrice) %>**
                 </div>
                 <div class="cart-actions">
                     <button type="button" class="empty-cart-btn" onclick="location.href='<%= request.getContextPath() %>/CarrelloServlet?action=svuota'">Svuota Carrello</button>
@@ -285,7 +285,7 @@
                                 <td><%= ordine.getIdOrdine() %></td>
                                 <td><%= new java.text.SimpleDateFormat("dd/MM/yyyy").format(ordine.getDataOrdine()) %></td> <%-- Assicurati che getDataOrdine ritorni un Date o Timestamp --%>
                                 <td><%= ordine.getStatoOrdine() %></td>
-                                <td>€<%= String.format("%.2f", ordine.getTotaleOrdine()) %></td>
+                                <td>â¬<%= String.format("%.2f", ordine.getTotaleOrdine()) %></td>
                                 <td><a href="<%= request.getContextPath() %>/OrdineServlet?action=dettagli&idOrdine=<%= ordine.getIdOrdine() %>" class="action-link">Vedi Dettagli</a></td>
                             </tr>
                         <% } %>
