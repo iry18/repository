@@ -1,27 +1,44 @@
-package src.com.la_teca_del_giardiniere.classes;
 
 import java.sql.Timestamp;
-import java.util.ArrayList; // Import per List
-import java.util.List;    // Import per List
+import java.util.ArrayList;
+import java.util.List;
 
-public class Utente { 
+/**
+ * Rappresenta un utente registrato nel sistema.
+ * Contiene informazioni personali, di contatto e i dettagli di autenticazione.
+ */
+public class Utente {
 
-    private int id; // l'ID dell'utente 
+    private int id; // L'ID univoco dell'utente nel database
     private String nome;
     private String cognome;
     private String email;
-    private String passwordHash; 
+    private String passwordHash; // L'hash della password (non la password in chiaro)
     private String indirizzo;
     private String citta;
     private int CAP;
-    private String telefono; 
-    private String provincia; 
+    private String telefono;
+    private String provincia;
     private Timestamp data_registrazione;
-    private boolean isAdmin; 
+    private boolean isAdmin; // Flag per indicare se l'utente è un amministratore
 
-    
+    /**
+     * Costruttore completo per la classe Utente.
+     * @param id L'ID dell'utente.
+     * @param nome Il nome dell'utente.
+     * @param cognome Il cognome dell'utente.
+     * @param email L'email dell'utente (utilizzata anche come username).
+     * @param passwordHash L'hash Bcrypt della password.
+     * @param isAdmin True se l'utente è un amministratore, false altrimenti.
+     * @param indirizzo L'indirizzo di residenza/spedizione dell'utente.
+     * @param citta La città di residenza/spedizione dell'utente.
+     * @param CAP Il Codice di Avviamento Postale.
+     * @param telefono Il numero di telefono dell'utente.
+     * @param provincia La provincia (sigla di due lettere).
+     * @param data_registrazione La data e l'ora di registrazione dell'utente.
+     */
     public Utente(int id, String nome, String cognome, String email, String passwordHash, boolean isAdmin,
-                  String indirizzo, String citta, int CAP, String telefono, String provincia, Timestamp data_registrazione) { // <--- Provincia aggiunta qui
+                  String indirizzo, String citta, int CAP, String telefono, String provincia, Timestamp data_registrazione) {
         this.id = id;
         this.nome = nome;
         this.cognome = cognome;
@@ -32,12 +49,26 @@ public class Utente {
         this.citta = citta;
         this.CAP = CAP;
         this.telefono = telefono;
-        this.provincia = provincia; 
+        this.provincia = provincia;
         this.data_registrazione = data_registrazione;
     }
 
+    /**
+     * Costruttore per la creazione di un nuovo utente (senza ID, che verrà generato dal DB).
+     * @param nome Il nome dell'utente.
+     * @param cognome Il cognome dell'utente.
+     * @param email L'email dell'utente (utilizzata anche come username).
+     * @param passwordHash L'hash Bcrypt della password.
+     * @param isAdmin True se l'utente è un amministratore, false altrimenti.
+     * @param indirizzo L'indirizzo di residenza/spedizione dell'utente.
+     * @param citta La città di residenza/spedizione dell'utente.
+     * @param CAP Il Codice di Avviamento Postale.
+     * @param telefono Il numero di telefono dell'utente.
+     * @param provincia La provincia (sigla di due lettere).
+     * @param data_registrazione La data e l'ora di registrazione dell'utente.
+     */
     public Utente(String nome, String cognome, String email, String passwordHash, boolean isAdmin,
-                  String indirizzo, String citta, int CAP, String telefono, String provincia, Timestamp data_registrazione) { // <--- Provincia aggiunta qui
+                  String indirizzo, String citta, int CAP, String telefono, String provincia, Timestamp data_registrazione) {
         this.nome = nome;
         this.cognome = cognome;
         this.email = email;
@@ -47,14 +78,18 @@ public class Utente {
         this.citta = citta;
         this.CAP = CAP;
         this.telefono = telefono;
-        this.provincia = provincia; 
+        this.provincia = provincia;
         this.data_registrazione = data_registrazione;
     }
 
+    /**
+     * Costruttore vuoto.
+     */
     public Utente() {
     }
 
-    
+    // --- Metodi Getter e Setter ---
+
     public int getId() {
         return id;
     }
@@ -87,12 +122,10 @@ public class Utente {
         this.email = email;
     }
 
-    // Metodo per ottenere la password hashata
     public String getPasswordHash() {
         return passwordHash;
     }
 
-    // Metodo per impostare la password hashata (assicurati che sia l'hash, non la password in chiaro)
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
     }
@@ -105,10 +138,8 @@ public class Utente {
         this.isAdmin = isAdmin;
     }
 
-    // --- NUOVA LOGICA PER I RUOLI BASATA SU isAdmin ---
     /**
-     * Restituisce una lista di ruoli associati all'utente.
-     * Basandosi sul campo `isAdmin`.
+     * Restituisce una lista di ruoli associati all'utente basandosi sul campo `isAdmin`.
      * @return una List<String> contenente i ruoli (es. "compratore", "amministratore").
      */
     public List<String> getRuoli() {
@@ -126,13 +157,9 @@ public class Utente {
      * @param ruoli la lista di ruoli da controllare.
      */
     public void setRuoli(List<String> ruoli) {
-        if (ruoli != null && ruoli.contains("amministratore")) {
-            this.isAdmin = true;
-        } else {
-            this.isAdmin = false;
-        }
+        this.isAdmin = (ruoli != null && ruoli.contains("amministratore"));
     }
-    
+
     public String getIndirizzo() {
         return indirizzo;
     }
@@ -157,15 +184,14 @@ public class Utente {
         this.CAP = CAP;
     }
 
-    public String getTelefono() { // Restituito String
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(String telefono) { // Accetta String
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
-    // --- Getter e Setter per il nuovo campo 'provincia' ---
     public String getProvincia() {
         return provincia;
     }
@@ -173,7 +199,7 @@ public class Utente {
     public void setProvincia(String provincia) {
         this.provincia = provincia;
     }
-    
+
     public Timestamp getData_registrazione() {
         return data_registrazione;
     }
@@ -186,7 +212,7 @@ public class Utente {
     public String toString() {
         return "Utente [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", email=" + email
                 + ", isAdmin=" + isAdmin + ", indirizzo=" + indirizzo + ", citta=" + citta + ", CAP=" + CAP
-                + ", telefono=" + telefono + ", provincia=" + provincia // <--- AGGIUNTO PROVINCIA NEL toString
+                + ", telefono=" + telefono + ", provincia=" + provincia
                 + ", data_registrazione=" + data_registrazione + "]";
     }
 }

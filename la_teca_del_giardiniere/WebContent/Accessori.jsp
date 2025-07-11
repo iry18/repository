@@ -1,14 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> <%-- Necessario per i tag JSTL --%>
 
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La Teca del Giardiniere - Accessori</title>
     <%-- Utilizza il CSS fornito, assicurandoti che il percorso sia corretto --%>
-    <link rel="stylesheet" href="piantedainterni.css">
+    <link rel="stylesheet" href="Piantedainterni.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -19,9 +20,9 @@
             <ul>
                 <%-- Assicurati che tutti i link puntino ai rispettivi JSP --%>
                 <li><a href="homepage.jsp">HOME</a></li>
-                <li><a href="piantedainterno.jsp">PIANTE INTERNO</a></li>
-                <li><a href="piantedaesterno.jsp">PIANTE ESTERNO</a></li>
-                <li><a href="accessori.jsp">ACCESSORI</a></li> 
+                <li><a href="Piantedainterno.jsp">PIANTE INTERNO</a></li>
+                <li><a href="Piantedaesterno.jsp">PIANTE ESTERNO</a></li>
+                <li><a href="Accessori.jsp">ACCESSORI</a></li> 
                 <li><a href="<%= request.getContextPath() %>/about-us.jsp">ABOUT US</a></li>
                 <li><a href="<%= request.getContextPath() %>/my-plants.jsp">MY PLANTS</a></li>
             </ul>
@@ -32,7 +33,7 @@
         <div class="hero-content">
             <div class="hero-image">
                 <%-- Immagine del vaso sorridente per la sezione hero degli accessori --%>
-                <img src="<%= request.getContextPath() %>/images/vaso-sorridente.png" alt="Logo Accessori Piante"> <%-- Assicurati di avere questa immagine --%>
+                <img src="<%= request.getContextPath() %>/images/logoaccessori.png" alt="Logo Accessori Piante"> <%-- Assicurati di avere questa immagine --%>
             </div>
             <div class="hero-text">
                 <h1>il segreto delle piante</h1> <%-- Il titolo rimane uguale per coerenza con la pagina "il segreto delle piante" --%>
@@ -44,7 +45,7 @@
 
     <section class="plants-grid"> <%-- Usiamo plants-grid e plant-card per coerenza con il CSS esistente --%>
         <div class="plant-card">
-            <img src="<%= request.getContextPath() %>/images/vaso-calendario.png" alt="Vaso Calendario">
+            <img src="<%= request.getContextPath() %>/images/calendario.png" alt="Vaso Calendario">
             <h3>vaso-calendario</h3>
             <%-- Puoi aggiungere una breve descrizione qui se vuoi --%>
         </div>
@@ -53,18 +54,18 @@
             <h3>contagocce</h3>
         </div>
         <div class="plant-card">
-            <img src="<%= request.getContextPath() %>/images/set-regalo.png" alt="Set Regalo per Piante">
+            <img src="<%= request.getContextPath() %>/images/setregalo.png" alt="Set Regalo per Piante">
             <h3>set regalo</h3>
         </div>
     </section>
 
     <section class="additional-plants-grid"> <%-- Usiamo additional-plants-grid per la seconda riga --%>
         <div class="plant-card">
-            <img src="<%= request.getContextPath() %>/images/set-professionale.png" alt="Set Professionale da Giardinaggio">
+            <img src="<%= request.getContextPath() %>/images/set professionale.png" alt="Set Professionale da Giardinaggio">
             <h3>set professionale</h3>
         </div>
         <div class="plant-card">
-            <img src="<%= request.getContextPath() %>/images/vaso-intelligente.png" alt="Vaso Intelligente">
+            <img src="<%= request.getContextPath() %>/images/vasointelligente.png" alt="Vaso Intelligente">
             <h3>vaso intelligente</h3>
         </div>
         <div class="plant-card">

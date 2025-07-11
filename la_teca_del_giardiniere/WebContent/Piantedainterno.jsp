@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> <%-- Necessario per i tag JSTL --%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> <%-- Aggiunto per le funzioni sulle stringhe/collezioni --%>
 
 <!DOCTYPE html>
 <html lang="it">
@@ -8,9 +8,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La Teca del Giardiniere - Piante da Interno</title>
-    <%-- Usa pageContext.request.contextPath per il percorso del CSS --%>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/piantedainterni.css">
+    <link rel="stylesheet" href="Piantedainterni.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <%-- Aggiunto preconnect per fonts.gstatic.com --%>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
@@ -19,19 +19,23 @@
         <nav>
             <ul>
                 <%-- Usa pageContext.request.contextPath per tutti i link di navigazione --%>
-                <li><a href="${pageContext.request.contextPath}/homepage.jsp">HOME</a></li>
-                <li><a href="${pageContext.request.contextPath}/piantedainterno.jsp">PIANTE INTERNO</a></li>
-                <li><a href="${pageContext.request.contextPath}/piantedaesterno.jsp">PIANTE ESTERNO</a></li>
-                <li><a href="${pageContext.request.contextPath}/accessori.jsp">ACCESSORI</a></li>
+                <li><a href="homepage.jsp">HOME</a></li>
+                <li><a href="Piantedainterno.jsp">PIANTE INTERNO</a></li>
+                <li><a href="Piantedaesterno.jsp">PIANTE ESTERNO</a></li>
+                <li><a href="Accessori.jsp">ACCESSORI</a></li>
                 <li><a href="${pageContext.request.contextPath}/about-us.jsp">ABOUT US</a></li>
                 <li><a href="${pageContext.request.contextPath}/my-plants.jsp">MY PLANTS</a></li>
+                <li><a href="${pageContext.request.contextPath}/VisualizzaCarrelloServlet">CARRELLO</a></li> <%-- Esempio: aggiunto link carrello --%>
 
                 <%-- JSTL per la gestione della visibilità dei link --%>
                 <%-- Assumiamo che l'utente loggato sia salvato in sessione come "loggedInUser" --%>
-                <%-- E che l'oggetto Utente abbia una property 'admin' (getter isAdmin()) e un metodo getRuoli() --%>
+                <%-- E che l'oggetto Utente abbia una property 'admin' (getter isAdmin()) e una collection 'ruoli' (getter getRuoli()) --%>
                 <c:set var="utenteLoggato" value="${sessionScope.loggedInUser}"/>
 
-                <c:if test="${utenteLoggato != null && (utenteLoggato.admin || utenteLoggato.ruoli.contains('venditore'))}">
+                <%-- Controllo più robusto: utenteLoggato non nullo E (è admin OR la sua lista di ruoli contiene 'venditore') --%>
+                <%-- Si assume che utenteLoggato.admin restituisca un boolean (es. tramite isBooleanAdmin()) --%>
+                <%-- E che utenteLoggato.ruoli sia una Collection che contiene stringhe (es. List<String>) --%>
+                <c:if test="${utenteLoggato != null and (utenteLoggato.admin eq true or fn:contains(utenteLoggato.ruoli, 'venditore'))}">
                     <li><a href="${pageContext.request.contextPath}/ListaPianteServlet">GESTIONE PIANTE</a></li>
                     <li><a href="${pageContext.request.contextPath}/aggiungi-pianta.jsp">AGGIUNGI PIANTA</a></li>
                 </c:if>
@@ -49,13 +53,8 @@
     <section class="hero">
         <div class="hero-content">
             <div class="hero-image">
-                <%-- Usa pageContext.request.contextPath() per il percorso delle immagini --%>
+                <%-- Usa pageContext.request.contextPath per il percorso delle immagini --%>
                 <img src="${pageContext.request.contextPath}/images/logointerni.png" alt="Logo Il Segreto delle Piante">
-            </div>
-            <div class="hero-text">
-                <h1>il segreto delle piante</h1>
-                <p>"Non tutti nasciamo con il pollice verde, e va benissimo così! A volte la vita è frenetica e prendersi cura delle piante può sembrare un'impresa. Ma non temere, abbiamo la soluzione perfetta per te!</p>
-                <p>Scopri la nostra selezione di piante facili da amare e impossibili da uccidere. Belle, resistenti e a bassa manutenzione, sono l'ideale per chi vuole un tocco di verde in casa senza stress."</p>
             </div>
         </div>
     </section>

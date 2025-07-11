@@ -1,8 +1,10 @@
-package src.com.la_teca_del_giardiniere;
+package la_teca_del_giardiniere;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,54 +13,61 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import la_teca_del_giardiniere.classes.Utente;
+import la_teca_del_giardiniere.DAO.UtenteDAO;
 
-import src.src.src.src.com.la_teca_del_giardiniere.classes.Utente; // <--- CAMBIATO QUI!
-import src.src.src.src.com.la_teca_del_giardiniere.dao.UtenteDAO;
-
-@WebServlet("/admin/utentiServlet") 
-public class UtenteServlet extends HttpServlet { 
+@WebServlet("/admin/utentiServlet")
+public class UtenteServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = Logger.getLogger(UtenteServlet.class.getName());
     private UtenteDAO utenteDAO;
 
-    public UtenteServlet() { 
+    public UtenteServlet() throws ServletException {
         super();
         try {
             utenteDAO = new UtenteDAO();
+            LOGGER.info("UtenteDAO inizializzato con successo in UtenteServlet.");
         } catch (SQLException e) {
-            e.printStackTrace(); // Gestire l'errore in modo più appropriato (es. log)
+            LOGGER.log(Level.SEVERE, "Errore SQL durante l'inizializzazione di UtenteDAO in UtenteServlet.", e);
+            throw new ServletException("Errore durante l'inizializzazione del DAO: " + e.getMessage(), e);
         }
     }
 
+    private boolean isAdmin(Utente utente) {
+        List<String> ruoli = utente.getRuoli();
+        return ruoli != null && ruoli.contains("amministratore");
+    }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            // Recupera l'oggetto Utente loggato dalla sessione
-            Utente utenteLoggato = (Utente) session.getAttribute("loggedInUser"); // <--- Recupera l'oggetto Utente
+        // Ottieni la sessione esistente, o creane una nuova se non esiste (true)
+        // Questo semplifica la logica successiva, poiché 'session' non sarà mai null
+        HttpSession session = request.getSession(true); // <-- Utilizza request.getSession(true) qui
 
-            List<String> ruoli = null;
-            if (utenteLoggato != null) {
-                ruoli = utenteLoggato.getRuoli(); // <--- Usa il metodo getRuoli() della classe Utente
-            }
+        Utente utenteLoggato = (Utente) session.getAttribute("loggedInUser");
 
-            
-            if (ruoli != null && ruoli.contains("amministratore")) {
-                try {
-                    List<Utente> listaUtenti = utenteDAO.getAllUtentiConRuoli(); 
-                    request.setAttribute("listaUtenti", listaUtenti);
-                    request.getRequestDispatcher("/admin/utenti.jsp").forward(request, response);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    request.setAttribute("messaggio", "Errore nel recupero degli utenti.");
-                    request.setAttribute("tipoMessaggio", "error");
-                    request.getRequestDispatcher("/admin/utenti.jsp").forward(request, response);
-                }
-            } else {
-                // Utente non autorizzato
-                response.sendRedirect(request.getContextPath() + "/accesso_negato.html");
+        if (utenteLoggato != null && isAdmin(utenteLoggato)) {
+            // L'utente è loggato ed è un amministratore
+            try {
+                List<Utente> listaUtenti = utenteDAO.getAllUtentiConRuoli();
+                request.setAttribute("listaUtenti", listaUtenti);
+                request.getRequestDispatcher("/admin/utenti.jsp").forward(request, response);
+            } catch (SQLException e) {
+                LOGGER.log(Level.SEVERE, "Errore SQL durante il recupero degli utenti.", e);
+                request.setAttribute("messaggio", "Errore nel recupero degli utenti.");
+                request.setAttribute("tipoMessaggio", "error");
+                request.getRequestDispatcher("/admin/utenti.jsp").forward(request, response);
             }
         } else {
-            // Utente non loggato
-            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            // L'utente NON è loggato, O non è un amministratore
+            LOGGER.warning("Accesso negato a /admin/utentiServlet. Utente loggato: " + (utenteLoggato != null ? utenteLoggato.getEmail() : "Nessuno"));
+            
+            // Imposta un messaggio di errore nella sessione
+            session.setAttribute("errorMessage", "Devi effettuare l'accesso come amministratore per accedere a questa risorsa.");
+            
+            // Reindirizza alla pagina di accesso negato o login
+            response.sendRedirect(request.getContextPath() + "/accesso_negato.html");
+            // Oppure, se vuoi sempre reindirizzare al login in caso di non-admin o non-loggato:
+            // response.sendRedirect(request.getContextPath() + "/login.jsp?redirected=true");
         }
     }
 

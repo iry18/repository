@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> <%-- Necessario per i tag JSTL --%>
 
 
 <!DOCTYPE html>
@@ -8,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La Teca del Giardiniere - Piante da Esterno</title>
-    <link rel="stylesheet" href="piantedaesterno.css">
+    <link rel="stylesheet" href="Piantedaesterno.css">
    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -19,9 +20,9 @@
             <ul>
                 <%-- Usa request.getContextPath() per tutti i link di navigazione --%>
                 <li><a href="homepage.jsp">HOME</a></li>
-                <li><a href="piantedainterno.jsp">PIANTE INTERNO</a></li>
-                <li><a href="piantedaesterno.jsp">PIANTE ESTERNO</a></li>
-                <li><a href="accessori.jsp">ACCESSORI</a></li>
+                <li><a href="Piantedainterno.jsp">PIANTE INTERNO</a></li>
+                <li><a href="Piantedaesterno.jsp">PIANTE ESTERNO</a></li>
+                <li><a href="Accessori.jsp">ACCESSORI</a></li>
                 <li><a href="<%= request.getContextPath() %>/about-us.jsp">ABOUT US</a></li>
                 <li><a href="<%= request.getContextPath() %>/my-plants.jsp">MY PLANTS</a></li>
             </ul>
@@ -36,9 +37,7 @@
             </div>
             <div class="hero-text">
                 <h1>Il Giardino dei Tuoi Sogni</h1> <%-- Titolo modificato per le piante da esterno --%>
-                <p>"Trasforma il tuo balcone, terrazzo o giardino in un'oasi verde con la nostra selezione di piante da esterno resistenti e splendide!</p>
-                <p>Che tu sia un esperto giardiniere o alle prime armi, abbiamo le specie perfette per ogni spazio e clima. Dal colore vibrante dei fiori alla maestosità degli arbusti, scopri come rendere ogni angolo del tuo esterno un capolavoro naturale."</p>
-            </div>
+           </div>
         </div>
     </section>
 
@@ -77,7 +76,6 @@
     </section>
 
     <section class="additional-plants-grid">
-        <%-- Inserisci qui altre piante da esterno, se ne hai: --%>
         <div class="plant-card">
             <img src="<%= request.getContextPath() %>/images/agave.png" alt="Agave">
             <h3>Agave</h3>

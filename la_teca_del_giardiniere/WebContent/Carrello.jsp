@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> <%-- Necessario per i tag JSTL --%>
 
 <!DOCTYPE html>
 <html lang="it">
@@ -6,8 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Il Mio Carrello - La Teca del Giardiniere</title>
-    <link rel="homepage.css">
-    <link rel="carrello.css">
+    
     
     <style>
         /* Stili di base per il carrello se non hai un carrello.css specifico */

@@ -1,15 +1,11 @@
-package src.com.la_teca_del_giardiniere;
-
+package la_teca_del_giardiniere;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level; // Aggiungi import per Logger
-import java.util.logging.Logger; // Aggiungi import per Logger
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,183 +13,161 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// Assicurati che i percorsi siano corretti per le tue classi
-import src.src.src.src.com.la_teca_del_giardiniere.classes.Utente;
-import src.src.src.src.com.la_teca_del_giardiniere.dao.UtenteDAO;
-import src.src.src.src.com.la_teca_del_giardiniere.util.PasswordHashing;
+import la_teca_del_giardiniere.classes.Utente;
+import la_teca_del_giardiniere.DAO.UtenteDAO;
+import util.PasswordHashing; // Import the PasswordHashing utility
 
 @WebServlet("/RegistrazioneServlet")
 public class RegistrazioneServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = Logger.getLogger(RegistrazioneServlet.class.getName()); // Logger
+    private static final Logger LOGGER = Logger.getLogger(RegistrazioneServlet.class.getName());
+    private UtenteDAO utenteDAO; // Declare UtenteDAO instance
 
-    private UtenteDAO utenteDao;
-
-    // Inizializzazione del DAO nel metodo init() per una migliore gestione degli errori
-    @Override
-    public void init() throws ServletException {
-        super.init();
+    public RegistrazioneServlet() {
+        super();
         try {
-            utenteDao = new UtenteDAO();
+            utenteDAO = new UtenteDAO(); // Initialize UtenteDAO
             LOGGER.info("UtenteDAO inizializzato con successo in RegistrazioneServlet.");
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Errore SQL durante l'inizializzazione di UtenteDAO.", e);
-            throw new ServletException("Errore durante l'inizializzazione del DAO: " + e.getMessage(), e);
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Errore generico durante l'inizializzazione di UtenteDAO.", e);
-            throw new ServletException("Errore generico durante l'inizializzazione del DAO: " + e.getMessage(), e);
+            LOGGER.log(Level.SEVERE, "Errore SQL durante l'inizializzazione di UtenteDAO in RegistrazioneServlet.", e);
+            // Re-throw as ServletException to indicate a serious startup problem
+            throw new RuntimeException("Impossibile inizializzare UtenteDAO: " + e.getMessage(), e);
         }
-    }
-
-    // Questo metodo doGet è per test o per reindirizzare al form
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String contextPath = request.getContextPath();
-        response.sendRedirect(contextPath + "/registrati.jsp"); // Reindirizza sempre al form di registrazione
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8"); // Imposta la codifica dei caratteri per i parametri in entrata
-
+        // 1. Retrieve form parameters
         String nome = request.getParameter("nome");
         String cognome = request.getParameter("cognome");
+        String username = request.getParameter("username"); // You have a username field in JSP, but not in Utente class or DB schema. I'll map it to email for uniqueness or you might need to adjust your DB/Utente class. For now, it won't be explicitly stored in Utente if Utente only uses email as identifier. Let's assume 'email' is the unique identifier for login.
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        String indirizzo = request.getParameter("indirizzo");
         String citta = request.getParameter("citta");
-        String CAPStr = request.getParameter("cap");
-        String telefonoStr = request.getParameter("telefono");
+        String indirizzo = request.getParameter("indirizzo");
+        String capStr = request.getParameter("cap"); // CAP is an int in Utente class
         String provincia = request.getParameter("provincia");
+        String telefono = request.getParameter("telefono");
 
-        List<String> errori = new ArrayList<>();
+        // Set character encoding for correct parameter decoding
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
 
-        // Validazione dei dati lato server
+        // 2. Perform validation and data parsing
+        StringBuilder errorMessage = new StringBuilder();
+
         if (nome == null || nome.trim().isEmpty()) {
-            errori.add("Il nome è obbligatorio.");
+            errorMessage.append("Il nome è obbligatorio.<br>");
         }
         if (cognome == null || cognome.trim().isEmpty()) {
-            errori.add("Il cognome è obbligatorio.");
+            errorMessage.append("Il cognome è obbligatorio.<br>");
         }
         if (email == null || email.trim().isEmpty()) {
-            errori.add("L'email è obbligatoria.");
-        } else if (!isValidEmail(email)) {
-            errori.add("L'email non è in un formato valido.");
+            errorMessage.append("L'email è obbligatoria.<br>");
         }
         if (password == null || password.trim().isEmpty()) {
-            errori.add("La password è obbligatoria.");
-        } else if (password.length() < 8) {
-            errori.add("La password deve contenere almeno 8 caratteri.");
-        }
-        if (indirizzo == null || indirizzo.trim().isEmpty()) {
-            errori.add("L'indirizzo è obbligatorio.");
-        }
-        if (citta == null || citta.trim().isEmpty()) {
-            errori.add("La città è obbligatoria.");
-        }
-        if (CAPStr == null || CAPStr.trim().isEmpty()) {
-            errori.add("Il CAP è obbligatorio.");
-        } else if (!CAPStr.matches("\\d{5}")) {
-            errori.add("Il CAP deve essere composto da 5 cifre.");
-        }
-        if (telefonoStr == null || telefonoStr.trim().isEmpty()) {
-            errori.add("Il numero di telefono è obbligatorio.");
-        } else if (!telefonoStr.matches("\\d+")) {
-            errori.add("Il numero di telefono deve contenere solo cifre.");
-        }
-        if (provincia == null || provincia.trim().isEmpty()) {
-            errori.add("La provincia è obbligatoria.");
+            errorMessage.append("La password è obbligatoria.<br>");
+        } else if (password.length() < 6) { // Example: minimum password length
+            errorMessage.append("La password deve essere di almeno 6 caratteri.<br>");
         }
 
-        // Se ci sono errori di validazione, reindirizza alla pagina di registrazione con i messaggi di errore
-        if (!errori.isEmpty()) {
-            request.setAttribute("erroriRegistrazione", errori);
-            request.getRequestDispatcher("/registrati.jsp").forward(request, response); // Usa / per root contestuale
+        int cap = 0;
+        if (capStr != null && !capStr.trim().isEmpty()) {
+            try {
+                cap = Integer.parseInt(capStr);
+            } catch (NumberFormatException e) {
+                errorMessage.append("Il CAP deve essere un numero valido.<br>");
+            }
+        }
+
+        // If there are any validation errors, forward back to the registration page
+        if (errorMessage.length() > 0) {
+            request.setAttribute("errorMessage", errorMessage.toString());
+            // Preserve entered data for user convenience
+            request.setAttribute("param.nome", nome);
+            request.setAttribute("param.cognome", cognome);
+            request.setAttribute("param.username", username);
+            request.setAttribute("param.email", email);
+            request.setAttribute("param.citta", citta);
+            request.setAttribute("param.indirizzo", indirizzo);
+            request.setAttribute("param.cap", capStr);
+            request.setAttribute("param.provincia", provincia);
+            request.setAttribute("param.telefono", telefono);
+            request.getRequestDispatcher("/registrati.jsp").forward(request, response);
             return;
         }
 
         try {
-            // Verifica se l'email è già registrata
-            if (utenteDao != null) {
-                if (utenteDao.checkEmailExists(email)) {
-                    // Reindirizza al login con un messaggio specifico se l'email esiste
-                    response.sendRedirect(request.getContextPath() + "/login.jsp?error=email_already_registered&email=" + email);
-                    LOGGER.warning("Tentativo di registrazione con email già esistente: " + email);
-                    return; // Importante per fermare l'esecuzione qui
-                }
-            } else {
-                // Se il DAO non è stato inizializzato (dovrebbe essere gestito da init())
-                LOGGER.log(Level.SEVERE, "UtenteDAO non inizializzato durante la registrazione.");
-                errori.add("Errore di sistema durante la registrazione. Riprova più tardi.");
-                request.setAttribute("erroriRegistrazione", errori);
+            // Check if email already exists
+            if (utenteDAO.checkEmailExists(email)) {
+                request.setAttribute("errorMessage", "Questa email è già registrata. Per favore, usa un'altra email o effettua il login.");
+                request.setAttribute("param.nome", nome);
+                request.setAttribute("param.cognome", cognome);
+                request.setAttribute("param.username", username);
+                request.setAttribute("param.email", email); // Keep email so user sees it's the problem
+                request.setAttribute("param.citta", citta);
+                request.setAttribute("param.indirizzo", indirizzo);
+                request.setAttribute("param.cap", capStr);
+                request.setAttribute("param.provincia", provincia);
+                request.setAttribute("param.telefono", telefono);
                 request.getRequestDispatcher("/registrati.jsp").forward(request, response);
                 return;
             }
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Errore SQL durante la verifica email per la registrazione: " + email, e);
-            errori.add("Si è verificato un errore durante la verifica dell'email. Riprova.");
-            request.setAttribute("erroriRegistrazione", errori);
-            request.getRequestDispatcher("/registrati.jsp").forward(request, response);
-            return;
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Errore imprevisto durante la verifica email per la registrazione: " + email, e);
-            errori.add("Si è verificato un errore imprevisto durante la registrazione. Riprova.");
-            request.setAttribute("erroriRegistrazione", errori);
-            request.getRequestDispatcher("/registrati.jsp").forward(request, response);
-            return;
-        }
 
-        // Crea un'istanza della classe Utente
-        Utente utente = new Utente();
-        utente.setNome(nome);
-        utente.setCognome(cognome);
-        utente.setEmail(email);
-        utente.setIndirizzo(indirizzo);
-        utente.setCitta(citta);
-        utente.setProvincia(provincia);
-
-        try {
-            utente.setCAP(Integer.parseInt(CAPStr));
-        } catch (NumberFormatException e) {
-            LOGGER.log(Level.WARNING, "Formato CAP non valido fornito: " + CAPStr, e);
-            errori.add("Il formato del CAP non è valido.");
-            request.setAttribute("erroriRegistrazione", errori);
-            request.getRequestDispatcher("/registrati.jsp").forward(request, response);
-            return;
-        }
-
-        utente.setTelefono(telefonoStr);
-        utente.setData_registrazione(new Timestamp(System.currentTimeMillis())); // Imposta la data corrente
-
-        try {
-            // Cifra la password prima di salvarla
+            // Hash the password
             String hashedPassword = PasswordHashing.hashPassword(password);
-            utente.setPasswordHash(hashedPassword);
+            if (hashedPassword == null) {
+                request.setAttribute("errorMessage", "Errore interno durante la registrazione della password. Riprova più tardi.");
+                request.getRequestDispatcher("/registrati.jsp").forward(request, response);
+                return;
+            }
 
-            // Imposta isAdmin a false per default (o come da logica desiderata)
-            utente.setAdmin(false);
+            // Create Utente object
+            Utente newUser = new Utente();
+            newUser.setNome(nome);
+            newUser.setCognome(cognome);
+            newUser.setEmail(email);
+            newUser.setPasswordHash(hashedPassword);
+            newUser.setIndirizzo(indirizzo);
+            newUser.setCitta(citta);
+            newUser.setCAP(cap);
+            newUser.setProvincia(provincia);
+            newUser.setTelefono(telefono);
+            newUser.setData_registrazione(new Timestamp(new Date().getTime())); // Set current timestamp
+            newUser.setAdmin(false); // New registered users are not administrators by default
 
-            // Registra l'utente
-            utenteDao.aggiungiUtenteRegistrato(utente);
+            // Save user to database
+            utenteDAO.aggiungiUtenteRegistrato(newUser);
 
-            LOGGER.info("Registrazione utente riuscita per email: " + email);
-            // Reindirizza alla pagina di login con un messaggio di successo
-            response.sendRedirect(request.getContextPath() + "/login.jsp?message=registration_success");
+            // Redirect to a success page
+            response.sendRedirect(request.getContextPath() + "/registrazioneSuccesso.jsp");
 
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Errore SQL durante la registrazione dell'utente " + email, e);
-            request.setAttribute("erroreGenerico", "Si è verificato un errore del database durante la registrazione. Riprova più tardi.");
+            LOGGER.log(Level.SEVERE, "Errore SQL durante la registrazione dell'utente: " + e.getMessage(), e);
+            request.setAttribute("errorMessage", "Si è verificato un errore del database durante la registrazione. Riprova più tardi.");
+            request.setAttribute("param.nome", nome);
+            request.setAttribute("param.cognome", cognome);
+            request.setAttribute("param.username", username);
+            request.setAttribute("param.email", email);
+            request.setAttribute("param.citta", citta);
+            request.setAttribute("param.indirizzo", indirizzo);
+            request.setAttribute("param.cap", capStr);
+            request.setAttribute("param.provincia", provincia);
+            request.setAttribute("param.telefono", telefono);
             request.getRequestDispatcher("/registrati.jsp").forward(request, response);
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Errore imprevisto durante la registrazione dell'utente " + email, e);
-            request.setAttribute("erroreGenerico", "Si è verificato un errore inatteso durante la registrazione. Riprova più tardi.");
+            LOGGER.log(Level.SEVERE, "Errore generico durante la registrazione dell'utente.", e);
+            request.setAttribute("errorMessage", "Si è verificato un errore inaspettato. Riprova più tardi.");
+            request.setAttribute("param.nome", nome);
+            request.setAttribute("param.cognome", cognome);
+            request.setAttribute("param.username", username);
+            request.setAttribute("param.email", email);
+            request.setAttribute("param.citta", citta);
+            request.setAttribute("param.indirizzo", indirizzo);
+            request.setAttribute("param.cap", capStr);
+            request.setAttribute("param.provincia", provincia);
+            request.setAttribute("param.telefono", telefono);
             request.getRequestDispatcher("/registrati.jsp").forward(request, response);
         }
-    }
-
-    // Metodo helper per la validazione dell'email
-    private boolean isValidEmail(String email) {
-        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
     }
 }

@@ -116,7 +116,6 @@ footer {
     border-top: 1px solid #d0e0d0;
 }
 
-/* ... altri stili ... */
 
 .additional-plants-grid {
     max-width: 960px;
@@ -167,4 +166,3 @@ footer {
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
 }
-

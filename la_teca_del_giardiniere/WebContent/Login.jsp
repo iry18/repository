@@ -1,7 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://xmlns.jcp.org/jsp/jstl/core" %>
-
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 
 <!DOCTYPE html>
 <html lang="it">
@@ -9,8 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accedi - La Teca del Giardiniere</title>
-    
-    <link rel="login1.css">
+    <link rel="stylesheet" href="log.css">
     
 </head>
 <body>
@@ -58,13 +56,13 @@
                                     <p>Devi effettuare l'accesso per accedere a questa risorsa.</p>
                                 </c:when>
                                 <c:when test="${param.error eq 'server_error'}">
-                                    <p>Si Ã¨ verificato un errore del server. Riprova piÃ¹ tardi.</p>
+                                    <p>Si è verificato un errore del server. Riprova più tardi.</p>
                                 </c:when>
                                 <c:when test="${param.error eq 'email_already_registered'}"> <%-- Nuovo messaggio da RegistrazioneServlet --%>
-                                    <p>Questa email Ã¨ giÃ  registrata. Prova ad accedere o usa un'altra email per la registrazione.</p>
+                                    <p>Questa email è già registrata. Prova ad accedere o usa un'altra email per la registrazione.</p>
                                 </c:when>
                                 <c:otherwise>
-                                    <p>Si Ã¨ verificato un errore sconosciuto.</p>
+                                    <p>Si è verificato un errore sconosciuto.</p>
                                 </c:otherwise>
                             </c:choose>
                         </div>

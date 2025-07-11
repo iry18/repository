@@ -1,8 +1,8 @@
-package src.com.la_teca_del_giardiniere.dao;
+package la_teca_del_giardiniere.DAO;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
-import src.com.la_teca_del_giardiniere.classes.Utente; // <--- CAMBIATO QUI! Importa la classe Utente
-import util.PasswordHashing;
+
+import la_teca_del_giardiniere.classes.Utente;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,10 +24,10 @@ public class UtenteDAO {
         dataSource.setServerName("localhost");
         dataSource.setPort(3306);
         dataSource.setUser("root");
-        dataSource.setPassword("root");
+        dataSource.setPassword("root"); 
         dataSource.setDatabaseName("la_teca_del_giardiniere");
-        dataSource.setUseSSL(false);
-        dataSource.setAllowPublicKeyRetrieval(true);
+        dataSource.setUseSSL(false); 
+        dataSource.setAllowPublicKeyRetrieval(true); 
         LOGGER.info("MysqlDataSource inizializzato.");
     }
 
@@ -37,37 +36,37 @@ public class UtenteDAO {
     }
 
     /**
-     * Aggiunge un nuovo utente al database e gli assegna un ruolo.
-     * La password viene hashata prima di essere salvata.
+     * Aggiunge un nuovo utente registrato al database.
+     * La password deve essere già hashata prima di essere passata a questo metodo.
      * @param utente L'oggetto Utente da salvare (con password hashata)
      * @throws SQLException In caso di errori SQL
      */
-    public void aggiungiUtenteRegistrato(Utente utente) throws SQLException { // <--- CAMBIATO QUI (da aggiungiUtenteConRuolo)
+    public void aggiungiUtenteRegistrato(Utente utente) throws SQLException {
         Connection connection = null;
         try {
             connection = getConnection();
             connection.setAutoCommit(false); // Inizia la transazione
 
-            String sqlUtente = "INSERT INTO utente (nome, cognome, email, password_hash, indirizzo, citta, CAP, telefono, data_registrazione, provincia, isAdmin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; // <--- AGGIUNTO 'provincia' e 'isAdmin'
+            String sqlUtente = "INSERT INTO utente (nome, cognome, email, password_hash, indirizzo, citta, CAP, telefono, data_registrazione, provincia, isAdmin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             try (PreparedStatement preparedStatementUtente = connection.prepareStatement(sqlUtente, Statement.RETURN_GENERATED_KEYS)) {
                 preparedStatementUtente.setString(1, utente.getNome());
                 preparedStatementUtente.setString(2, utente.getCognome());
                 preparedStatementUtente.setString(3, utente.getEmail());
-                preparedStatementUtente.setString(4, utente.getPasswordHash()); // Usa getPasswordHash()
+                preparedStatementUtente.setString(4, utente.getPasswordHash());
                 preparedStatementUtente.setString(5, utente.getIndirizzo());
                 preparedStatementUtente.setString(6, utente.getCitta());
                 preparedStatementUtente.setInt(7, utente.getCAP());
-                preparedStatementUtente.setString(8, utente.getTelefono()); // Usa String per telefono
+                preparedStatementUtente.setString(8, utente.getTelefono());
                 preparedStatementUtente.setTimestamp(9, utente.getData_registrazione());
-                preparedStatementUtente.setString(10, utente.getProvincia()); // <--- IMPOSTA LA PROVINCIA
-                preparedStatementUtente.setBoolean(11, utente.isAdmin()); // <--- IMPOSTA isAdmin
+                preparedStatementUtente.setString(10, utente.getProvincia());
+                preparedStatementUtente.setBoolean(11, utente.isAdmin());
 
                 preparedStatementUtente.executeUpdate();
 
                 try (ResultSet generatedKeys = preparedStatementUtente.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
-                        utente.setId(generatedKeys.getInt(1)); // Imposta l'ID generato nell'oggetto Utente
+                        utente.setId(generatedKeys.getInt(1));
                         LOGGER.info("Utente " + utente.getEmail() + " registrato con ID: " + utente.getId());
                     } else {
                         throw new SQLException("La creazione dell'utente ha fallito, nessun ID generato.");
@@ -85,7 +84,7 @@ public class UtenteDAO {
                 }
             }
             LOGGER.log(Level.SEVERE, "Errore SQL durante l'aggiunta dell'utente: " + e.getMessage(), e);
-            throw e; // Rilancia l'eccezione per essere gestita dal chiamante
+            throw e;
         } finally {
             if (connection != null) {
                 try {
@@ -105,7 +104,7 @@ public class UtenteDAO {
      */
     public Utente getUtenteByEmailWithRuoli(String email) throws SQLException {
         Utente utente = null;
-        String sql = "SELECT id, nome, cognome, email, password_hash, indirizzo, citta, CAP, telefono, data_registrazione, provincia, isAdmin FROM utente WHERE email = ?"; // <--- AGGIUNTO 'provincia', 'isAdmin'
+        String sql = "SELECT id, nome, cognome, email, password_hash, indirizzo, citta, CAP, telefono, data_registrazione, provincia, isAdmin FROM utente WHERE email = ?";
 
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -122,11 +121,10 @@ public class UtenteDAO {
                     utente.setIndirizzo(resultSet.getString("indirizzo"));
                     utente.setCitta(resultSet.getString("citta"));
                     utente.setCAP(resultSet.getInt("CAP"));
-                    utente.setTelefono(resultSet.getString("telefono")); // Recupera come String
+                    utente.setTelefono(resultSet.getString("telefono"));
                     utente.setData_registrazione(resultSet.getTimestamp("data_registrazione"));
-                    utente.setProvincia(resultSet.getString("provincia")); // <--- RECUPERA PROVINCIA
-                    utente.setAdmin(resultSet.getBoolean("isAdmin")); // <--- RECUPERA isAdmin
-                    // La lista dei ruoli verrà generata dal metodo getRuoli() della classe Utente
+                    utente.setProvincia(resultSet.getString("provincia"));
+                    utente.setAdmin(resultSet.getBoolean("isAdmin"));
                 }
             }
         } catch (SQLException e) {
@@ -143,7 +141,7 @@ public class UtenteDAO {
      */
     public List<Utente> getAllUtentiConRuoli() throws SQLException {
         List<Utente> listaUtenti = new ArrayList<>();
-        String sql = "SELECT id, nome, cognome, email, password_hash, indirizzo, citta, CAP, telefono, data_registrazione, provincia, isAdmin FROM utente"; // <--- AGGIUNTO 'provincia', 'isAdmin'
+        String sql = "SELECT id, nome, cognome, email, password_hash, indirizzo, citta, CAP, telefono, data_registrazione, provincia, isAdmin FROM utente";
 
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -161,8 +159,8 @@ public class UtenteDAO {
                 utente.setCAP(resultSet.getInt("CAP"));
                 utente.setTelefono(resultSet.getString("telefono"));
                 utente.setData_registrazione(resultSet.getTimestamp("data_registrazione"));
-                utente.setProvincia(resultSet.getString("provincia")); // <--- RECUPERA PROVINCIA
-                utente.setAdmin(resultSet.getBoolean("isAdmin")); // <--- RECUPERA isAdmin
+                utente.setProvincia(resultSet.getString("provincia"));
+                utente.setAdmin(resultSet.getBoolean("isAdmin"));
                 listaUtenti.add(utente);
             }
         } catch (SQLException e) {
@@ -240,7 +238,7 @@ public class UtenteDAO {
      * @throws SQLException In caso di errori SQL.
      */
     public boolean updateUtente(Utente utente) throws SQLException {
-        String sql = "UPDATE utente SET nome = ?, cognome = ?, email = ?, password_hash = ?, indirizzo = ?, citta = ?, CAP = ?, telefono = ?, provincia = ?, isAdmin = ? WHERE id = ?"; // <--- AGGIORNATA QUERY
+        String sql = "UPDATE utente SET nome = ?, cognome = ?, email = ?, password_hash = ?, indirizzo = ?, citta = ?, CAP = ?, telefono = ?, provincia = ?, isAdmin = ? WHERE id = ?";
 
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -248,13 +246,13 @@ public class UtenteDAO {
             preparedStatement.setString(1, utente.getNome());
             preparedStatement.setString(2, utente.getCognome());
             preparedStatement.setString(3, utente.getEmail());
-            preparedStatement.setString(4, utente.getPasswordHash()); // Assicurati che sia l'hash
+            preparedStatement.setString(4, utente.getPasswordHash());
             preparedStatement.setString(5, utente.getIndirizzo());
             preparedStatement.setString(6, utente.getCitta());
             preparedStatement.setInt(7, utente.getCAP());
             preparedStatement.setString(8, utente.getTelefono());
-            preparedStatement.setString(9, utente.getProvincia()); // <--- Imposta provincia
-            preparedStatement.setBoolean(10, utente.isAdmin()); // <--- Imposta isAdmin
+            preparedStatement.setString(9, utente.getProvincia());
+            preparedStatement.setBoolean(10, utente.isAdmin());
             preparedStatement.setInt(11, utente.getId());
 
             int rowsAffected = preparedStatement.executeUpdate();
