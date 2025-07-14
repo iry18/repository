@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrazione Effettuata</title>
-    <link rel="stylesheet" href="registrati.css"> <%-- Or a more generic style sheet --%>
+    <link rel="stylesheet" href="Registra.css"> 
 </head>
 <body>
     <div class="container">

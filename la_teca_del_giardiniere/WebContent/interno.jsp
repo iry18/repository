@@ -12,8 +12,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-
-    <%-- Rimosso il blocco <style> da qui, gli stili per il carrello sono ora in interno.css --%>
 </head>
 
 <body>
@@ -29,15 +27,15 @@
                     <li><a href="homepage.jsp">HOME</a></li>
                     <li><a href="Piantedainterno.jsp">PIANTE INTERNO</a></li>
                     <li><a href="Piantedaesterno.jsp">PIANTE ESTERNO</a></li>
-                    <li><a href="Accessori.jsp">ACCESSORI</a></li>
-                    <li><a href="MyAccount.jsp">MyAccount</a></li>
+                    <li><a href="Accessori.jsp">ABOUT US</a></li>
+                    <li><a href="${pageContext.request.contextPath}/menu.jsp">MENU</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main class="content-wrapper">
-        <aside class="sidebar-left">
+    <main class="content-wrapper"> <%-- Contenitore principale per le due colonne --%>
+        <aside class="sidebar-left"> <%-- Colonna laterale sinistra per le foto della casa --%>
             <h2 class="sidebar-title">Ogni pianta ha il suo scopo</h2>
             <div class="sidebar-item">
                 <img src="${pageContext.request.contextPath}/images/soggiorno.png" alt="Piante per il soggiorno">
@@ -51,10 +49,11 @@
                 <img src="${pageContext.request.contextPath}/images/cucina.png" alt="Piante per la cucina">
                 <p>piante per la cucina</p>
             </div>
+            <%-- Aggiungi altre immagini e testi se necessario --%>
         </aside>
 
-        <section class="main-content">
-            <div class="category-header-box">
+        <section class="main-content"> <%-- Colonna principale destra --%>
+            <div class="category-header-box"> <%-- Riquadro centrale sotto l'header --%>
                 <div class="category-text-content">
                     <h2>piante da appartamento</h2>
                     <p>Scopri la nostra selezione di piante facilissime da curare e con qualità uniche per la casa e la propria salute</p>
@@ -64,9 +63,9 @@
                 </div>
             </div>
 
-            <section class="plants-grid">
+            <section class="plants-grid"> <%-- La tua griglia di piante esistente --%>
                 <div class="plant-card">
-                    <img src="${pageContext.request.contextPath}/images/linguadellasuocera.png" alt="Sansevieria (Lingua di suocera)">
+                    <img src="${pageContext.request.contextPath}/images/sansevieria.png" alt="Sansevieria (Lingua di suocera)">
                     <h3>Sansevieria</h3>
                     <p>(Lingua di suocera)</p>
                     <div class="price-info">
@@ -74,11 +73,11 @@
                         <span class="tax-info">IVA inclusa</span>
                     </div>
                     <div class="add-to-cart-container">
-    <button class="add-to-cart-btn" data-product-id="[ID_PRODOTTO]">
-        <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello"/>
-        <span>Aggiungi al Carrello</span>
-    </button>
-</div>
+                        <a href="#" class="add-to-cart-button">
+                            <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello" class="cart-icon">
+                            <span>Aggiungi al Carrello</span>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="plant-card">
@@ -90,11 +89,11 @@
                         <span class="tax-info">IVA inclusa</span>
                     </div>
                     <div class="add-to-cart-container">
-    <button class="add-to-cart-btn" data-product-id="[ID_PRODOTTO]">
-        <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello"/>
-        <span>Aggiungi al Carrello</span>
-    </button>
-</div>
+                        <a href="#" class="add-to-cart-button">
+                            <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello" class="cart-icon">
+                            <span>Aggiungi al Carrello</span>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="plant-card">
@@ -106,11 +105,11 @@
                         <span class="tax-info">IVA inclusa</span>
                     </div>
                     <div class="add-to-cart-container">
-    <button class="add-to-cart-btn" data-product-id="[ID_PRODOTTO]">
-        <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello"/>
-        <span>Aggiungi al Carrello</span>
-    </button>
-</div>
+                        <a href="#" class="add-to-cart-button">
+                            <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello" class="cart-icon">
+                            <span>Aggiungi al Carrello</span>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="plant-card">
@@ -122,11 +121,11 @@
                         <span class="tax-info">IVA inclusa</span>
                     </div>
                     <div class="add-to-cart-container">
-    <button class="add-to-cart-btn" data-product-id="[ID_PRODOTTO]">
-        <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello"/>
-        <span>Aggiungi al Carrello</span>
-    </button>
-</div>
+                        <a href="#" class="add-to-cart-button">
+                            <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello" class="cart-icon">
+                            <span>Aggiungi al Carrello</span>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="plant-card">
@@ -138,11 +137,11 @@
                         <span class="tax-info">IVA inclusa</span>
                     </div>
                     <div class="add-to-cart-container">
-    <button class="add-to-cart-btn" data-product-id="[ID_PRODOTTO]">
-        <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello"/>
-        <span>Aggiungi al Carrello</span>
-    </button>
-</div>
+                        <a href="#" class="add-to-cart-button">
+                            <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello" class="cart-icon">
+                            <span>Aggiungi al Carrello</span>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="plant-card">
@@ -154,11 +153,11 @@
                         <span class="tax-info">IVA inclusa</span>
                     </div>
                     <div class="add-to-cart-container">
-    <button class="add-to-cart-btn" data-product-id="[ID_PRODOTTO]">
-        <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello"/>
-        <span>Aggiungi al Carrello</span>
-    </button>
-</div>
+                        <a href="#" class="add-to-cart-button">
+                            <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello" class="cart-icon">
+                            <span>Aggiungi al Carrello</span>
+                        </a>
+                    </div>
                 </div>
             </section>
 
@@ -172,11 +171,11 @@
                         <span class="tax-info">IVA inclusa</span>
                     </div>
                     <div class="add-to-cart-container">
-    <button class="add-to-cart-btn" data-product-id="[ID_PRODOTTO]">
-        <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello"/>
-        <span>Aggiungi al Carrello</span>
-    </button>
-</div>
+                        <a href="#" class="add-to-cart-button">
+                            <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello" class="cart-icon">
+                            <span>Aggiungi al Carrello</span>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="plant-card">
@@ -188,11 +187,11 @@
                         <span class="tax-info">IVA inclusa</span>
                     </div>
                     <div class="add-to-cart-container">
-    <button class="add-to-cart-btn" data-product-id="[ID_PRODOTTO]">
-        <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello"/>
-        <span>Aggiungi al Carrello</span>
-    </button>
-</div>
+                        <a href="#" class="add-to-cart-button">
+                            <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello" class="cart-icon">
+                            <span>Aggiungi al Carrello</span>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="plant-card">
@@ -204,11 +203,11 @@
                         <span class="tax-info">IVA inclusa</span>
                     </div>
                     <div class="add-to-cart-container">
-    <button class="add-to-cart-btn" data-product-id="[ID_PRODOTTO]">
-        <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello"/>
-        <span>Aggiungi al Carrello</span>
-    </button>
-</div>
+                        <a href="#" class="add-to-cart-button">
+                            <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello" class="cart-icon">
+                            <span>Aggiungi al Carrello</span>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="plant-card">
@@ -220,11 +219,11 @@
                         <span class="tax-info">IVA inclusa</span>
                     </div>
                     <div class="add-to-cart-container">
-    <button class="add-to-cart-btn" data-product-id="[ID_PRODOTTO]">
-        <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello"/>
-        <span>Aggiungi al Carrello</span>
-    </button>
-</div>
+                        <a href="#" class="add-to-cart-button">
+                            <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello" class="cart-icon">
+                            <span>Aggiungi al Carrello</span>
+                        </a>
+                    </div>
                 </div>
             </section>
         </section>

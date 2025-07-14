@@ -1,7 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> <%-- Necessario per i tag JSTL --%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="it">
@@ -9,92 +7,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La Teca del Giardiniere - Piante da Esterno</title>
-    <link rel="stylesheet" href="Piantedaesterno.css">
-   <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="Piantedainterni.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <header>
-        <nav>
-            <ul>
-                <%-- Usa request.getContextPath() per tutti i link di navigazione --%>
-                <li><a href="homepage.jsp">HOME</a></li>
-                <li><a href="Piantedainterno.jsp">PIANTE INTERNO</a></li>
-                <li><a href="Piantedaesterno.jsp">PIANTE ESTERNO</a></li>
-                <li><a href="Accessori.jsp">ACCESSORI</a></li>
-                <li><a href="<%= request.getContextPath() %>/about-us.jsp">ABOUT US</a></li>
-                <li><a href="<%= request.getContextPath() %>/my-plants.jsp">MY PLANTS</a></li>
-            </ul>
-        </nav>
+        <div class="header-container"> <%-- Contenitore per logo e nav nell'header --%>
+            <div class="logo-area">
+                <a href="homepage.jsp">
+                    <img src="${pageContext.request.contextPath}/images/logo.png" alt="La Teca del Giardiniere Logo" class="site-logo">
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="${pageContext.request.contextPath}/homepage.jsp">HOME</a></li>
+                    <li><a href="${pageContext.request.contextPath}/Piantedainterno.jsp">PIANTE INTERNO</a></li>
+                    <li><a href="${pageContext.request.contextPath}/Piantedaesterno.jsp">PIANTE ESTERNO</a></li>
+                    <li><a href="${pageContext.request.contextPath}/Accessori.jsp">ACCESSORI</a></li>
+                    <li><a href="${pageContext.request.contextPath}/MyAccount.jsp">MyAccount</a></li>
+                    <li><a href="${pageContext.request.contextPath}/my-plants.jsp">MY PLANTS</a></li>
+                    <c:choose>
+                        <c:when test="${sessionScope.currentUser != null}">
+                            <li style="margin-left: 20px;"><a href="${pageContext.request.contextPath}/myAccount.jsp">IL MIO ACCOUNT</a></li>
+                            <li><a href="${pageContext.request.contextPath}/LogoutServlet">LOGOUT</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li><a href="${pageContext.request.contextPath}/Login.jsp">LOGIN</a></li>
+                            <li><a href="${pageContext.request.contextPath}/registrati.jsp">REGISTRATI</a></li>
+                        </c:otherwise>
+                    </c:choose>
+                </ul>
+            </nav>
+        </div>
     </header>
 
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-image">
-                <%-- Usa request.getContextPath() per il percorso delle immagini --%>
-                <img src="<%= request.getContextPath() %>/images/logoesterno.png" alt="Logo Piante da Esterno"> <%-- Ho cambiato l'immagine del logo per riflettere le piante da esterno --%>
+    <main class="content-wrapper"> <%-- Contenitore principale per le due colonne --%>
+        <aside class="sidebar-left"> <%-- Colonna laterale sinistra per le foto degli esterni --%>
+            <h2 class="sidebar-title">Per i tuoi esterni</h2>
+            <div class="sidebar-item">
+                <img src="${pageContext.request.contextPath}/images/prato.png".jpg" alt="Giardini Adorabili">
+                <p>Adorabili giardini</p>
             </div>
-            <div class="hero-text">
-                <h1>Il Giardino dei Tuoi Sogni</h1> <%-- Titolo modificato per le piante da esterno --%>
-           </div>
-        </div>
-    </section>
+            <div class="sidebar-item">
+                <img src="${pageContext.request.contextPath}/images/balcone.png" alt="Terrazzi Colorati">
+                <p>Colorati terrazzi</p>
+            </div>
+            <%-- Aggiungi altri sidebar-item se necessario, con immagini e testi pertinenti --%>
+        </aside>
 
-    <section class="plants-grid">
-        <%-- Inserisci qui le tue piante da esterno. Ecco alcuni esempi: --%>
-        <div class="plant-card">
-            <img src="<%= request.getContextPath() %>/images/rosa.png" alt="Rosa">
-            <h3>Rosa</h3>
-            <p>(La regina del giardino)</p>
-        </div>
-        <div class="plant-card">
-            <img src="<%= request.getContextPath() %>/images/lavanda.png" alt="Lavanda">
-            <h3>Lavanda</h3>
-            <p>(Profumo di Provenza)</p>
-        </div>
-        <div class="plant-card">
-            <img src="<%= request.getContextPath() %>/images/bougainvillea.png" alt="Bougainvillea">
-            <h3>Bougainvillea</h3>
-            <p>(Esplosione di colori)</p>
-        </div>
-        <div class="plant-card">
-            <img src="<%= request.getContextPath() %>/images/gelsomino.png" alt="Gelsomino">
-            <h3>Gelsomino</h3>
-            <p>(Profumo inebriante)</p>
-        </div>
-        <div class="plant-card">
-            <img src="<%= request.getContextPath() %>/images/oleandro.png" alt="Oleandro">
-            <h3>Oleandro</h3>
-            <p>(Fioritura mediterranea)</p>
-        </div>
-        <div class="plant-card">
-            <img src="<%= request.getContextPath() %>/images/ortensia.png" alt="Ortensia">
-            <h3>Ortensia</h3>
-            <p>(Eleganza senza tempo)</p>
-        </div>
-    </section>
+        <section class="main-content"> <%-- Colonna principale destra --%>
+            <div class="category-header-box"> <%-- Riquadro centrale sotto l'header --%>
+                <div class="category-text-content">
+                    <h2>piante da esterno</h2>
+                    <p>Scopri la nostra selezione di piante facilissime da curare e con qualità uniche per i piccoli e grandi ambienti e la propria salute</p>
+                </div>
+                <div class="category-image-content">
+                    <img src="${pageContext.request.contextPath}/images/logoesterno.png" alt="Pianta in Vaso Esterno"> <%-- Immagine specifica per esterno, come da screenshot --%>
+                </div>
+            </div>
 
-    <section class="additional-plants-grid">
-        <div class="plant-card">
-            <img src="<%= request.getContextPath() %>/images/agave.png" alt="Agave">
-            <h3>Agave</h3>
-        </div>
-        <div class="plant-card">
-            <img src="<%= request.getContextPath() %>/images/cactus_esterno.png" alt="Cactus da Esterno">
-            <h3>Cactus da Esterno</h3>
-            <p>(Resistenti e affascinanti)</p>
-        </div>
-        <div class="plant-card">
-            <img src="<%= request.getContextPath() %>/images/ulivo.png" alt="Ulivo">
-            <h3>Ulivo</h3>
-            <p>(Simbolo di pace e longevit�)</p>
-        </div>
-        <div class="plant-card single-row">
-            <img src="<%= request.getContextPath() %>/images/cycas.png" alt="Cycas">
-            <h3>Cycas</h3>
-        </div>
-    </section>
+            <section class="plants-grid"> 
+                <div class="plant-card">
+                    <img src="${pageContext.request.contextPath}/images/margherite.png" alt="Matricaria Chamomilla">
+                    <h3>Matricaria chamomilla</h3>
+                    <p>(camomilla)</p>
+                    <div class="price-section">
+                        <span>€28.00</span>
+                        <small>IVA inclusa</small>
+                    </div>
+                    <button class="add-to-cart-btn">Aggiungi al Carrello</button>
+                </div>
+                <div class="plant-card">
+                    <img src="${pageContext.request.contextPath}/images/calendula.png" alt="Calendula Officinalis">
+                    <h3>Calendula officinalis</h3>
+                    <p>(Calendula)</p>
+                    <div class="price-section">
+                        <span>€35.99</span>
+                        <small>IVA inclusa</small>
+                    </div>
+                    <button class="add-to-cart-btn">Aggiungi al Carrello</button>
+                </div>
+                <div class="plant-card">
+                    <img src="${pageContext.request.contextPath}/images/pothos.png" alt="Pothos (Epipremnum aureum)"> <%-- Ho corretto l'alt, ma l'immagine Pothos è da interno di solito --%>
+                    <h3>Pothos</h3>
+                    <p>(Epipremnum aureum)</p>
+                    <div class="price-section">
+                        <span>€18.50</span>
+                        <small>IVA inclusa</small>
+                    </div>
+                    <button class="add-to-cart-btn">Aggiungi al Carrello</button>
+                </div>
+                <div class="plant-card">
+                    <img src="${pageContext.request.contextPath}/images/fico.png" alt="Opuntia (Fico d'India nano)">
+                    <h3>Opuntia</h3>
+                    <p>(Fico d'India nano)</p>
+                    <div class="price-section">
+                        <span>€29.95</span>
+                        <small>IVA inclusa</small>
+                    </div>
+                    <button class="add-to-cart-btn">Aggiungi al Carrello</button>
+                </div>
+                <div class="plant-card">
+                    <img src="${pageContext.request.contextPath}/images/erica.png" alt="Erica (Calluna vulgaris)">
+                    <h3>Erica</h3>
+                    <p>(Calluna vulgaris)</p>
+                    <div class="price-section">
+                        <span>€10.99</span>
+                        <small>IVA inclusa</small>
+                    </div>
+                    <button class="add-to-cart-btn">Aggiungi al Carrello</button>
+                </div>
+                <%-- Assicurati che i percorsi delle immagini siano corretti per tutte le tue immagini di piante --%>
+            </section>
+        </section>
+    </main>
 
     <footer>
         <p>&copy; 2025 La Teca del Giardiniere</p>

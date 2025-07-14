@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> <%-- Necessario per i tag JSTL --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="it">
@@ -8,11 +9,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Il Mio Carrello - La Teca del Giardiniere</title>
     
-    
     <style>
         /* Stili di base per il carrello se non hai un carrello.css specifico */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align at the top */
+            min-height: 100vh; /* Full viewport height */
+            padding-top: 20px; /* Add some space from the top */
+        }
         .cart-container {
             width: 80%;
+            max-width: 900px; /* Max width for better readability on large screens */
             margin: 20px auto;
             padding: 20px;
             border: 1px solid #ddd;
@@ -138,12 +150,6 @@
 </head>
 <body>
 
-    <%-- INCLUDI L'HEADER QUI. Assicurati che il percorso sia corretto per la tua applicazione. --%>
-    <%-- Se header.jsp è nella root dell'applicazione: --%>
-    <%-- <jsp:include page="/header.jsp" /> --%>
-    <%-- Se header.jsp è in /WEB-INF/jsp/: --%>
-    <%-- <jsp:include page="/WEB-INF/jsp/header.jsp" /> --%>
-    
     <div class="cart-container">
         <h1>Il Mio Carrello</h1>
 
@@ -174,6 +180,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <%-- QUESTO È IL BLOCCO CORRETTO PER ITERARE SUGLI ARTICOLI --%>
                         <c:forEach var="item" items="${requestScope.articoliCarrello}">
                             <tr>
                                 <td><c:out value="${item.nomeProdotto}" /></td>
@@ -182,9 +189,7 @@
                                     <form action="<%= request.getContextPath() %>/aggiornaQuantitaCarrello" method="post" style="display:inline-flex; align-items:center;">
                                         <input type="hidden" name="carrelloId" value="${item.carrelloId}">
                                         <input type="number" name="quantita" value="${item.quantita}" min="0" class="quantity-input" onchange="this.form.submit()">
-                                        <%-- Rimosso il pulsante "Aggiorna" per un aggiornamento automatico al cambio --%>
-                                        <%-- Se preferisci il pulsante, ripristina la riga sottostante e rimuovi onchange="this.form.submit()" dall'input number --%>
-                                        <%-- <button type="submit" class="btn small-btn">Aggiorna</button> --%>
+                                        <%-- Rimosso il pulsante "Aggiorna" per un aggiornamento automatico al cambio, come da codice precedente --%>
                                     </form>
                                 </td>
                                 <td><fmt:formatNumber value="${item.totaleArticolo}" type="currency" currencySymbol="€" /></td>

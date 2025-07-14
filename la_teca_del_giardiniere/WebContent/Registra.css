@@ -236,6 +236,42 @@ body {
         padding: 15px 20px;
         box-sizing: border-box; /* Assicura che padding e border siano inclusi nella larghezza */
     } 
+    
+    /* Stili per il link "Sei già registrato? ACCEDI" */
+.login-link {
+    text-align: center; /* Centra il testo e il link */
+    margin-top: 15px; /* Spazio sopra il link per separarlo dal bottone */
+    width: 100%; /* Assicura che il div occupi la larghezza completa per il centraggio */
+}
+
+.login-link p {
+    margin: 0; /* Rimuove i margini predefiniti del paragrafo */
+    font-size: 0.9em; /* Dimensione del font leggermente più piccola */
+    color: #555; /* Colore del testo */
+}
+
+.login-link a {
+    color: #007979; /* Colore del link, magari lo stesso del bottone LOGIN */
+    text-decoration: none; /* Rimuove la sottolineatura predefinita */
+    font-weight: bold; /* Rende il testo del link in grassetto */
+    transition: color 0.3s ease; /* Effetto di transizione al passaggio del mouse */
+}
+
+.login-link a:hover {
+    text-decoration: underline; /* Aggiunge la sottolineatura al passaggio del mouse */
+    color: #005f5f; /* Cambia colore al passaggio del mouse */
+}
+
+.registration-box {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    max-width: 350px;
+    gap: 20px;
+    align-items: center;
+    margin-top: 100px; /* O il valore appropriato per la tua edera */
+}
+
     .top-decoration {
         position: static; /* Rimuove il posizionamento assoluto su schermi piccoli */
         margin-bottom: 10px;

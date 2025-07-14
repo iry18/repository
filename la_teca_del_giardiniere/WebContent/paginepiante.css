@@ -1,4 +1,5 @@
-/* Stili Globali e Reset */
+@charset "ISO-8859-1";
+
 body {
     font-family: Arial, sans-serif; /* Un font comune */
     margin: 0;
@@ -44,7 +45,7 @@ header nav a:hover {
 
 /* Stili del Footer (copiate dalla homepage.css) */
 footer {
-    background-color: #dcedc8; /* Verde chiaro piÃ¹ intenso della homepage */
+    background-color: #dcedc8; /* Verde chiaro più intenso della homepage */
     text-align: center;
     padding: 20px 0;
     font-size: 0.8em;
@@ -115,7 +116,7 @@ footer {
     font-size: 1.1em;
     color: #666;
     padding: 15px;
-    background-color: #f9f9f9; /* Sfondo piÃ¹ chiaro per le card di homepage */
+    background-color: #f9f9f9; /* Sfondo più chiaro per le card di homepage */
     border-radius: 8px;
     border: 1px solid #eee;
 }
@@ -188,10 +189,10 @@ footer {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* Media Queries per la ResponsivitÃ  (opzionale ma consigliato) */
+/* Media Queries per la Responsività (opzionale ma consigliato) */
 @media (max-width: 768px) {
     .container-dettagli-pianta {
-        grid-template-columns: 1fr; /* Una singola colonna su schermi piÃ¹ piccoli */
+        grid-template-columns: 1fr; /* Una singola colonna su schermi più piccoli */
         padding: 20px;
         margin: 20px auto;
     }

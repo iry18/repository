@@ -1,98 +1,80 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accedi - La Teca del Giardiniere</title>
-    <link rel="stylesheet" href="log.css">
-    
+    <title>Login - La Teca del Giardiniere</title>
+    <link rel="stylesheet" href="Login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-
     <div class="container">
-        <div class="left-section">
-            <div class="logo-container">
-               <img src="${pageContext.request.contextPath}/images/logo.png" alt="Logo">
-                 <div class="logo-text">
-                     <h1>LA</h1>
-                     <h2>TECA</h2>
-                     <h3>DEL</h3>
-                     <h4>GIARDINIERE</h4>
-                 </div>
-            </div>
-            <p class="tagline">COMFORT WITH PLANT-BASED<br>INGREDIENTS AND LOTS OF LOVE</p>
-        </div>
-        <div class="right-section navigation-section">
+       <div class="left-section">
             <div class="top-decoration">
-               <img src="${pageContext.request.contextPath}/images/edera.png" alt="Decorazione Edera">
+                <img src="<%= request.getContextPath() %>/images/edera.png" alt="Decorazione Edera">
             </div>
-            
-            <div class="login-form-container">
-                <h1>Accedi al tuo account</h1>
-                
-                <form action="${pageContext.request.contextPath}/LoginServlet" method="post">
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required value="${param.email}">
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" required>
-                    </div>
-                    <button type="submit">Accedi</button>
 
-                    <%-- Gestione messaggi di errore/successo tramite parametri URL --%>
-                    <c:if test="${not empty param.error}">
-                        <div class="error-message">
-                            <c:choose>
-                                <c:when test="${param.error eq 'invalid_credentials'}">
-                                     <p>Email e/o password non validi. Riprova.</p>
-                                </c:when>
-                                <c:when test="${param.error eq 'not_authenticated'}">
-                                    <p>Devi effettuare l'accesso per accedere a questa risorsa.</p>
-                                </c:when>
-                                <c:when test="${param.error eq 'server_error'}">
-                                    <p>Si è verificato un errore del server. Riprova più tardi.</p>
-                                </c:when>
-                                <c:when test="${param.error eq 'email_already_registered'}"> <%-- Nuovo messaggio da RegistrazioneServlet --%>
-                                    <p>Questa email è già registrata. Prova ad accedere o usa un'altra email per la registrazione.</p>
-                                </c:when>
-                                <c:otherwise>
-                                    <p>Si è verificato un errore sconosciuto.</p>
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
-                    </c:if>
+            <div class="login-box">
 
-                    <c:if test="${not empty param.message}">
-                        <div class="success-message">
-                            <c:choose>
-                                <c:when test="${param.message eq 'logged_out'}">
-                                    <p>Logout effettuato con successo.</p>
-                                </c:when>
-                                <c:when test="${param.message eq 'registration_success'}"> <%-- Nuovo messaggio da RegistrazioneServlet --%>
-                                    <p>Registrazione avvenuta con successo! Ora puoi effettuare il login.</p>
-                                </c:when>
-                                <c:otherwise>
-                                    <p>Operazione completata.</p>
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
-                    </c:if>
+                <%-- Messaggio di Registrazione Avvenuta con Successo --%>
+                <c:if test="${param.registration == 'success'}">
+                    <p style="color: green; text-align: center; font-weight: bold;">
+                        Registrazione avvenuta con successo! Ora puoi accedere con le tue credenziali.
+                    </p>
+                </c:if>
+
+                <%-- Messaggio Email GiÃ  Registrata --%>
+                <c:if test="${param.error == 'email_already_registered'}">
+                    <p style="color: red; text-align: center; font-weight: bold;">
+                        Questa email Ã¨ giÃ  registrata. Per favore, effettua il login.
+                    </p>
+                </c:if>
+
+                <%-- Messaggi di Errore Generici o di Login Fallito --%>
+                <c:if test="${not empty errorMessage}">
+                    <p style="color: red; text-align: center;">${errorMessage}</p>
+                </c:if>
+                <c:if test="${param.error == 'invalid_credentials'}">
+                    <p style="color: red; text-align: center;">Credenziali non valide. Riprova.</p>
+                </c:if>
+                <c:if test="${param.error == 'server_error'}">
+                    <p style="color: red; text-align: center;">Si Ã¨ verificato un errore del server. Riprova piÃ¹ tardi.</p>
+                </c:if>
+                <c:if test="${not empty sessionScope.errorMessage}">
+                    <p style="color: red; text-align: center;">${sessionScope.errorMessage}</p>
+                    <c:remove var="errorMessage" scope="session"/>
+                </c:if>
+
+
+                <form action="<%= request.getContextPath() %>/LoginServlet" method="post">
+                    <%-- IMPORTANTE: Assicurati che 'name' sia "email" qui per corrispondere alla Servlet --%>
+                    <input type="text" id="email" name="email" placeholder="Email" required>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+
+                    <button type="submit">LOGIN</button>
                 </form>
 
-                <div class="back-link">
-                    <a href="${pageContext.request.contextPath}/homepage.jsp">Torna alla Home</a> <%-- Percorso corretto --%>
-                </div>
                 <div class="register-link">
-                    <a href="${pageContext.request.contextPath}/registrati.jsp">Non hai un account? Registrati!</a> <%-- Percorso corretto --%>
+                    <p>Non hai un account? <a href="Registra.jsp">Registrati qui</a></p>
                 </div>
             </div>
-            
+        </div>
+
+
+       <div class="right-section">
+            <div class="logo-container">
+                <img src="<%= request.getContextPath() %>/images/logo.png" alt="Logo" class="logo-img">
+                <div class="logo-text">
+                    <h1>LA</h1>
+                    <h2>TECA</h2>
+                    <h3>DEL</h3>
+                    <h4>GIARDINIERE</h4>
+                </div>
+            </div>
+            <p class="tagline">COMFORT WITH PLANT-BASED<br>INGREDIENTS AND LOTS OF LOVE</p>
         </div>
     </div>
 </body>
