@@ -1,4 +1,5 @@
-package src.com.la_teca_del_giardiniere;
+package la_teca_del_giardiniere;
+
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -13,11 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import src.src.src.src.com.la_teca_del_giardiniere.classes.Piante; // CAMBIATO: da 'piante' a 'Pianta'
-import src.src.src.src.com.la_teca_del_giardiniere.classes.Utente; // Import per il controllo isAdmin
-import src.src.src.src.com.la_teca_del_giardiniere.dao.PianteDAO;
+import la_teca_del_giardiniere.DAO.PianteDAO;
+import la_teca_del_giardiniere.classes.Piante; // CAMBIATO: da 'piante' a 'Pianta'
+import la_teca_del_giardiniere.classes.Utente; // Import per il controllo isAdmin
 
-// Ho rinominato la servlet per seguire le convenzioni di denominazione (PascalCase)
 @WebServlet("/PianteServlet")
 public class PianteServlet extends HttpServlet { // CAMBIATO: da 'pianteServlet' a 'PianteServlet'
 
@@ -55,8 +55,8 @@ public class PianteServlet extends HttpServlet { // CAMBIATO: da 'pianteServlet'
 
         // 2. Recupero dati dal form
         List<String> errori = new ArrayList<>();
-        Piante pianta = new src.src.src.src.com.la_teca_del_giardiniere.classes.Piante(); // CAMBIATO: da 'piante' a 'Pianta'
-
+        Piante pianta = new la_teca_del_giardiniere.classes.Piante(); 
+        
         // Recupera l'ID (se presente, per la modifica)
         String idStr = request.getParameter("id");
         Integer idPianta = null; // Usiamo Integer per gestire null in caso di nuovo inserimento
@@ -92,9 +92,8 @@ public class PianteServlet extends HttpServlet { // CAMBIATO: da 'pianteServlet'
         pianta.setDescrizione(request.getParameter("descrizioneDettagliata")); // Ho unito descrizione breve e dettagliata in uno
                                                                              // Se vuoi separarle, devi aggiungere il campo in Pianta
 
-        pianta.setEsposizioneLuminosa(request.getParameter("esposizioneLuminosa")); // Corretto il nome del campo
-        pianta.setTerrenoIdeale(request.getParameter("tipoDiTerreno")); // Corretto il nome del campo
-
+        pianta.setEsposizioneLuminosa(request.getParameter("esposizioneLuminosa")); 
+        pianta.setTipoDiTerreno(request.getParameter("tipoDiTerreno")); 
         // Temperatura Ideale (Integer per permettere null)
         String temperaturaIdealeStr = request.getParameter("temperaturaIdeale");
         if (temperaturaIdealeStr != null && !temperaturaIdealeStr.isEmpty()) {
@@ -149,7 +148,7 @@ public class PianteServlet extends HttpServlet { // CAMBIATO: da 'pianteServlet'
             // Se è una modifica e la data non viene fornita, recupera la data esistente dal DB
             // Questo richiede di recuperare l'oggetto pianta dal DB prima di aggiornarlo
             try {
-            	src.src.src.src.com.la_teca_del_giardiniere.classes.Piante existingPianta = pianteDAO.getPiantaById(idPianta);
+            	la_teca_del_giardiniere.classes.Piante existingPianta = pianteDAO.getPiantaById(idPianta);
                 if (existingPianta != null) {
                     pianta.setDataInserimento(existingPianta.getDataInserimento());
                 }
@@ -217,7 +216,7 @@ public class PianteServlet extends HttpServlet { // CAMBIATO: da 'pianteServlet'
             // Richiesta di modifica di una pianta esistente: recupera la pianta e mostra il form pre-popolato
             try {
                 int id = Integer.parseInt(idStr);
-                Pianta piantaDaModificare = pianteDAO.getPiantaById(id);
+                Piante piantaDaModificare = pianteDAO.getPiantaById(id);
                 if (piantaDaModificare != null) {
                     request.setAttribute("pianta", piantaDaModificare);
                     request.setAttribute("modalita", "modifica"); // Indica che siamo in modalità modifica

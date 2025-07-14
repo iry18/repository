@@ -1,7 +1,7 @@
-package src.com.la_teca_del_giardiniere.dao;
+package la_teca_del_giardiniere.DAO;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
-import src.com.la_teca_del_giardiniere.classes.Carrello;
+import la_teca_del_giardiniere.classes.Carrello;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,10 +24,17 @@ public class CarrelloDAO {
         LOGGER.info("CarrelloDAO inizializzato con MysqlDataSource.");
     }
 
-    /**
-     * Metodo per ottenere una connessione dal DataSource.
-     * Privato perché solo il DAO dovrebbe usarlo internamente.
-     */
+    public CarrelloDAO() throws SQLException { // <--- Make sure it throws SQLException
+        dataSource = new MysqlDataSource();
+        dataSource.setServerName("localhost");
+        dataSource.setPort(3306);
+        dataSource.setUser("root");
+        dataSource.setPassword("root"); // Be careful with hardcoded passwords!
+        dataSource.setDatabaseName("la_teca_del_giardiniere");
+        dataSource.setUseSSL(false);
+        dataSource.setAllowPublicKeyRetrieval(true);
+    }
+    
     private Connection getConnection() throws SQLException {
         try {
             Connection connection = dataSource.getConnection();

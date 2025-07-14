@@ -1,4 +1,5 @@
-package src.com.la_teca_del_giardiniere.classes;
+package la_teca_del_giardiniere.classes;
+
 
 import java.sql.Timestamp; 
 import java.math.BigDecimal; 

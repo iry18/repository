@@ -104,7 +104,7 @@ public class UtenteDAO {
      */
     public Utente getUtenteByEmailWithRuoli(String email) throws SQLException {
         Utente utente = null;
-        String sql = "SELECT id, nome, cognome, email, password_hash, indirizzo, citta, CAP, telefono, data_registrazione, provincia, isAdmin FROM utente WHERE email = ?";
+        String sql = "SELECT utente_id, nome, cognome, email, password_hash, indirizzo, citta, CAP, telefono, data_registrazione, provincia, isAdmin FROM utente WHERE email = ?";
 
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -113,7 +113,7 @@ public class UtenteDAO {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     utente = new Utente();
-                    utente.setId(resultSet.getInt("id"));
+                    utente.setId(resultSet.getInt("utente_id"));
                     utente.setNome(resultSet.getString("nome"));
                     utente.setCognome(resultSet.getString("cognome"));
                     utente.setEmail(resultSet.getString("email"));
@@ -141,7 +141,7 @@ public class UtenteDAO {
      */
     public List<Utente> getAllUtentiConRuoli() throws SQLException {
         List<Utente> listaUtenti = new ArrayList<>();
-        String sql = "SELECT id, nome, cognome, email, password_hash, indirizzo, citta, CAP, telefono, data_registrazione, provincia, isAdmin FROM utente";
+        String sql = "SELECT utente_id, nome, cognome, email, password_hash, indirizzo, citta, CAP, telefono, data_registrazione, provincia, isAdmin FROM utente";
 
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -149,7 +149,7 @@ public class UtenteDAO {
 
             while (resultSet.next()) {
                 Utente utente = new Utente();
-                utente.setId(resultSet.getInt("id"));
+                utente.setId(resultSet.getInt("utente_id"));
                 utente.setNome(resultSet.getString("nome"));
                 utente.setCognome(resultSet.getString("cognome"));
                 utente.setEmail(resultSet.getString("email"));
@@ -201,7 +201,7 @@ public class UtenteDAO {
      */
     public Utente getUtenteByIdWithRuoli(int id) throws SQLException {
         Utente utente = null;
-        String sql = "SELECT id, nome, cognome, email, password_hash, indirizzo, citta, CAP, telefono, data_registrazione, provincia, isAdmin FROM utente WHERE id = ?";
+        String sql = "SELECT utente_id, nome, cognome, email, password_hash, indirizzo, citta, CAP, telefono, data_registrazione, provincia, isAdmin FROM utente WHERE id = ?";
 
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -210,7 +210,7 @@ public class UtenteDAO {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     utente = new Utente();
-                    utente.setId(resultSet.getInt("id"));
+                    utente.setId(resultSet.getInt("utente_id"));
                     utente.setNome(resultSet.getString("nome"));
                     utente.setCognome(resultSet.getString("cognome"));
                     utente.setEmail(resultSet.getString("email"));
@@ -238,7 +238,7 @@ public class UtenteDAO {
      * @throws SQLException In caso di errori SQL.
      */
     public boolean updateUtente(Utente utente) throws SQLException {
-        String sql = "UPDATE utente SET nome = ?, cognome = ?, email = ?, password_hash = ?, indirizzo = ?, citta = ?, CAP = ?, telefono = ?, provincia = ?, isAdmin = ? WHERE id = ?";
+        String sql = "UPDATE utente SET nome = ?, cognome = ?, email = ?, password_hash = ?, indirizzo = ?, citta = ?, CAP = ?, telefono = ?, provincia = ?, isAdmin = ? WHERE utente_id = ?";
 
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

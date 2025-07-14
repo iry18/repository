@@ -1,15 +1,16 @@
-package src.com.la_teca_del_giardiniere.classes;
+package la_teca_del_giardiniere.classes;
 
-public class login {
+
+public class Login {
 	private String nome; 
 	private String password;
 	
 	
-	public login(){
+	public Login(){
 		
 	}
 	
-	public login(String nome, String password) {
+	public Login(String nome, String password) {
 		super();
 		this.nome = nome;
 		this.password = password;
@@ -52,5 +53,3 @@ public class login {
 	}
 	
 }
-
-

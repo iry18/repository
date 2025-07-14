@@ -1,8 +1,8 @@
-package src.com.la_teca_del_giardiniere.admin;
+package la_teca_del_giardiniere;
 
-import src.com.la_teca_del_giardiniere.classes.Ordine;
-import src.com.la_teca_del_giardiniere.classes.Utente;
-import src.com.la_teca_del_giardiniere.dao.OrdineDAO;
+import la_teca_del_giardiniere.DAO.OrdineDAO;
+import la_teca_del_giardiniere.classes.Ordine;
+import la_teca_del_giardiniere.classes.Utente;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,10 +15,10 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet("/admin/dettaglioOrdine")
-public class DettaglioOrdineAdminServlet extends HttpServlet {
+@WebServlet("/admin/dettaglioOrdine") // This remains the URL mapping
+public class DettaglioOrdine extends HttpServlet { // Renamed the class here
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = Logger.getLogger(DettaglioOrdineAdminServlet.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(DettaglioOrdine.class.getName()); // Update logger name
 
     private OrdineDAO ordineDAO;
 
@@ -26,8 +26,6 @@ public class DettaglioOrdineAdminServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         try {
-            // È preferibile ottenere il DAO tramite ServletContext o un'altra forma di DI
-            // Per test e semplicità, lo istanzio qui, ma valuta un pattern più robusto.
             ordineDAO = new OrdineDAO();
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Errore durante l'inizializzazione del DAO", e);
@@ -68,14 +66,13 @@ public class DettaglioOrdineAdminServlet extends HttpServlet {
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Errore SQL durante il recupero del dettaglio ordine per admin: " + ordineId, e);
             request.setAttribute("errore", "Errore durante il recupero del dettaglio ordine.");
-            // Potresti voler usare un errore.jsp specifico per l'admin o un errore.jsp generico
             request.getRequestDispatcher("/WEB-INF/jsp/admin/erroreAdmin.jsp").forward(request, response);
         }
     }
 
     private boolean isAdminOrVenditore(Utente utente) {
         // Implementa la tua logica qui. Esempio:
-        return utente != null && ("ADMIN".equals(utente.getRuolo()) || "VENDITORE".equals(utente.getRuolo()));
+        return utente != null && ("ADMIN".equals(utente.getRuoli()) || "VENDITORE".equals(utente.getRuoli()));
         // Assicurati che la tua classe Utente abbia un metodo getRuolo() o simile.
     }
 }

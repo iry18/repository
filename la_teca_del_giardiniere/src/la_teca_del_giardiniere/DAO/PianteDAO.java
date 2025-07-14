@@ -1,4 +1,5 @@
-package src.com.la_teca_del_giardiniere.dao;
+package la_teca_del_giardiniere.DAO;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,7 +14,7 @@ import java.util.logging.Logger; // Per un logging più robusto
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
-import src.com.la_teca_del_giardiniere.classes.Piante; // CAMBIATO: da 'Piante' a 'Pianta'
+import la_teca_del_giardiniere.classes.Piante; // CAMBIATO: da 'Piante' a 'Pianta'
 
 public class PianteDAO {
 

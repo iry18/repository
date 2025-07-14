@@ -1,4 +1,4 @@
-package src.com.la_teca_del_giardiniere;
+package la_teca_del_giardiniere;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import src.com.la_teca_del_giardiniere.classes.Accessori; 
-import src.com.la_teca_del_giardiniere.classes.Utente; 
-import src.com.la_teca_del_giardiniere.dao.AccessoriDAO; 
+import la_teca_del_giardiniere.DAO.AccessoriDAO;
+import la_teca_del_giardiniere.classes.Accessori; 
+import la_teca_del_giardiniere.classes.Utente; 
 
 @WebServlet("/admin/AccessoriServlet") 
 public class AccessoriServlet extends HttpServlet { 

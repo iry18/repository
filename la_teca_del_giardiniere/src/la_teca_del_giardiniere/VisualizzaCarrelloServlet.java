@@ -1,8 +1,8 @@
-package src.com.la_teca_del_giardiniere;
+package la_teca_del_giardiniere;
 
-import src.src.src.src.com.la_teca_del_giardiniere.classes.Carrello;
-import src.src.src.src.com.la_teca_del_giardiniere.classes.Utente;
-import src.src.src.src.com.la_teca_del_giardiniere.dao.CarrelloDAO;
+import la_teca_del_giardiniere.DAO.CarrelloDAO;
+import la_teca_del_giardiniere.classes.Carrello;
+import la_teca_del_giardiniere.classes.Utente;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

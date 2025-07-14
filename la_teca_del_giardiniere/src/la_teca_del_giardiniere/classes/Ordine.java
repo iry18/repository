@@ -1,38 +1,35 @@
-package src.com.la_teca_del_giardiniere.classes;
+package la_teca_del_giardiniere.classes;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.ArrayList; // Suggerimento: importa ArrayList per inizializzazione
+import java.util.ArrayList;
 import java.util.List;
 
-// CAMBIATO: L'import di DettaglioOrdine non è nel package 'src.com.la_teca_del_giardiniere'
-// ma nel subpackage 'classes'. Assicurati che DettaglioOrdine sia in 'src.com.la_teca_del_giardiniere.classes'.
-import src.com.la_teca_del_giardiniere.classes.DettaglioOrdine; // Corretto import
+// Import corretto: assicurati che il percorso del package per DettaglioOrdine sia questo
+import la_teca_del_giardiniere.classes.DettaglioOrdine;
 
 public class Ordine {
     private int id;
-    private int utenteId; 
-    private Timestamp dataOrdine; 
-    private String cittaSpedizione; 
-    private String paeseSpedizione; 
-    private String capSpedizione; 
+    private int utenteId;
+    private Timestamp dataOrdine;
+    private String cittaSpedizione;
+    private String paeseSpedizione;
+    private String capSpedizione;
     private BigDecimal totaleOrdine;
-    private String metodoPagamento; 
-    private BigDecimal iva; 
-    private String statoOrdine; 
+    private String metodoPagamento;
+    private BigDecimal iva;
+    private String statoOrdine;
     private String note;
-    private List<DettaglioOrdine> dettagliOrdine;
+    private List<DettaglioOrdine> dettagliOrdine; // Nome del campo consistente
 
-    
     public Ordine() {
-       
         this.dettagliOrdine = new ArrayList<>();
     }
 
     // Costruttore con ID (utile quando si recupera l'ordine dal DB)
     public Ordine(int id, int utenteId, Timestamp dataOrdine, String cittaSpedizione,
-                   String paeseSpedizione, String capSpedizione, BigDecimal totaleOrdine,
-                   String metodoPagamento, BigDecimal iva, String statoOrdine, String note) {
+                  String paeseSpedizione, String capSpedizione, BigDecimal totaleOrdine,
+                  String metodoPagamento, BigDecimal iva, String statoOrdine, String note) {
         this.id = id;
         this.utenteId = utenteId;
         this.dataOrdine = dataOrdine;
@@ -44,12 +41,12 @@ public class Ordine {
         this.iva = iva;
         this.statoOrdine = statoOrdine;
         this.note = note;
-        this.dettagliOrdine = new ArrayList<>(); // Inizializza anche qui
+        this.dettagliOrdine = new ArrayList<>();
     }
 
-    // Costruttore senza ID (per nuovo inserimento, come quello che avevi)
+    // Costruttore senza ID (per nuovo inserimento)
     public Ordine(int utenteId, Timestamp dataOrdine, String cittaSpedizione, String paeseSpedizione, String capSpedizione,
-                   BigDecimal totaleOrdine, String metodoPagamento, BigDecimal iva, String statoOrdine, String note) {
+                  BigDecimal totaleOrdine, String metodoPagamento, BigDecimal iva, String statoOrdine, String note) {
         this.utenteId = utenteId;
         this.dataOrdine = dataOrdine;
         this.cittaSpedizione = cittaSpedizione;
@@ -60,10 +57,10 @@ public class Ordine {
         this.iva = iva;
         this.statoOrdine = statoOrdine;
         this.note = note;
-        this.dettagliOrdine = new ArrayList<>(); // Inizializza anche qui
+        this.dettagliOrdine = new ArrayList<>();
     }
 
-    // Getters and Setters (Aggiornati ai nuovi nomi dei campi)
+    // Getters and Setters
 
     public int getId() {
         return id;
@@ -153,15 +150,14 @@ public class Ordine {
         this.note = note;
     }
 
-    public List<DettaglioOrdine> getDettagliOrdine() {
+    public List<DettaglioOrdine> getDettagliOrdine() { // Getter corretto
         return dettagliOrdine;
     }
 
-    public void setDettagliOrdine(List<DettaglioOrdine> dettagliOrdine) {
+    public void setDettagliOrdine(List<DettaglioOrdine> dettagliOrdine) { // Setter corretto
         this.dettagliOrdine = dettagliOrdine;
     }
 
-    // Metodo toString per debugging (opzionale ma utile)
     @Override
     public String toString() {
         return "Ordine{" +

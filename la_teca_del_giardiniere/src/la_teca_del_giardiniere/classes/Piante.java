@@ -1,6 +1,4 @@
-/**Classe JavaBean per l'Entità Pianta
- * */
-package src.com.la_teca_del_giardiniere.classes;
+package la_teca_del_giardiniere.classes;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;

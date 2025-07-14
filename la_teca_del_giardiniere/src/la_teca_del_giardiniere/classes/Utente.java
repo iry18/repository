@@ -1,3 +1,4 @@
+package la_teca_del_giardiniere.classes; 
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -82,9 +83,7 @@ public class Utente {
         this.data_registrazione = data_registrazione;
     }
 
-    /**
-     * Costruttore vuoto.
-     */
+    
     public Utente() {
     }
 
@@ -138,10 +137,6 @@ public class Utente {
         this.isAdmin = isAdmin;
     }
 
-    /**
-     * Restituisce una lista di ruoli associati all'utente basandosi sul campo `isAdmin`.
-     * @return una List<String> contenente i ruoli (es. "compratore", "amministratore").
-     */
     public List<String> getRuoli() {
         List<String> ruoli = new ArrayList<>();
         ruoli.add("compratore"); // Ruolo di base per tutti gli utenti
@@ -151,11 +146,6 @@ public class Utente {
         return ruoli;
     }
 
-    /**
-     * Imposta il flag `isAdmin` basandosi sulla presenza del ruolo "amministratore"
-     * in una lista di ruoli fornita.
-     * @param ruoli la lista di ruoli da controllare.
-     */
     public void setRuoli(List<String> ruoli) {
         this.isAdmin = (ruoli != null && ruoli.contains("amministratore"));
     }
