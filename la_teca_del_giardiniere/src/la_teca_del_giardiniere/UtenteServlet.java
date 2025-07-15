@@ -39,9 +39,9 @@ public class UtenteServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Ottieni la sessione esistente, o creane una nuova se non esiste (true)
-        // Questo semplifica la logica successiva, poiché 'session' non sarà mai null
-        HttpSession session = request.getSession(true); // <-- Utilizza request.getSession(true) qui
+        //  sessione esistente, o  una nuova se non esiste (true)
+        // 'session' non sarà mai null
+        HttpSession session = request.getSession(true); 
 
         Utente utenteLoggato = (Utente) session.getAttribute("loggedInUser");
 
@@ -66,7 +66,7 @@ public class UtenteServlet extends HttpServlet {
             
             // Reindirizza alla pagina di accesso negato o login
             response.sendRedirect(request.getContextPath() + "/accesso_negato.html");
-            // Oppure, se vuoi sempre reindirizzare al login in caso di non-admin o non-loggato:
+            //  reindirizzare al login in caso di non-admin o non-loggato:
             // response.sendRedirect(request.getContextPath() + "/login.jsp?redirected=true");
         }
     }

@@ -2,12 +2,10 @@ package la_teca_del_giardiniere;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Collections;
+import java.sql.Timestamp;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger; // Per un logging più robusto
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,136 +14,229 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import la_teca_del_giardiniere.DAO.AccessoriDAO;
-import la_teca_del_giardiniere.classes.Accessori; 
-import la_teca_del_giardiniere.classes.Utente; 
+import la_teca_del_giardiniere.classes.Accessori;
+import la_teca_del_giardiniere.classes.Utente;
 
-@WebServlet("/admin/AccessoriServlet") 
-public class AccessoriServlet extends HttpServlet { 
+@WebServlet("/admin/AccessoriServlet")
+public class AccessoriServlet extends HttpServlet {
+
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = Logger.getLogger(AccessoriServlet.class.getName()); 
-
-    private AccessoriDAO accessoriDAO; 
-    private boolean daoInitialized = false;
+    private AccessoriDAO accessoriDAO;
 
     public AccessoriServlet() {
         super();
         try {
-            accessoriDAO = new AccessoriDAO(); // CAMBIATO: nome DAO
-            daoInitialized = true;
-            LOGGER.info("AccessoriServlet: AccessoriDAO inizializzato con successo.");
+            accessoriDAO = new AccessoriDAO();
         } catch (SQLException e) {
-            daoInitialized = false;
-            LOGGER.log(Level.SEVERE, "CRITICO: Errore durante l'inizializzazione di AccessoriDAO in AccessoriServlet.", e);
+            e.printStackTrace();
+            // In un'applicazione reale, un errore qui dovrebbe impedire il funzionamento.
+            // Considera di loggare l'errore e/o lanciare una ServletException in init().
         }
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
         String contextPath = request.getContextPath();
-        HttpSession session = request.getSession(false); // Non creare una nuova sessione se non esiste
 
-        // 1. Controllo Autenticazione
+        // 1. Controllo Autenticazione e Autorizzazione (Admin o Venditore)
         if (session == null || session.getAttribute("loggedInUser") == null) {
-            LOGGER.info("Tentativo di accesso non autenticato ad AccessoriServlet. Reindirizzamento a login.jsp");
-            response.sendRedirect(contextPath + "/login.jsp");
+            response.sendRedirect(contextPath + "/Login.jsp");
             return;
         }
 
-        // 2. Controllo Autorizzazione (solo amministratori o venditori)
         Utente utenteLoggato = (Utente) session.getAttribute("loggedInUser");
         if (utenteLoggato == null || (!utenteLoggato.isAdmin() && !utenteLoggato.getRuoli().contains("venditore"))) {
-            LOGGER.log(Level.WARNING, "Utente non autorizzato ({0}) ha tentato di accedere alla gestione accessori. Reindirizzamento ad accesso_negato.html",
-                    utenteLoggato != null ? utenteLoggato.getEmail() : "sconosciuto");
             response.sendRedirect(contextPath + "/accesso_negato.html");
             return;
         }
 
-        // 3. Controllo Inizializzazione DAO
-        if (!daoInitialized || accessoriDAO == null) {
-            LOGGER.log(Level.SEVERE, "AccessoriServlet: Tentativo di usare la servlet con DAO non inizializzato.");
-            // Imposta il messaggio nella REQUEST Scope, non nella SESSION, se è per la pagina di errore immediata
-            request.setAttribute("messaggio", "Errore critico del sistema. Impossibile caricare i dati degli accessori. Contattare l'amministratore.");
-            request.setAttribute("tipoMessaggio", "error");
-            // Inoltra a una pagina di errore generica o alla dashboard
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/error.jsp"); // Esempio di pagina di errore
-            // Alternativa: response.sendRedirect(contextPath + "/admin/dashboard.jsp");
-            dispatcher.forward(request, response); // Usa forward per mostrare il messaggio
+        // 2. Recupero dati dal form
+        List<String> errori = new ArrayList<>();
+        Accessori accessorio = new Accessori();
+
+        // Recupera l'ID (se presente, per la modifica)
+        String idStr = request.getParameter("id");
+        Integer idAccessorio = null;
+        if (idStr != null && !idStr.trim().isEmpty()) {
+            try {
+                idAccessorio = Integer.parseInt(idStr);
+                accessorio.setId(idAccessorio);
+            } catch (NumberFormatException e) {
+                errori.add("L'ID dell'accessorio non è in un formato valido.");
+            }
+        }
+
+        // Recupero e validazione di tutti i campi
+        String nome = request.getParameter("nome");
+        if (nome == null || nome.trim().isEmpty()) {
+            errori.add("Il Nome è obbligatorio.");
+        } else {
+            accessorio.setNome(nome);
+        }
+
+        String prezzoStr = request.getParameter("prezzo");
+        if (prezzoStr == null || prezzoStr.trim().isEmpty()) {
+            errori.add("Il Prezzo è obbligatorio.");
+        } else {
+            try {
+                prezzoStr = prezzoStr.replace(',', '.'); // Sostituisci la virgola con il punto per la conversione
+                accessorio.setPrezzo(new BigDecimal(prezzoStr));
+            } catch (NumberFormatException e) {
+                errori.add("Il formato del Prezzo non è valido (es. 12.99).");
+            }
+        }
+
+        String disponibilitaStr = request.getParameter("disponibilita");
+        if (disponibilitaStr == null || disponibilitaStr.trim().isEmpty()) {
+            errori.add("La Disponibilità è obbligatoria.");
+        } else {
+            try {
+                accessorio.setDisponibilita(Integer.parseInt(disponibilitaStr));
+            } catch (NumberFormatException e) {
+                errori.add("Il formato della Disponibilità non è valido.");
+            }
+        }
+
+        accessorio.setDescrizioneBreve(request.getParameter("descrizione"));
+        accessorio.setDimensioni(request.getParameter("dimensioni"));
+        accessorio.setImmagine(request.getParameter("urlImmagine")); // Recupera il nome del file immagine
+
+        // Data Inserimento (Timestamp)
+        String dataInserimentoStr = request.getParameter("dataInserimento");
+        if (dataInserimentoStr != null && !dataInserimentoStr.isEmpty()) {
+            try {
+                // Se la data è nel formato "YYYY-MM-DD", aggiungi un'ora di default
+                if (dataInserimentoStr.length() == 10) {
+                    accessorio.setDataInserimento(Timestamp.valueOf(dataInserimentoStr + " 00:00:00"));
+                } else { // Altrimenti, assumi che sia già un timestamp completo
+                    accessorio.setDataInserimento(Timestamp.valueOf(dataInserimentoStr));
+                }
+            } catch (IllegalArgumentException e) {
+                errori.add("Il formato della Data Inserimento non è valido (formato atteso: YYYY-MM-DD o YYYY-MM-DD HH:MM:SS).");
+            }
+        } else if (idAccessorio == null) { // Solo se è un nuovo inserimento, imposta la data corrente
+            accessorio.setDataInserimento(new Timestamp(System.currentTimeMillis()));
+        } else {
+            // Se è una modifica e la data non viene fornita, recupera la data esistente dal DB
+            try {
+                Accessori existingAccessorio = accessoriDAO.getAccessorioById(idAccessorio);
+                if (existingAccessorio != null) {
+                    accessorio.setDataInserimento(existingAccessorio.getDataInserimento());
+                }
+            } catch (SQLException e) {
+                errori.add("Errore nel recupero della data di inserimento esistente.");
+                e.printStackTrace();
+            }
+        }
+
+        // 3. Gestione degli errori di validazione
+        if (!errori.isEmpty()) {
+            request.setAttribute("errori", errori);
+            request.setAttribute("accessorio", accessorio); // Ri-popola il form con i dati inseriti
+            request.setAttribute("modalita", (idAccessorio != null ? "modifica" : "inserisci"));
+            request.getRequestDispatcher("/WEB-INF/views/admin/FormInserimentoAccessori.jsp").forward(request, response);
+            return;
+        }
+
+        // 4. Esecuzione dell'operazione (aggiungi o aggiorna)
+        try {
+            if (idAccessorio != null) {
+                // È un'operazione di AGGIORNAMENTO
+                accessoriDAO.aggiornaAccessori(accessori);
+                session.setAttribute("messaggio", "Accessorio aggiornato con successo!");
+                session.setAttribute("tipoMessaggio", "success");
+            } else {
+                // È un'operazione di INSERIMENTO
+                accessoriDAO.aggiungiAccessori(accessorio);
+                session.setAttribute("messaggio", "Accessorio aggiunto con successo!");
+                session.setAttribute("tipoMessaggio", "success");
+            }
+            // Dopo l'operazione, reindirizza alla lista degli accessori
+            response.sendRedirect(contextPath + "/admin/AccessoriServlet?action=list");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            errori.add("Errore database: " + e.getMessage());
+            request.setAttribute("errori", errori);
+            request.setAttribute("accessorio", accessorio);
+            request.setAttribute("modalita", (idAccessorio != null ? "modifica" : "inserisci"));
+            request.getRequestDispatcher("/WEB-INF/views/admin/FormInserimentoAccessori.jsp").forward(request, response);
+        }
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        String contextPath = request.getContextPath();
+
+        // 1. Controllo Autenticazione e Autorizzazione (Admin o Venditore)
+        if (session == null || session.getAttribute("loggedInUser") == null) {
+            response.sendRedirect(contextPath + "/Login.jsp");
+            return;
+        }
+
+        Utente utenteLoggato = (Utente) session.getAttribute("loggedInUser");
+        if (utenteLoggato == null || (!utenteLoggato.isAdmin() && !utenteLoggato.getRuoli().contains("venditore"))) {
+            response.sendRedirect(contextPath + "/accesso_negato.html");
             return;
         }
 
         String action = request.getParameter("action");
-        if (action == null || action.trim().isEmpty()) {
-            action = "list"; // Azione di default è mostrare la lista
-        }
 
         try {
-            switch (action.toLowerCase()) {
-                case "list":
-                    listAccessori(request, response); // Non serve passare la sessione se i messaggi sono in request scope
-                    break;
-                // Puoi aggiungere qui altri case, es:
-                // case "edit":
-                //     showEditForm(request, response);
-                //     break;
-                // case "delete":
-                //     deleteAccessorio(request, response);
-                //     break;
-                default:
-                    // Se l'azione non è riconosciuta, impostiamo un messaggio di avviso
-                    request.setAttribute("messaggio", "Azione non riconosciuta: " + action);
-                    request.setAttribute("tipoMessaggio", "warning");
-                    listAccessori(request, response); // Fallback alla lista
-                    break;
+            if (action == null || action.equals("list")) {
+                listAccessori(request, response);
+            } else if (action.equals("new")) {
+                showNewForm(request, response);
+            } else if (action.equals("edit")) {
+                showEditForm(request, response);
+            } else if (action.equals("delete")) {
+                deleteAccessorio(request, response);
+            } else {
+                listAccessori(request, response); // Azione di default
             }
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "SQLException in AccessoriServlet (action: " + action + "): " + e.getMessage(), e);
-            request.setAttribute("messaggio", "Errore del database durante l'operazione: " + e.getMessage());
-            request.setAttribute("tipoMessaggio", "error");
-            // Inoltra alla pagina di lista per mostrare l'errore o a una pagina di errore generica
-            request.getRequestDispatcher("/admin/lista_accessori.jsp").forward(request, response); // O una pagina di errore specifica
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Exception in AccessoriServlet (action: " + action + "): " + e.getMessage(), e);
-            request.setAttribute("messaggio", "Si è verificato un errore imprevisto: " + e.getMessage());
-            request.setAttribute("tipoMessaggio", "error");
-            request.getRequestDispatcher("/admin/lista_accessori.jsp").forward(request, response); // O una pagina di errore specifica
+        } catch (SQLException ex) {
+            throw new ServletException(ex);
         }
     }
 
-    // Ho rimosso il parametro HttpSession da questo metodo, i messaggi vanno nel request scope
-    private void listAccessori(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, ServletException, IOException {
-        List<Accessori> lista = Collections.emptyList(); 
-
-        try {
-            lista = accessoriDAO.getAllAccessori(); 
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Errore SQL durante il recupero della lista accessori.", e);
-            request.setAttribute("messaggio", "Errore nel recupero della lista degli accessori: " + e.getMessage());
-            request.setAttribute("tipoMessaggio", "error");
-            // Lasciamo che la lista rimanga vuota ma prepariamo il dispatcher
-        }
-
-        request.setAttribute("listaAccessori", lista);
-
-        // Recupera eventuali messaggi di successo/errore che potrebbero essere stati impostati da altre servlet
-        // (es. da una servlet di aggiunta/modifica/eliminazione che reindirizza qui).
-        // Se un messaggio è stato impostato nella sessione per un redirect, spostalo nel request scope.
+    private void listAccessori(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+        List<Accessori> listaAccessori = accessoriDAO.getAllAccessori();
+        request.setAttribute("listaAccessori", listaAccessori);
+        // Sposta il messaggio di sessione agli attributi della richiesta per una visualizzazione immediata
         if (request.getSession().getAttribute("messaggio") != null) {
             request.setAttribute("messaggio", request.getSession().getAttribute("messaggio"));
             request.setAttribute("tipoMessaggio", request.getSession().getAttribute("tipoMessaggio"));
-            request.getSession().removeAttribute("messaggio"); // Rimuovi dalla sessione dopo l'uso
-            request.getSession().removeAttribute("tipoMessaggio"); // Rimuovi dalla sessione dopo l'uso
+            request.getSession().removeAttribute("messaggio"); // Rimuove il messaggio dalla sessione dopo l'uso
+            request.getSession().removeAttribute("tipoMessaggio");
         }
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/lista_accessori.jsp");
-        dispatcher.forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/admin/ListaAccessori.jsp").forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Questa servlet è principalmente per visualizzare la lista (GET).
-        // Se si desidera gestire operazioni POST come la ricerca con filtri,
-        // la logica andrebbe qui. Per ora, semplicemente invia al doGet.
-        // Se hai un form di ricerca che invia via POST, potresti voler implementare
-        // un metodo `searchAccessori(request, response);` e chiamarlo qui.
-        doGet(request, response);
+    private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("modalita", "inserisci");
+        request.getRequestDispatcher("/WEB-INF/views/admin/FormInserimentoAccessori.jsp").forward(request, response);
+    }
+
+    private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        Accessori existingAccessorio = accessoriDAO.getAccessorioById(id);
+        if (existingAccessorio != null) {
+            request.setAttribute("accessorio", existingAccessorio);
+            request.setAttribute("modalita", "modifica");
+            request.getRequestDispatcher("/WEB-INF/views/admin/FormInserimentoAccessori.jsp").forward(request, response);
+        } else {
+            HttpSession session = request.getSession();
+            session.setAttribute("messaggio", "Accessorio non trovato per la modifica.");
+            session.setAttribute("tipoMessaggio", "error");
+            response.sendRedirect(request.getContextPath() + "/admin/AccessoriServlet?action=list");
+        }
+    }
+
+    private void deleteAccessorio(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        accessoriDAO.eliminaAccessori(id);
+        HttpSession session = request.getSession();
+        session.setAttribute("messaggio", "Accessorio eliminato con successo!");
+        session.setAttribute("tipoMessaggio", "success");
+        response.sendRedirect(request.getContextPath() + "/admin/AccessoriServlet?action=list");
     }
 }

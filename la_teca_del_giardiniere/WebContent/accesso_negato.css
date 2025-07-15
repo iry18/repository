@@ -1,0 +1,66 @@
+@charset "ISO-8859-1";
+/* css/accesso_negato.css */
+body {
+    font-family: sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.icon {
+    font-size: 48px;
+    color: #d9534f; /* Rosso errore */
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+p {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.actions {
+    margin-top: 25px;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #fff;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button.primary {
+    background-color: #5cb85c; /* Verde successo */
+}
+
+.button.secondary {
+    background-color: #f0ad4e; /* Arancione avviso */
+}
+
+.button.primary:hover {
+    background-color: #4cae4c;
+}
+
+.button.secondary:hover {
+    background-color: #eea236;
+}

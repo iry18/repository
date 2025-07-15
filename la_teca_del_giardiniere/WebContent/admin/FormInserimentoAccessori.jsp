@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 <!DOCTYPE html>
@@ -7,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" href="forminserimentoaccessori.css"> 
+   <link rel="stylesheet" href="FormInserimentoAccessori.css"> 
    <title>
         <c:choose>
             <c:when test="${modalita == 'modifica'}">Modifica Accessorio</c:when>
@@ -42,13 +43,13 @@
         </c:if>
 
         <form action="${pageContext.request.contextPath}/admin/accessoriServlet" method="post">
-            <%-- Campo HIDDEN per l'ID in modalità modifica --%>
+            
             <c:if test="${modalita == 'modifica' and not empty accessorio.id}">
                 <input type="hidden" name="id" value="${accessorio.id}">
-                <input type="hidden" name="action" value="aggiorna"> <%-- Specifica l'azione per la modifica --%>
+                <input type="hidden" name="action" value="aggiorna"> 
             </c:if>
             <c:if test="${modalita == 'inserisci'}">
-                <input type="hidden" name="action" value="inserisci"> <%-- Specifica l'action per l'inserimento --%>
+                <input type="hidden" name="action" value="inserisci"> 
             </c:if>
 
             <%-- L'ID non dovrebbe essere un campo input editabile in un form di inserimento,
@@ -106,7 +107,7 @@
             </div>
         </form>
         <div class="back-link">
-            <a href="${pageContext.request.contextPath}/admin/listaaccessoriServlet">Torna all'elenco accessori</a> <%-- Link corretto alla lista accessori --%>
+            <a href="${pageContext.request.contextPath}/admin/ListaAccessoriServlet">Torna all'elenco accessori</a> <%-- Link corretto alla lista accessori --%>
         </div>
     </div>
 </body>
