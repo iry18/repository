@@ -22,33 +22,23 @@
                 </a>
             </div>
             <nav>
-                <ul>
-                    <li><a href="${pageContext.request.contextPath}/homepage.jsp">HOME</a></li>
-                    <li><a href="${pageContext.request.contextPath}/Piantedainterno.jsp">PIANTE INTERNO</a></li>
-                    <li><a href="${pageContext.request.contextPath}/Piantedaesterno.jsp">PIANTE ESTERNO</a></li>
-                    <li><a href="${pageContext.request.contextPath}/Accessori.jsp">ACCESSORI</a></li>
-                    <li><a href="${pageContext.request.contextPath}/MyAccount.jsp">MyAccount</a></li>
-                    <li><a href="${pageContext.request.contextPath}/my-plants.jsp">MY PLANTS</a></li>
-                    <c:choose>
-                        <c:when test="${sessionScope.currentUser != null}">
-                            <li style="margin-left: 20px;"><a href="${pageContext.request.contextPath}/myAccount.jsp">IL MIO ACCOUNT</a></li>
-                            <li><a href="${pageContext.request.contextPath}/LogoutServlet">LOGOUT</a></li>
-                        </c:when>
-                        <c:otherwise>
-                            <li><a href="${pageContext.request.contextPath}/Login.jsp">LOGIN</a></li>
-                            <li><a href="${pageContext.request.contextPath}/registrati.jsp">REGISTRATI</a></li>
-                        </c:otherwise>
-                    </c:choose>
+                   <ul>
+                    <li><a href="homepage.jsp">HOME</a></li>
+                    <li><a href="Piantedainterno.jsp">PIANTE INTERNO</a></li>
+                    <li><a href="Piantedaesterno.jsp">PIANTE ESTERNO</a></li>
+                    <li><a href="Accessori.jsp">ACCESSORI</a></li>
+                    <li><a href="Carrello.jsp">CARRELLO</a></li>
+                    <li><a href="MyAccount.jsp">Account</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main class="content-wrapper"> <%-- Contenitore principale per le due colonne --%>
-        <aside class="sidebar-left"> <%-- Colonna laterale sinistra per le foto degli esterni --%>
+    <main class="content-wrapper"> 
+        <aside class="sidebar-left"> 
             <h2 class="sidebar-title">Per i tuoi esterni</h2>
             <div class="sidebar-item">
-                <img src="${pageContext.request.contextPath}/images/prato.png".jpg" alt="Giardini Adorabili">
+                <img src="${pageContext.request.contextPath}/images/prato.png" alt="Giardini Adorabili">
                 <p>Adorabili giardini</p>
             </div>
             <div class="sidebar-item">

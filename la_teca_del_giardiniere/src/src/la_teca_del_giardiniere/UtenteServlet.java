@@ -33,19 +33,23 @@ public class UtenteServlet extends HttpServlet {
         }
     }
 
-    private boolean isAdmin(Utente utente) {
-        List<String> ruoli = utente.getRuoli();
-        return ruoli != null && ruoli.contains("amministratore");
-    }
+    // Rimuovi questo metodo isAdmin(Utente utente) se usi direttamente utente.isAdmin()
+    // Il metodo isAdmin() deve essere nella classe Utente stessa.
+    // private boolean isAdmin(Utente utente) {
+    //     List<String> ruoli = utente.getRuoli();
+    //     return ruoli != null && ruoli.contains("amministratore");
+    // }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //  sessione esistente, o  una nuova se non esiste (true)
-        // 'session' non sarà mai null
-        HttpSession session = request.getSession(true); 
+        HttpSession session = request.getSession(false); // getSession(false) per non creare una nuova sessione se non esiste
 
-        Utente utenteLoggato = (Utente) session.getAttribute("loggedInUser");
+        Utente utenteLoggato = null;
+        if (session != null) {
+            utenteLoggato = (Utente) session.getAttribute("loggedInUser");
+        }
 
-        if (utenteLoggato != null && isAdmin(utenteLoggato)) {
+        // Controllo se l'utente è loggato E se è un amministratore
+        if (utenteLoggato != null && utenteLoggato.isAdmin()) { // Usa il metodo isAdmin() dell'oggetto Utente
             // L'utente è loggato ed è un amministratore
             try {
                 List<Utente> listaUtenti = utenteDAO.getAllUtentiConRuoli();
@@ -59,19 +63,17 @@ public class UtenteServlet extends HttpServlet {
             }
         } else {
             // L'utente NON è loggato, O non è un amministratore
-            LOGGER.warning("Accesso negato a /admin/utentiServlet. Utente loggato: " + (utenteLoggato != null ? utenteLoggato.getEmail() : "Nessuno"));
-            
+            LOGGER.warning("Accesso negato a /admin/utentiServlet. Utente loggato: " + (utenteLoggato != null ? utenteLoggato.getEmail() + " (Admin: " + utenteLoggato.isAdmin() + ")" : "Nessuno"));
+
             // Imposta un messaggio di errore nella sessione
             session.setAttribute("errorMessage", "Devi effettuare l'accesso come amministratore per accedere a questa risorsa.");
-            
+
             // Reindirizza alla pagina di accesso negato o login
             response.sendRedirect(request.getContextPath() + "/accesso_negato.html");
-            //  reindirizzare al login in caso di non-admin o non-loggato:
-            // response.sendRedirect(request.getContextPath() + "/login.jsp?redirected=true");
         }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
+        doGet(request, response); // Per semplicità, gestisce anche il POST come GET per questa servlet
     }
 }

@@ -1,13 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> <%-- Cambiato ISO-8859-1 a UTF-8 per migliore compatibilit√† --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> <%-- Aggiunto per fmt:formatNumber e formatDate --%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/FormInserimentoPiante.css">
+    <link rel="stylesheet" href="FormInserimentoPiante.css">
     <title>
         <c:choose>
             <c:when test="${modalita == 'modifica'}">Modifica Pianta</c:when>
@@ -26,8 +26,8 @@
             </c:choose>
         </h1>
 
-        <%-- Visualizzazione dei messaggi di errore --%>
-        <c:if test="${not empty erroriModifica}"> <%-- Usa erroriModifica per coerenza con la servlet --%>
+        <%-- Visualizzazione dei messaggi di errore di validazione --%>
+        <c:if test="${not empty erroriModifica}">
             <div class="error-messages message error">
                 <p>Si sono verificati i seguenti errori:</p>
                 <ul>
@@ -37,19 +37,24 @@
                 </ul>
             </div>
         </c:if>
-        <%-- Visualizzazione dei messaggi generali (successo/errore) --%>
+        <%-- Visualizzazione dei messaggi generali (successo/errore dal redirect) --%>
         <c:if test="${not empty messaggio}">
             <div class="message ${tipoMessaggio}">
                 <p>${messaggio}</p>
             </div>
         </c:if>
 
-        <form action="${pageContext.request.contextPath}/PianteServlet" method="post"> <%-- L'action punta sempre alla PianteServlet --%>
-            <%-- Campo HIDDEN per l'ID in modalit‡ modifica --%>
-            <c:if test="${modalita == 'modifica' and not empty pianta.id}">
-                <input type="hidden" name="id" value="${pianta.id}">
-                <%-- Non Ë necessario un campo 'action' nascosto, la servlet decide in base all'ID --%>
-            </c:if>
+        
+        <form action="<c:choose><c:when test="${modalita == 'modifica'}">${pageContext.request.contextPath}/admin/ModificaPiantaServlet</c:when><c:otherwise>${pageContext.request.contextPath}/admin/AggiungiPiantaServlet</c:otherwise></c:choose>" method="post">
+        <c:choose>
+                <c:when test="${modalita == 'modifica'}">
+                    <input type="hidden" name="id" value="${pianta.id}">
+                    <input type="hidden" name="action" value="update"> 
+                </c:when>
+                <c:otherwise>
+                    <input type="hidden" name="action" value="add"> 
+                </c:otherwise>
+            </c:choose>
 
             <div class="form-group">
                 <label for="nomeComune">Nome Comune:</label>
@@ -58,7 +63,7 @@
             </div>
             <div class="form-group">
                 <label>Tipo di Pianta:</label><br>
-                <%-- I valori dei radio button corrispondono alle stringhe "interno" / "esterno" --%>
+                
                 <input type="radio" id="tipoInterno" name="tipo" value="interno"
                        <c:if test="${(pianta.tipo == 'interno') || (modalita == 'inserisci' && empty pianta.tipo)}">checked</c:if>>
                 <label for="tipoInterno">Interno</label>
@@ -108,12 +113,11 @@
                        value="<c:if test="${not empty pianta.prezzo}"><fmt:formatNumber value="${pianta.prezzo}" pattern="0.00"/></c:if>">
             </div>
             <div class="form-group">
-                <label for="quantitaDisponibile">Quantit‡ Disponibile:</label>
+                <label for="quantitaDisponibile">Quantit√† Disponibile:</label>
                 <input type="text" id="quantitaDisponibile" name="quantitaDisponibile"
                        value="<c:if test="${not empty pianta.quantitaDisponibile}">${pianta.quantitaDisponibile}</c:if>">
             </div>
 
-            
             <div class="form-group">
                 <label for="urlImmagine">URL Immagine:</label>
                 <input type="text" id="urlImmagine" name="urlImmagine"
@@ -125,15 +129,17 @@
                 <c:choose>
                     <c:when test="${modalita == 'modifica'}">
                         <button type="submit" class="button update-button">Aggiorna Pianta</button>
+                        
                     </c:when>
                     <c:otherwise>
                         <button type="submit" class="button insert-button">Inserisci Pianta</button>
+                        
                     </c:otherwise>
                 </c:choose>
             </div>
         </form>
         <div class="back-link">
-            <a href="${pageContext.request.contextPath}/ListaPianteServlet">Torna all'elenco piante</a>
+           <a href="${pageContext.request.contextPath}/admin/ListaPianteServlet?action=list">Torna all'elenco piante</a>
         </div>
     </div>
 </body>

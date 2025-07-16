@@ -23,8 +23,8 @@
                     <li><a href="Piantedainterno.jsp">PIANTE INTERNO</a></li>
                     <li><a href="Piantedaesterno.jsp">PIANTE ESTERNO</a></li>
                     <li><a href="Accessori.jsp">ACCESSORI</a></li>
-                    <li><a href="MyAccount.jsp">MyAccount</a></li> <li><a href="Carrello.jsp">CARRELLO</a></li>
-                    <li><a href="Login.jsp">LOGIN</a></li> 
+                    <li><a href="Carrello.jsp">CARRELLO</a></li>
+                    <li><a href="MyAccount.jsp">Account</a></li> <li>
                 </ul>
             </nav>
         </div>

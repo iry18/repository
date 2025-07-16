@@ -25,13 +25,13 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="${pageContext.request.contextPath}/Home">HOME</a></li>
-                    <li><a href="${pageContext.request.contextPath}/PianteInternoServlet">PIANTE INTERNO</a></li>
-                    <li><a href="${pageContext.request.contextPath}/PianteEsternoServlet">PIANTE ESTERNO</a></li>
-                    <li><a href="${pageContext.request.contextPath}/AccessoriServlet">ACCESSORI</a></li> <%-- Link per la pagina accessori --%>
-                    <li><a href="${pageContext.request.contextPath}/AboutUs">ABOUT US</a></li>
-                    <li><a href="${pageContext.request.contextPath}/MyPlants">MY PLANTS</a></li>
-                    <li><a href="${pageContext.request.contextPath}/CarrelloServlet">CARRELLO</a></li> <%-- Assicurati di avere il link al carrello --%>
+                    <li><a href="homepage.jsp">HOME</a></li>
+                    <li><a href="Piantedainterno.jsp">PIANTE INTERNO</a></li>
+                    <li><a href="Piantedaesterno.jsp">PIANTE ESTERNO</a></li>
+                    <li><a href="Accessori.jsp">ACCESSORI</a></li>
+                    <li><a href="Carrello.jsp">CARRELLO</a></li>
+                    <li><a href="MyAccount.jsp">Account</a></li>
+
                 </ul>
             </nav>
         </div>

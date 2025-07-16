@@ -1,6 +1,5 @@
 package la_teca_del_giardiniere.DAO;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +8,8 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 import la_teca_del_giardiniere.classes.Accessori; 
@@ -16,7 +17,8 @@ import la_teca_del_giardiniere.classes.Accessori;
 public class AccessoriDAO {
 
     private MysqlDataSource dataSource;
-
+    private static final Logger LOGGER = Logger.getLogger(AccessoriDAO.class.getName());
+    
     public AccessoriDAO() throws SQLException {
         dataSource = new MysqlDataSource();
         dataSource.setServerName("localhost");
@@ -26,18 +28,20 @@ public class AccessoriDAO {
         dataSource.setDatabaseName("la_teca_del_giardiniere");
         dataSource.setUseSSL(false);
         dataSource.setAllowPublicKeyRetrieval(true);
-        // Aggiungi per gestione timezone corretta se necessario
-        // dataSource.setServerTimezone("UTC");
+        LOGGER.info("MysqlDataSource inizializzato in AccessoriDAO.");
+    }
+    private Connection getConnection() throws SQLException {
+        return dataSource.getConnection();
     }
 
-    // CREATE
+    // CREA
     public void aggiungiAccessori(Accessori accessorio) throws SQLException {
         // L'ID è solitamente AUTO_INCREMENT, quindi non lo inseriamo.
         // La data_inserimento è spesso gestita dal DB (DEFAULT CURRENT_TIMESTAMP) o impostata qui.
-        String sql = "INSERT INTO accessori(nome, prezzo, disponibilita, descrizione_breve, descrizione_dettagliata, dimensioni, immagine, categoria, data_inserimento) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection connection = dataSource.getConnection();
+    	String sql = "INSERT INTO accessori(nome, prezzo, disponibilita, descrizione_breve, descrizione_dettagliata, dimensioni, immagine, categoria, data_inserimento) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection connection = getConnection(); 
              PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
+         
             preparedStatement.setString(1, accessorio.getNome());
             preparedStatement.setBigDecimal(2, accessorio.getPrezzo());
             preparedStatement.setInt(3, accessorio.getDisponibilita());
@@ -64,7 +68,7 @@ public class AccessoriDAO {
         }
     }
 
-    // READ by ID
+    // Leggi by ID
     public Accessori getAccessorioById(int id) throws SQLException {
         String sql = "SELECT * FROM accessori WHERE id = ?";
         Accessori accessorio = null;
@@ -115,7 +119,7 @@ public class AccessoriDAO {
         return listaAccessori;
     }
 
-    // UPDATE
+    // Aggiorna
     public boolean updateAccessori(Accessori accessorio) throws SQLException {
         String sql = "UPDATE accessori SET nome = ?, prezzo = ?, disponibilita = ?, descrizione_breve = ?, descrizione_dettagliata = ?, dimensioni = ?, immagine = ?, categoria = ? WHERE id = ?";
         try (Connection connection = dataSource.getConnection();
@@ -136,13 +140,17 @@ public class AccessoriDAO {
         }
     }
 
-    // DELETE
+    // Elimina
     public boolean deleteAccessori(int id) throws SQLException {
         String sql = "DELETE FROM accessori WHERE id = ?";
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = getConnection(); // Ora getConnection() esiste
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
-            return preparedStatement.executeUpdate() > 0;
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Errore SQL durante l'eliminazione dell'accessorio con ID: " + id, e);
+            throw e;
         }
-    }
+       }
 }

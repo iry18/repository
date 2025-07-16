@@ -51,13 +51,16 @@ public class PasswordHashing {
     }
 
     public static void main(String[] args) {
-        String plainPassword = "mysecretpassword123";
-        String hashedPassword = hashPassword(plainPassword);
-        System.out.println("Password in chiaro: " + plainPassword);
-        System.out.println("Password hashata (Bcrypt): " + hashedPassword);
+        String plainPassword = "Test1234"; // <<< CHOOSE A TEMPORARY, SIMPLE PASSWORD HERE (e.g., "Test1234")
+        String hashedPassword = hashPassword(plainPassword); // This uses your hashPassword method
+        System.out.println("--------------------------------------------------");
+        System.out.println("PLAIN-TEXT PASSWORD YOU WILL TYPE: " + plainPassword);
+        System.out.println("NEW GENERATED HASH (COPY THIS EXACTLY): " + hashedPassword);
+        System.out.println("--------------------------------------------------");
 
-        System.out.println("\nVerifica password corretta: " + verifyPassword(plainPassword, hashedPassword)); // Dovrebbe essere true
-        System.out.println("Verifica password errata: " + verifyPassword("wrongpassword", hashedPassword)); // Dovrebbe essere false
-        System.out.println("Verifica password con hash non valido: " + verifyPassword(plainPassword, "invalidhashstring")); // Dovrebbe essere false
+        // You'll also see these verification lines which should print true/false correctly
+        System.out.println("\nVerifica password corretta: " + verifyPassword(plainPassword, hashedPassword));
+        System.out.println("Verifica password errata: " + verifyPassword("wrongpassword", hashedPassword));
+        System.out.println("Verifica password con hash non valido: " + verifyPassword(plainPassword, "invalidhashstring"));
     }
 }

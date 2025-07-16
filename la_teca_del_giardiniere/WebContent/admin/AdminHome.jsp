@@ -126,10 +126,9 @@
             <div class="admin-menu-item">
                 <h3>Gestione Piante</h3>
                 <p>Aggiungi, modifica o elimina piante dal catalogo.</p>
-                <a href="listapiante.jsp">Lista Piante</a>
-                <a href="gestione-piante.jsp">Gestione Piante</a>
-                <a href="FormInserimentoPiante.jsp">Form Inserimento</a>
-           </div>
+       		 <a href="ListaPiante.jsp">Lista Piante</a>
+                
+         </div>
 
             <div class="admin-menu-item">
                 <h3>Gestione Accessori</h3>
