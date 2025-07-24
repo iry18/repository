@@ -32,6 +32,10 @@ public class PianteDAO {
         LOGGER.info("MysqlDataSource inizializzato.");
     }
 
+    private Connection getConnection() throws SQLException {
+        return dataSource.getConnection();
+    }
+    
     /**
      * Metodo per aggiungere una nuova pianta nel database.
      * @param pianta L'oggetto Piante da aggiungere.
@@ -44,7 +48,7 @@ public class PianteDAO {
                              "DescrizioneBreve, DescrizioneDettagliata, EsposizioneLuminosa, TipoDiTerreno, TemperaturaIdeale, " +
                              "FrequenzaIrrigazione, Prezzo, Disponibilita, data_inserimento, Immagine) " +
                              "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, pianta.getNomeComune());
@@ -65,8 +69,8 @@ public class PianteDAO {
             preparedStatement.setString(10, pianta.getFrequenzaIrrigazione());
             preparedStatement.setBigDecimal(11, pianta.getPrezzo());
 
-            if (pianta.getdisponibilita() != null) {
-                preparedStatement.setInt(12, pianta.getdisponibilita());
+            if (pianta.getDisponibilita() != null) {
+                preparedStatement.setInt(12, pianta.getDisponibilita());
             } else {
                 preparedStatement.setNull(12, Types.INTEGER);
             }
@@ -89,8 +93,8 @@ public class PianteDAO {
      * @throws SQLException Se si verifica un errore SQL.
      */
     public Piante getPiantaById(int id) throws SQLException {
-        String sql = "SELECT * FROM piante WHERE P_CodProdotto = ?";
-        try (Connection connection = dataSource.getConnection();
+        String sql = "SELECT * FROM piante WHERE Id = ?";
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -113,7 +117,7 @@ public class PianteDAO {
      */
     public Piante getPiantaByNomeComune(String nomeComune) throws SQLException {
         String sql = "SELECT * FROM piante WHERE NomeComune = ?";
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, nomeComune);
@@ -138,7 +142,7 @@ public class PianteDAO {
     public List<Piante> getAllPiante() throws SQLException {
         String sql = "SELECT * FROM piante";
         List<Piante> listaPiante = new ArrayList<>();
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
 
@@ -162,8 +166,8 @@ public class PianteDAO {
                              "NomeComune = ?, Tipo = ?, NomeScientificoBotanico = ?, Categoria = ?, " +
                              "DescrizioneBreve = ?, DescrizioneDettagliata = ?, EsposizioneLuminosa = ?, TipoDiTerreno = ?, TemperaturaIdeale = ?, " +
                              "FrequenzaIrrigazione = ?, Prezzo = ?, Disponibilita = ?, data_inserimento = ?, Immagine = ? " +
-                             "WHERE P_CodProdotto = ?";
-        try (Connection connection = dataSource.getConnection();
+                             "WHERE Id = ?";
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, pianta.getNomeComune());
@@ -184,8 +188,8 @@ public class PianteDAO {
             preparedStatement.setString(10, pianta.getFrequenzaIrrigazione());
             preparedStatement.setBigDecimal(11, pianta.getPrezzo());
 
-            if (pianta.getdisponibilita() != null) {
-                preparedStatement.setInt(12, pianta.getdisponibilita());
+            if (pianta.getDisponibilita() != null) {
+                preparedStatement.setInt(12, pianta.getDisponibilita());
             } else {
                 preparedStatement.setNull(12, Types.INTEGER);
             }
@@ -207,17 +211,27 @@ public class PianteDAO {
      * @param idPianta L'ID della pianta da eliminare.
      * @throws SQLException Se si verifica un errore SQL.
      */
-    public void eliminaPianta(int idPianta) throws SQLException {
-        String sql = "DELETE FROM piante WHERE P_CodProdotto = ?";
-        try (Connection connection = dataSource.getConnection();
+    
+    public boolean deletePianta(int idPianta) throws SQLException {
+        String sql = "DELETE FROM piante WHERE Id = ?"; // Assicurati che 'Id' sia il nome corretto della colonna nel tuo DB
+        boolean deleted = false;
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
             preparedStatement.setInt(1, idPianta);
-            preparedStatement.executeUpdate();
-            LOGGER.log(Level.INFO, "Pianta eliminata con successo, ID: {0}", idPianta);
+            int rowsAffected = preparedStatement.executeUpdate(); // Numero di righe modificate
+
+            if (rowsAffected > 0) {
+                deleted = true;
+                LOGGER.log(Level.INFO, "Pianta eliminata con successo, ID: {0}", idPianta);
+            } else {
+                LOGGER.log(Level.WARNING, "Nessuna pianta trovata con ID: {0} per l'eliminazione.", idPianta);
+            }
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Errore SQL durante l'eliminazione della pianta con ID: " + idPianta, e);
-            throw e;
+            throw e; // Rilancia l'eccezione per essere gestita a un livello superiore (nella Servlet)
         }
+        return deleted;
     }
 
     /**
@@ -228,7 +242,7 @@ public class PianteDAO {
      */
     private Piante mapResultSetToPianta(ResultSet resultSet) throws SQLException {
         Piante pianta = new Piante();
-        pianta.setId(resultSet.getInt("P_CodProdotto"));
+        pianta.setId(resultSet.getInt("Id"));
         pianta.setNomeComune(resultSet.getString("NomeComune"));
         pianta.setTipo(resultSet.getString("Tipo"));
         pianta.setNomeScientificoBotanico(resultSet.getString("NomeScientificoBotanico"));
@@ -252,9 +266,9 @@ public class PianteDAO {
 
         int disponibilita = resultSet.getInt("Disponibilita");
         if (!resultSet.wasNull()) {
-            pianta.setdisponibilita(disponibilita);
+            pianta.setDisponibilita(disponibilita);
         } else {
-            pianta.setdisponibilita(null);
+            pianta.setDisponibilita(null);  
         }
 
         pianta.setDataInserimento(resultSet.getTimestamp("data_inserimento"));

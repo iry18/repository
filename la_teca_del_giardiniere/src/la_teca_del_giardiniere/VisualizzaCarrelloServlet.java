@@ -43,6 +43,17 @@ public class VisualizzaCarrelloServlet extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
+        
+        String messaggio = (String) session.getAttribute("messaggio");
+        String tipoMessaggio = (String) session.getAttribute("tipoMessaggio");
+
+        if (messaggio != null && tipoMessaggio != null) {
+            request.setAttribute("messaggio", messaggio);
+            request.setAttribute("tipoMessaggio", tipoMessaggio);
+            session.removeAttribute("messaggio");
+            session.removeAttribute("tipoMessaggio");
+        }
+
 
         try {
             // Questa è la chiave: il carrello viene sempre recuperato dal DB

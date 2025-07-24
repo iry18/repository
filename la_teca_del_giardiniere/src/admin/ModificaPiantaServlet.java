@@ -72,7 +72,7 @@ public class ModificaPiantaServlet extends HttpServlet {
             LOGGER.info("Preparazione form per modifica pianta con ID: " + id);
 
             // Forward to the same form JSP
-            request.getRequestDispatcher("/WEB-INF/jsp/admin/FormInserimentoPiante.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/FormInserimentoPiante.jsp").forward(request, response);
 
         } catch (NumberFormatException e) {
             LOGGER.log(Level.WARNING, "ID pianta non valido per la modifica: " + idParam, e);
@@ -107,13 +107,7 @@ public class ModificaPiantaServlet extends HttpServlet {
                 errori.add("ID della pianta non valido.");
             }
         }
-        
-        // When modifying, we should ideally keep the original dataInserimento
-        // or ensure it's not overwritten unless explicitly changed.
-        // For simplicity, we can fetch the existing plant to preserve dataInserimento
-        // if it's not being explicitly set by the form.
-        // If dataInserimento IS editable, you'd parse it from request.
-        // For now, let's assume it's NOT editable and we need to preserve it from DB.
+     
         if (pianta.getId() > 0) { // If ID is valid, try to fetch original dataInserimento
             try {
                 Piante originalPianta = pianteDAO.getPiantaById(pianta.getId());
@@ -131,7 +125,7 @@ public class ModificaPiantaServlet extends HttpServlet {
             request.setAttribute("pianta", pianta);
             request.setAttribute("modalita", "modifica"); // Stay in modifica mode on error
             LOGGER.warning("Errori di validazione durante la modifica della pianta: " + errori);
-            request.getRequestDispatcher("/WEB-INF/jsp/admin/FormInserimentoPiante.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/FormInserimentoPiante.jsp").forward(request, response);
             return;
         }
 
@@ -148,7 +142,7 @@ public class ModificaPiantaServlet extends HttpServlet {
             request.setAttribute("erroriModifica", sqlErrors);
             request.setAttribute("pianta", pianta);
             request.setAttribute("modalita", "modifica"); // Stay in modifica mode on error
-            request.getRequestDispatcher("/WEB-INF/jsp/admin/FormInserimentoPiante.jsp").forward(request, response);
+            request.getRequestDispatcher("FormInserimentoPiante.jsp").forward(request, response);
         }
     }
 }

@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession; // Importa HttpSession
 
 import la_teca_del_giardiniere.DAO.PianteDAO;
 import util.ServletUtils;
@@ -21,6 +22,7 @@ public class EliminaPiantaServlet extends HttpServlet {
 
     private PianteDAO pianteDAO;
 
+    // Il costruttore non ha bisogno di modifiche significative se chiami super()
     public EliminaPiantaServlet() {
         super();
     }
@@ -30,59 +32,81 @@ public class EliminaPiantaServlet extends HttpServlet {
         super.init();
         try {
             pianteDAO = new PianteDAO();
+            LOGGER.info("PianteDAO inizializzato con successo in EliminaPiantaServlet.");
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "ERRORE CRITICO: Impossibile inizializzare PianteDAO in EliminaPiantaServlet.", e);
             throw new ServletException("Errore di inizializzazione del database.", e);
         }
     }
 
-    // Rimuovi o rendi non operativo doGet per l'eliminazione diretta
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Non supportare l'eliminazione tramite GET direttamente.
-        // Reindirizza o invia un errore, o forza un reindirizzamento al POST con un messaggio.
+        // È corretto non supportare l'eliminazione diretta tramite GET per motivi di sicurezza.
+        // Reindirizza l'utente e mostra un messaggio.
         LOGGER.warning("Tentativo di accesso diretto a EliminaPiantaServlet tramite GET. Metodo non consentito per l'eliminazione.");
-        request.getSession().setAttribute("messaggio", "Operazione di eliminazione non consentita tramite link diretto. Utilizzare il pulsante Elimina.");
-        request.getSession().setAttribute("tipoMessaggio", "error");
+        
+        HttpSession session = request.getSession(); // Ottieni la sessione
+        session.setAttribute("messaggio", "Operazione di eliminazione non consentita tramite link diretto. Utilizzare il pulsante Elimina.");
+        session.setAttribute("tipoMessaggio", "error");
+        
         response.sendRedirect(request.getContextPath() + "/admin/ListaPianteServlet");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Controllo autenticazione e autorizzazione prima di procedere con l'eliminazione
         if (!ServletUtils.checkAuthenticationAndAuthorization(request, response)) {
-            return;
+            return; // Se non autenticato/autorizzato, ServletUtils gestisce il reindirizzamento.
         }
 
         String contextPath = request.getContextPath();
-        String idStr = request.getParameter("id");
+        String idStr = request.getParameter("id"); // Recupera l'ID dalla richiesta POST
 
+        HttpSession session = request.getSession(); // Ottieni la sessione per i messaggi di feedback
+
+        // Controllo per ID mancante o vuoto
         if (idStr == null || idStr.trim().isEmpty()) {
-            request.getSession().setAttribute("messaggio", "ID pianta non specificato per l'eliminazione.");
-            request.getSession().setAttribute("tipoMessaggio", "error");
+            session.setAttribute("messaggio", "ID pianta non specificato per l'eliminazione.");
+            session.setAttribute("tipoMessaggio", "error");
             LOGGER.log(Level.WARNING, "Tentativo di eliminazione senza ID specificato.");
             response.sendRedirect(contextPath + "/admin/ListaPianteServlet");
             return;
         }
 
         try {
-            int id = Integer.parseInt(idStr);
-            pianteDAO.eliminaPianta(id);
-            request.getSession().setAttribute("messaggio", "Pianta eliminata con successo!");
-            request.getSession().setAttribute("tipoMessaggio", "success");
-            LOGGER.info("Pianta con ID " + id + " eliminata con successo.");
-        } catch (NumberFormatException e) {
-            LOGGER.log(Level.WARNING, "ID pianta non valido per l'eliminazione: " + idStr, e);
-            request.getSession().setAttribute("messaggio", "ID pianta non valido: " + idStr);
-            request.getSession().setAttribute("tipoMessaggio", "error");
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Errore SQL durante l'eliminazione della pianta con ID: " + idStr, e);
-            if (e.getSQLState() != null && e.getSQLState().startsWith("23")) { // SQLSTATE per violazione di integrità referenziale
-                request.getSession().setAttribute("messaggio", "Impossibile eliminare la pianta. Ci sono ordini o altre entità che dipendono da questa pianta.");
+            int id = Integer.parseInt(idStr); // Converti l'ID da String a int
+            
+            // ⭐ MODIFICA QUI: Chiama il metodo deletePianta che restituisce boolean
+            boolean deleted = pianteDAO.deletePianta(id); 
+
+            if (deleted) {
+                session.setAttribute("messaggio", "Pianta eliminata con successo!");
+                session.setAttribute("tipoMessaggio", "success");
+                LOGGER.info("Pianta con ID " + id + " eliminata con successo.");
             } else {
-                request.getSession().setAttribute("messaggio", "Errore del database durante l'eliminazione: " + e.getMessage());
+                // Se deleted è false, significa che la pianta non è stata trovata o eliminata
+                session.setAttribute("messaggio", "Impossibile eliminare la pianta. Potrebbe non esistere o non è stata trovata.");
+                session.setAttribute("tipoMessaggio", "error");
+                LOGGER.log(Level.WARNING, "Tentativo di eliminazione di una pianta inesistente o non eliminabile. ID: " + id);
             }
-            request.getSession().setAttribute("tipoMessaggio", "error");
+
+        } catch (NumberFormatException e) {
+            // Gestione dell'errore se l'ID non è un numero valido
+            LOGGER.log(Level.WARNING, "ID pianta non valido per l'eliminazione: " + idStr, e);
+            session.setAttribute("messaggio", "ID pianta non valido: " + idStr);
+            session.setAttribute("tipoMessaggio", "error");
+        } catch (SQLException e) {
+            // Gestione degli errori SQL, inclusa la violazione dell'integrità referenziale
+            LOGGER.log(Level.SEVERE, "Errore SQL durante l'eliminazione della pianta con ID: " + idStr, e);
+            if (e.getSQLState() != null && e.getSQLState().startsWith("23")) { 
+                session.setAttribute("messaggio", "Impossibile eliminare la pianta. Ci sono entità correlate (es. ordini, dettagli) che dipendono da questa pianta.");
+            } else {
+                session.setAttribute("messaggio", "Errore del database durante l'eliminazione: " + e.getMessage());
+            }
+            session.setAttribute("tipoMessaggio", "error");
         }
+        
+        // Reindirizza sempre a ListaPianteServlet per mostrare l'elenco aggiornato e il messaggio di feedback
         response.sendRedirect(contextPath + "/admin/ListaPianteServlet");
     }
 }

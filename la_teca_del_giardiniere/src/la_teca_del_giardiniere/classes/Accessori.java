@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 
 public class Accessori {
 
-    private Integer id;
+    private Integer accessorio_id;
     private String nome;  
     private BigDecimal prezzo;
     private int disponibilita;
@@ -37,11 +37,11 @@ public class Accessori {
     }
 
     // Costruttore completo (con ID, per recupero e aggiornamento)
-    public Accessori(Integer id, String nome, BigDecimal prezzo, int disponibilita,
+    public Accessori(Integer accessorio_id, String nome, BigDecimal prezzo, int disponibilita,
                        String descrizioneBreve, String descrizioneDettagliata,
                        String dimensioni, String immagine, String categoria,
                        Timestamp dataInserimento) {
-        this.id = id;
+        this.accessorio_id = accessorio_id;
         this.nome = nome;
         this.prezzo = prezzo;
         this.disponibilita = disponibilita;
@@ -55,12 +55,12 @@ public class Accessori {
 
     
 
-    public Integer getId() {
-        return id;
+    public Integer getAccessorio_id() {
+        return accessorio_id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setAccessorio_id(Integer accessorio_id) {
+        this.accessorio_id = accessorio_id;
     }
 
     public String getNome() {
@@ -137,7 +137,7 @@ public class Accessori {
 
     @Override
     public String toString() {
-        return "Accessorio [id=" + id + ", nome=" + nome + ", prezzo=" + prezzo + ", disponibilita=" + disponibilita
+        return "Accessorio [accessorio_id=" + accessorio_id + ", nome=" + nome + ", prezzo=" + prezzo + ", disponibilita=" + disponibilita
                 + ", descrizioneBreve=" + descrizioneBreve + ", descrizioneDettagliata=" + descrizioneDettagliata
                 + ", dimensioni=" + dimensioni + ", immagine=" + immagine + ", categoria=" + categoria
                 + ", dataInserimento=" + dataInserimento + "]";

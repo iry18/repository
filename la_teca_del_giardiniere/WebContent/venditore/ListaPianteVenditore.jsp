@@ -1,15 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elenco delle Piante - La Teca del Giardiniere (Admin)</title>
-
+    <title>Elenco delle Piante - La Teca del Giardiniere (Venditore)</title>
 
     <style>
         body {
@@ -140,71 +139,84 @@
         .home-button:hover {
             background-color: #0056b3;
         }
+        .no-plants-message { /* Stile per il messaggio "Nessuna pianta" */
+            margin-top: 30px;
+            font-size: 1.1em;
+            color: #666;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Elenco delle Piante</h1>
-        
+        <h1>Elenco delle Piante (Gestione Venditore)</h1>
+
         <%-- Visualizzazione messaggi di successo/errore dalla request/session --%>
         <c:if test="${not empty requestScope.messaggio}">
             <div class="message ${requestScope.tipoMessaggio}">
-                <p>${requestScope.messaggio}</p>
+                <p><c:out value="${requestScope.messaggio}"/></p>
             </div>
         </c:if>
 
+        <%-- Pulsante per aggiungere nuova pianta (punta alla servlet del venditore) --%>
+        <div class="action-bar">
+            <a href="${pageContext.request.contextPath}/venditore/AggiungiPiantaVenditoreServlet" class="button add-button">Aggiungi Nuova Pianta</a>
+        </div>
 
-        <c:if test="${empty listaPiante}">
-            <p class="no-plants-message">Non ci sono piante nel catalogo.</p>
-        </c:if>
-        <c:if test="${not empty listaPiante}">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>NOME COMUNE</th>
-                        <th>TIPO</th>
-                        <th>NOME SCIENTIFICO</th>
-                        <th>CATEGORIA</th>
-                        <th>PREZZO</th>
-                        <th>DISPONIBILITÀ</th>
-                        <th>AZIONI</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="pianta" items="${listaPiante}">
+        <%-- Visualizzazione della tabella delle piante o messaggio di assenza --%>
+        <c:choose>
+            <c:when test="${not empty listaPiante}">
+                <p>Numero totale di piante in catalogo: <c:out value="${fn:length(listaPiante)}"/></p>
+                <table>
+                    <thead>
                         <tr>
-                            <td><c:out value="${pianta.id}"/></td>
-                            <td><c:out value="${pianta.nomeComune}"/></td>
-                            <td><c:out value="${pianta.tipo}"/></td>
-                            <td><em><c:out value="${pianta.nomeScientificoBotanico}"/></em></td>
-                            <td><c:out value="${pianta.categoria}"/></td>
-                            <td><fmt:formatNumber value="${pianta.prezzo}" type="currency" currencySymbol="€"/></td>
-                            <td>
-                            <c:choose>
-                                    <c:when test="${pianta.disponibilita != null && pianta.disponibilita > 0}">
-                                        <c:out value="${pianta.disponibilita}"/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <span style="color: red; font-weight: bold;">Esaurito</span>
-                                    </c:otherwise>
-                                </c:choose>
-                            </td>
-                            <td class="actions">
-                                <a href="${pageContext.request.contextPath}/admin/ModificaPiantaServlet?id=${pianta.id}" class="button edit-button">Modifica</a>
-                                <form action="${pageContext.request.contextPath}/admin/EliminaPiantaServlet" method="post" class="delete-form" onsubmit="return confirm('Sei sicuro di voler eliminare la pianta ${pianta.nomeComune}?');">
-                                    <input type="hidden" name="id" value="${pianta.id}">
-                                    <button type="submit" class="button delete-button">Elimina</button>
-                                </form>
-                            </td>
+                            <th>ID</th>
+                            <th>NOME COMUNE</th>
+                            <th>TIPO</th>
+                            <th>NOME SCIENTIFICO</th>
+                            <th>CATEGORIA</th>
+                            <th>PREZZO</th>
+                            <th>DISPONIBILITÀ</th>
+                            <th>AZIONI</th>
                         </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
-        </c:if>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="pianta" items="${listaPiante}">
+                            <tr>
+                                <td><c:out value="${pianta.id}"/></td>
+                                <td><c:out value="${pianta.nomeComune}"/></td>
+                                <td><c:out value="${pianta.tipo}"/></td>
+                                <td><em><c:out value="${pianta.nomeScientificoBotanico}"/></em></td>
+                                <td><c:out value="${pianta.categoria}"/></td>
+                                <td><fmt:formatNumber value="${pianta.prezzo}" type="currency" currencySymbol="€"/></td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${pianta.disponibilita != null && pianta.disponibilita > 0}">
+                                            <c:out value="${pianta.disponibilita}"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span style="color: red; font-weight: bold;">Esaurito</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td class="actions">
+                                    <a href="${pageContext.request.contextPath}/venditore/ModificaPiantaVenditoreServlet?id=${pianta.id}" class="button edit-button">Modifica</a>
+                                    <form action="${pageContext.request.contextPath}/venditore/EliminaPiantaVenditoreServlet" method="post" class="delete-form" onsubmit="return confirm('Sei sicuro di voler eliminare la pianta ${pianta.nomeComune}?');">
+                                        <input type="hidden" name="id" value="${pianta.id}">
+                                        <button type="submit" class="button delete-button">Elimina</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </c:when>
+            <c:otherwise>
+                <p class="no-plants-message">Non hai ancora piante nel tuo catalogo.</p>
+            </c:otherwise>
+        </c:choose>
 
         <div class="home-button-container">
-            <a href="${pageContext.request.contextPath}/admin/AdminHome.jsp" class="home-button">Torna alla Dashboard Admin</a>
+            <a href="${pageContext.request.contextPath}/venditore/VenditoreHome.jsp" class="home-button">Torna alla Dashboard Venditore</a>
         </div>
     </div>
 </body>

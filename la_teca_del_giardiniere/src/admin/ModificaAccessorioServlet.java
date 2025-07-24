@@ -53,7 +53,7 @@ public class ModificaAccessorioServlet extends HttpServlet {
 
         try {
             int id = Integer.parseInt(idParam);
-            Accessori accessorioDaModificare = accessoriDAO.getAccessorioById(id);
+            Accessori accessorioDaModificare = accessoriDAO.getAccessorioByaccessorio_id(id);
 
             if (accessorioDaModificare == null) {
                 LOGGER.warning("Accessorio con ID " + id + " non trovato per la modifica.");
@@ -95,16 +95,16 @@ public class ModificaAccessorioServlet extends HttpServlet {
             errori.add("ID dell'accessorio mancante per l'aggiornamento.");
         } else {
             try {
-                accessorio.setId(Integer.parseInt(idStr));
+                accessorio.setAccessorio_id(Integer.parseInt(idStr));
             } catch (NumberFormatException e) {
                 errori.add("L'ID dell'accessorio non è in un formato valido.");
             }
         }
         
         // Preserve original dataInserimento as it's typically not updated via form
-        if (accessorio.getId() != null) { // Only if ID is valid
+        if (accessorio.getAccessorio_id() != null) { // Only if ID is valid
             try {
-                Accessori originalAccessorio = accessoriDAO.getAccessorioById(accessorio.getId());
+                Accessori originalAccessorio = accessoriDAO.getAccessorioByaccessorio_id(accessorio.getAccessorio_id());
                 if (originalAccessorio != null) {
                     accessorio.setDataInserimento(originalAccessorio.getDataInserimento());
                 }

@@ -5,16 +5,16 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 public class Piante {
-    private int id; // Corrisponde a P_CodProdotto
-    private String nomeComune;
+    private int id; 
+    private String NomeComune;
     private String tipo;
     private String NomeScientificoBotanico; 
     private String categoria;
     private String descrizioneBreve;
-    private String descrizioneDettagliata; // Assicurati che esista
+    private String descrizioneDettagliata; 
     private String esposizioneLuminosa;
     private String tipoDiTerreno;
-    private String temperaturaIdeale; // <-- DEVE ESSERE STRING QUI
+    private String temperaturaIdeale; 
     private String frequenzaIrrigazione;
     private BigDecimal prezzo;
     private Integer disponibilita; 
@@ -24,12 +24,12 @@ public class Piante {
     // Costruttore vuoto
     public Piante() {}
 
-    // Getter e Setter (assicurati che setTemperaturaIdeale accetti una String)
+    // Getter e Setter 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
-    public String getNomeComune() { return nomeComune; }
-    public void setNomeComune(String nomeComune) { this.nomeComune = nomeComune; }
+    public String getNomeComune() { return NomeComune; }
+    public void setNomeComune(String nomeComune) { this.NomeComune = nomeComune; }
 
     public String getTipo() { return tipo; }
     public void setTipo(String tipo) { this.tipo = tipo; }
@@ -64,8 +64,13 @@ public class Piante {
     public BigDecimal getPrezzo() { return prezzo; }
     public void setPrezzo(BigDecimal prezzo) { this.prezzo = prezzo; }
 
-    public Integer getdisponibilita() { return disponibilita; }
-    public void setdisponibilita(Integer disponibilita) { this.disponibilita = disponibilita; }
+    public Integer getDisponibilita() {
+        return disponibilita;
+    }
+
+    public void setDisponibilita(Integer disponibilita) {
+        this.disponibilita = disponibilita;
+    }
 
     public Timestamp getDataInserimento() { return dataInserimento; }
     public void setDataInserimento(Timestamp dataInserimento) { this.dataInserimento = dataInserimento; }
@@ -92,7 +97,7 @@ public class Piante {
     public String toString() {
         return "Piante{" +
                "id=" + id +
-               ", nomeComune='" + nomeComune + '\'' +
+               ", nomeComune='" + NomeComune + '\'' +
                ", tipo='" + tipo + '\'' +
                ", NomeScientificoBotanico='" + NomeScientificoBotanico + '\'' +
                ", categoria='" + categoria + '\'' +

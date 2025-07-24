@@ -77,9 +77,9 @@ public class AggiungiAlCarrelloServlet extends HttpServlet {
             boolean success = carrelloDAO.aggiungiOAggiornaArticoloCarrello(carrelloItem);
 
             if (success) {
-                request.setAttribute("messaggio", "Articolo aggiunto/aggiornato nel carrello!");
-                request.setAttribute("tipoMessaggio", "success");
-                LOGGER.info("Articolo (ID Prodotto: " + idProdotto + ", Tipo: " + tipoProdotto + ") aggiunto/aggiornato nel DB per utente: " + utente.getId());
+            	session.setAttribute("messaggio", "Articolo aggiunto/aggiornato nel carrello!");
+            	session.setAttribute("tipoMessaggio", "success");
+            	LOGGER.info("Articolo (ID Prodotto: " + idProdotto + ", Tipo: " + tipoProdotto + ") aggiunto/aggiornato nel DB per utente: " + utente.getId());
             } else {
                 request.setAttribute("messaggio", "Si è verificato un problema durante l'aggiunta/aggiornamento dell'articolo.");
                 request.setAttribute("tipoMessaggio", "error");

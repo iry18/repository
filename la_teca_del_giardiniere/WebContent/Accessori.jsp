@@ -83,7 +83,9 @@
                 </c:otherwise>
             </c:choose>
         </section>
-    </main>
+
+</main>
+
 
     <footer>
         <p>&copy; 2025 La Teca del Giardiniere. Tutti i diritti riservati.</p>

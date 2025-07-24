@@ -1,8 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> <%-- Modificato a UTF-8 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -13,6 +12,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* Stili simili a adminHome.jsp ma con colori o enfasi diversi se vuoi */
+        body {
+            font-family: 'Montserrat', sans-serif; /* Assicurati che il font sia il primo della lista */
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
         .seller-dashboard {
             max-width: 960px;
             margin: 40px auto;
@@ -63,7 +71,7 @@
 
         .seller-menu-item a {
             display: block;
-            background-color: #66bb6a; /* Verde più chiaro per i bottoni */
+            background-color: #66bb6a; /* Verde piÃ¹ chiaro per i bottoni */
             color: white;
             padding: 12px 20px;
             border-radius: 5px;
@@ -74,7 +82,7 @@
         }
 
         .seller-menu-item a:hover {
-            background-color: #43a047; /* Verde più scuro al hover */
+            background-color: #43a047; /* Verde piÃ¹ scuro al hover */
         }
 
         /* Stili per eventuali messaggi di errore/successo */
@@ -100,7 +108,7 @@
     <header>
         <nav>
             <ul>
-                <li><a href="<%= request.getContextPath() %>/VenditoreHome.jsp">HOME VENDITORE</a></li>
+                <li><a href="<%= request.getContextPath() %>/venditore/VenditoreHome.jsp">HOME VENDITORE</a></li> <%-- Modificato percorso --%>
                 <li><a href="<%= request.getContextPath() %>/homepage.jsp">HOME SITO</a></li>
                 <li><a href="<%= request.getContextPath() %>/LoginServlet?action=logout">LOGOUT</a></li>
             </ul>
@@ -111,38 +119,31 @@
         <h1>Benvenuto, Venditore!</h1>
         <p>Qui puoi gestire i prodotti e gli ordini del negozio.</p>
 
-        <%
-            String message = (String) request.getAttribute("message");
-            if (message != null && !message.isEmpty()) {
-                String messageType = (String) request.getAttribute("messageType");
-        %>
-            <div class="message <%= (messageType != null ? messageType : "") %>">
-                <%= message %>
+        <%-- Blocchi JSTL per i messaggi: piÃ¹ pulito e gestisce bene gli attributi --%>
+        <c:if test="${not empty requestScope.message}">
+            <div class="message <c:out value="${requestScope.messageType}"/>">
+                <c:out value="${requestScope.message}"/>
             </div>
-        <%
-            }
-        %>
+        </c:if>
 
         <div class="seller-menu-grid">
             <div class="seller-menu-item">
                 <h3>Gestione Piante</h3>
                 <p>Visualizza e modifica le piante del catalogo.</p>
-                <a href="<%= request.getContextPath() %>/PianteServlet?action=list">Gestisci Piante</a>
+                <a href="<%= request.getContextPath() %>/venditore/ListaPianteVenditoreServlet">Gestisci Piante</a> <%-- Modificato percorso --%>
             </div>
 
             <div class="seller-menu-item">
                 <h3>Gestione Accessori</h3>
                 <p>Visualizza e modifica gli accessori disponibili.</p>
-                <a href="<%= request.getContextPath() %>/AccessoriServlet?action=list">Gestisci Accessori</a> 
+                <a href="<%= request.getContextPath() %>/venditore/ListaAccessoriVenditoreServlet">Gestisci Accessori</a> <%-- Modificato percorso --%>
             </div>
 
             <div class="seller-menu-item">
                 <h3>Gestione Ordini</h3>
                 <p>Visualizza e aggiorna lo stato degli ordini.</p>
-                <a href="<%= request.getContextPath() %>/OrdineServlet?action=listAll">Gestisci Ordini</a>
+                <a href="<%= request.getContextPath() %>/venditore/StoricoOrdiniVenditoreServlet">Gestisci Ordini</a> <%-- Modificato percorso --%>
             </div>
-
-           
         </div>
     </section>
 

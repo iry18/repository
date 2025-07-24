@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html lang="it"> 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>Lista Accessori - La Teca del Giardiniere</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/ListaAccessori.css"> 
+     
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
@@ -166,6 +168,7 @@
         <div class="print-button-container" style="text-align: right; margin-bottom: 15px;">
             <button onclick="window.print()" class="button print-button">🖨️ Stampa Lista</button>
         </div>
+        
 
        <c:if test="${not empty sessionScope.messaggio}">
             <div class="message ${sessionScope.tipoMessaggio}">
@@ -180,7 +183,7 @@
                 <table class="data-table"> 
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>Accessorio_id</th>
                             <th>Nome</th>
                             <th>Prezzo</th>
                             <th>Disponibilità</th>
@@ -196,7 +199,7 @@
                     <tbody>
                         <c:forEach var="accessorio" items="${listaAccessori}">
                             <tr>
-                                <td><c:out value="${accessorio.id}"/></td>
+                                <td><c:out value="${accessorio.accessorio_id}"/></td>
                                 <td><c:out value="${accessorio.nome}"/></td>
                                 <td><fmt:formatNumber value="${accessorio.prezzo}" type="currency" currencySymbol="€"/></td>
                                 <td><c:out value="${accessorio.disponibilita}"/></td>
@@ -207,10 +210,10 @@
                                 <td><c:out value="${accessorio.categoria}"/></td>
                                 <td><fmt:formatDate value="${accessorio.dataInserimento}" pattern="dd/MM/yyyy HH:mm"/></td>
                                 <td class="actions">
-                                    <a href="${pageContext.request.contextPath}/admin/ModificaAccessorioServlet?id=${accessorio.id}" class="button edit-button">Modifica</a>
+                                    <a href="${pageContext.request.contextPath}/admin/ModificaAccessorioServlet?id=${accessorio.accessorio_id}" class="button edit-button">Modifica</a>
                                     <form action="${pageContext.request.contextPath}/admin/ListaAccessoriServlet" method="get" class="delete-form" onsubmit="return confirm('Sei sicuro di voler eliminare l\\'accessorio ${accessorio.nome}?');">
                                         <input type="hidden" name="action" value="delete"> 
-                                        <input type="hidden" name="id" value="${accessorio.id}">
+                                        <input type="hidden" name="id" value="${accessorio.accessorio_id}">
                                         <button type="submit" class="button delete-button">Elimina</button>
                                     </form>
                                 </td>
@@ -223,7 +226,9 @@
                 <p>Nessun accessorio trovato nel database.</p>
             </c:otherwise>
         </c:choose>
-
+        
+		 <p>Debug: ${fn:length(listaAccessori)} accessori caricati.</p>
+ 
         <div class="back-link">
             <a href="${pageContext.request.contextPath}/admin/AdminHome.jsp">Torna alla Dashboard Amministratore</a>
         </div>

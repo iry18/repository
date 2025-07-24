@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="it">
@@ -46,7 +47,7 @@
     </section>
 
     <section class="featured-plants">
-        <h2>Le Nostre Piante di Stagione </h2>
+        <h2>Le Nostre Piante per la Stagione </h2>
         <div class="plants-grid">
             <div class="plant-card">
                 <img src="<%= request.getContextPath() %>/images/calendula.png" alt="Calendula officinalis">
