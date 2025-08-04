@@ -1,0 +1,499 @@
+@charset "ISO-8859-1";
+
+/* --- General Layout and Header --- */
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f8f4; /* Sfondo leggermente verdognolo */
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #dcedc8; /* Sfondo dell'header */
+    padding: 10px 30px; /* Padding interno dell'header */
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+}
+
+.logo-area a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+}
+
+.site-logo {
+    height: 40px; /* Altezza del logo */
+    width: auto;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #588157; /* Colore del testo (verde/grigio sottile) */
+    font-weight: normal;
+    font-size: 0.95em;
+    transition: color 0.3s ease;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+nav ul li a:hover {
+    color: #3a5a40;
+}
+
+/* --- Main Content Wrapper (Two Columns) --- */
+.content-wrapper {
+    display: flex; /* Attiva Flexbox per le due colonne */
+    max-width: 1200px; /* Larghezza massima del contenuto */
+    margin: 20px auto; /* Centra il wrapper e aggiungi margine */
+    padding: 0 20px; /* Padding laterale */
+    gap: 20px; /* Spazio tra le colonne */
+    align-items: flex-start; /* Allinea le colonne in alto */
+}
+
+/* --- Left Sidebar (Foto della casa) --- */
+.sidebar-left {
+    flex: 0 0 220px; /* Larghezza fissa per la sidebar */
+    background-color: #f9fdf9; /* Sfondo leggermente diverso */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Spazio tra gli elementi della sidebar */
+}
+
+.sidebar-title {
+    font-size: 1.2em;
+    color: #588157;
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.sidebar-item {
+    text-align: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed #e0e0e0; /* Linea tratteggiata */
+}
+
+.sidebar-item:last-child {
+    border-bottom: none; /* Rimuovi il bordo dall'ultimo elemento */
+}
+
+.sidebar-item img {
+    max-width: 60%; /* Ridotto per una migliore visualizzazione nella sidebar */
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 5px;
+}
+
+.sidebar-item p {
+    font-size: 0.9em;
+    color: #666;
+    margin: 0;
+    text-transform: lowercase; /* Testo in minuscolo */
+}
+
+/* --- Main Content Area (Right Column) --- */
+.main-content {
+    flex: 1; /* Occupa lo spazio rimanente */
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Spazio tra il riquadro centrale e la griglia */
+}
+
+/* --- Category Header Box (Riquadro centrale con testo e immagine) --- */
+.category-header-box {
+    background-color: #e0f2e0; /* Sfondo del riquadro */
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px; /* Spazio tra testo e immagine */
+}
+
+.category-text-content {
+    flex: 1; /* Occupa lo spazio disponibile */
+}
+
+.category-text-content h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8em;
+    color: #588157;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.category-text-content p {
+    font-size: 0.95em;
+    color: #444;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.category-image-content {
+    flex: 0 0 250px; /* Larghezza fissa per l'immagine a destra */
+    text-align: right; /* Allinea l'immagine a destra */
+}
+
+.category-image-content img {
+    max-width: 50%; /* Ridotto per una migliore composizione */
+    height: auto;
+    display: block; /* Rimuovi spazi extra sotto l'immagine */
+}
+
+/* --- Plants Grid Sections --- */
+/* --- Plants Grid Sections --- */
+.plants-grid,
+.additional-plants-grid {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    /* Ho ridotto il minmax per permettere card più piccole se necessario su schermi più stretti */
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.plant-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    /* Ho rimosso l'altezza fissa. Questo è cruciale per permettere al contenuto di spingere la card. */
+    /* height: 330px; */
+    box-sizing: border-box;
+    /* Aggiunto per distribuire lo spazio in modo più uniforme */
+    justify-content: space-between;
+}
+
+.plant-card img {
+    width: 100%;
+    /* Altezza più flessibile per le immagini, ma con object-fit */
+    height: 150px; /* leggermente ridotta per dare più spazio al testo */
+    object-fit: cover;
+    margin-bottom: 10px; /* Spazio ridotto sotto l'immagine */
+    border-radius: 4px;
+}
+
+.plant-card h3 {
+    color: #388e3c;
+    font-size: 1.1em; /* Leggermente ridotto per nomi lunghi */
+    margin-top: 0; /* Rimosso auto, gestito dal flex-direction column e gap implicito */
+    margin-bottom: 5px;
+    /* Queste proprietà sono fondamentali per gestire il testo lungo */
+    white-space: normal; /* Permette al testo di andare a capo */
+    word-wrap: break-word; /* Forze la rottura delle parole lunghe */
+    overflow-wrap: break-word; /* Alternativa per la rottura delle parole */
+}
+
+.plant-card p {
+    color: #777;
+    font-size: 0.8em; /* Leggermente ridotto per i nomi comuni */
+    margin-top: 0;
+    margin-bottom: 10px; /* Spazio sotto la descrizione */
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* STILI: Price Info */
+.price-info {
+    margin-top: auto; /* Spinge questo elemento e il carrello in fondo alla card */
+    margin-bottom: 15px;
+    font-family: 'Montserrat', sans-serif;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.price-info .price {
+    font-size: 1.2em; /* Leggermente ridotto */
+    font-weight: bold;
+    color: #2e7d32;
+    margin-bottom: 3px;
+}
+
+.price-info .tax-info {
+    font-size: 0.75em; /* Leggermente ridotto */
+    color: #666;
+    font-style: italic;
+}
+
+/* --- Add to Cart Button Styling --- */
+.add-to-cart-container {
+    width: 100%;
+    /* margin-top: 10px; Ho rimosso questo perché 'price-info' con margin-top: auto gestisce bene lo spazio */
+    text-align: center;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .plants-grid,
+    .additional-plants-grid {
+        /* Permette 2 colonne su schermi medi, ma con card leggermente più grandi */
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 15px;
+    }
+
+    .plant-card {
+        padding: 15px; /* Aumento leggero del padding */
+        /* height: auto; Rimosso di nuovo l'altezza fissa */
+        min-height: 280px; /* Mantiene una dimensione minima */
+    }
+
+    .plant-card img {
+        height: 130px; /* Ridotto leggermente per schermi più piccoli */
+    }
+
+    .plant-card h3 {
+        font-size: 1em; /* Ulteriore riduzione */
+    }
+
+    .plant-card p {
+        font-size: 0.75em; /* Ulteriore riduzione */
+    }
+}
+
+@media (max-width: 480px) {
+    .plants-grid,
+    .additional-plants-grid {
+        grid-template-columns: 1fr; /* Una singola colonna su schermi molto piccoli */
+        gap: 15px;
+    }
+
+    .plant-card {
+        padding: 15px;
+        min-height: 250px; /* Mantiene una dimensione minima anche su mobile */
+    }
+
+    .plant-card img {
+        height: 120px; /* Ridotto ulteriormente l'altezza delle immagini */
+    }
+}
+
+/* --- Add to Cart Button Styling --- */
+.add-to-cart-container {
+    width: 100%; /* Occupa tutta la larghezza disponibile */
+    margin-top: 10px; /* Spazio sopra il contenitore del carrello */
+    text-align: center;
+}
+
+.add-to-cart-button {
+    display: inline-flex; /* Allinea icona e testo */
+    align-items: center;
+    justify-content: center;
+    background-color: #588157; /* Un verde più scuro per il bottone */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9em;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+    border: none; /* Rimuovi il bordo predefinito */
+}
+
+.add-to-cart-button:hover {
+    background-color: #3a5a40; /* Verde ancora più scuro al hover */
+    transform: translateY(-2px);
+}
+
+.cart-icon {
+    width: 20px; /* Dimensione dell'icona del carrello */
+    height: 20px;
+    margin-right: 8px; /* Spazio tra icona e testo */
+    filter: invert(100%); /* Per icone nere, le rende bianche */
+}
+
+/* Rule for the single row card in additional-plants-grid */
+/* Keep this only if you specifically want one card to span full width */
+/* If you want all cards to be uniform, remove "single-row" class from HTML */
+.additional-plants-grid .plant-card.single-row {
+   grid-column: 1 / -1;
+}
+
+/* Ensuring consistency for images and h3/p in the additional grid */
+.additional-plants-grid .plant-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.additional-plants-grid .plant-card h3 {
+    font-size: 1.2em;
+}
+
+.additional-plants-grid .plant-card p {
+    font-size: 0.85em;
+}
+
+/* --- Footer --- */
+footer {
+    background-color: #dcedc8;
+    padding: 20px 0;
+    text-align: center;
+    color: #558b2f;
+    font-size: 0.8em;
+    border-top: 1px solid #d0e0d0;
+    margin-top: 50px;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 992px) {
+    .content-wrapper {
+        flex-direction: column; /* Impila le colonne su schermi medi */
+        padding: 0 15px;
+    }
+
+    .sidebar-left {
+        flex: none; /* Rimuovi la larghezza fissa */
+        width: 100%; /* Occupano tutta la larghezza */
+        margin-bottom: 30px; /* Spazio tra sidebar e main content */
+        flex-direction: row; /* Elementi della sidebar affiancati */
+        flex-wrap: wrap; /* Permetti agli elementi di andare a capo */
+        justify-content: center;
+    }
+
+    .sidebar-item {
+        flex: 1 1 calc(33.33% - 20px); /* 3 elementi per riga, sottratto il gap */
+        margin: 5px;
+        padding: 10px;
+        border-bottom: none; /* Rimuovi il bordo quando sono affiancati */
+        box-sizing: border-box; /* Essenziale per il calc */
+    }
+    
+    .sidebar-item img {
+        max-width: 150px; /* Limita la larghezza massima dell'immagine */
+        height: auto;
+    }
+
+    .sidebar-title {
+        width: 100%; /* Assicurati che il titolo occupi tutta la larghezza */
+        margin-bottom: 20px; /* Spazio sotto il titolo */
+    }
+    
+    .category-header-box {
+        flex-direction: column; /* Impila testo e immagine nel riquadro centrale */
+        text-align: center;
+    }
+
+    .category-image-content {
+        flex: none;
+        width: 30%; /* Riduci la larghezza dell'immagine */
+        margin-top: 20px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        padding: 15px 20px;
+    }
+
+    .logo-area {
+        margin-bottom: 15px;
+    }
+
+    nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    nav ul li {
+        margin: 5px 10px;
+    }
+
+    .plants-grid,
+    .additional-plants-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Riduci la larghezza minima delle card */
+        gap: 15px;
+    }
+
+    .sidebar-item {
+        flex: 1 1 calc(50% - 20px); /* 2 elementi per riga */
+    }
+    
+    .sidebar-item img {
+        max-width: 120px; /* Limita ulteriormente la larghezza massima per schermi più piccoli */
+        height: auto;
+    }
+
+    .add-to-cart-button {
+        padding: 8px 12px;
+        font-size: 0.8em;
+    }
+
+    .cart-icon {
+        width: 18px;
+        height: 18px;
+        margin-right: 5px;
+    }
+
+    .plant-card {
+        height: 300px; /* Leggermente ridotto su schermi più piccoli */
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar-item {
+        flex: 1 1 90%; /* Un elemento per riga su schermi molto piccoli */
+    }
+    .sidebar-item img {
+        max-width: 100px; /* Regola a seconda del design desiderato */
+        height: auto;
+    }
+    .plant-card {
+        padding: 10px; /* Riduci padding delle card */
+        height: auto; /* Lascia l'altezza automatica su mobile stretta per evitare spazio vuoto */
+        min-height: 280px; /* Aggiunto min-height per evitare collassi eccessivi */
+    }
+    .plant-card img {
+        height: 140px; /* Ridurre leggermente l'altezza delle immagini delle card su mobile */
+    }
+    .price-info .price {
+        font-size: 1.2em;
+    }
+    .price-info .tax-info {
+        font-size: 0.75em;
+    }
+}
