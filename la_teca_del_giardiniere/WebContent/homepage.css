@@ -1,0 +1,345 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f8f4;
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    background-color: white;
+    padding: 10px 30px;
+    border-bottom: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 10px 0;
+}
+
+.site-logo {
+    height: 50px;
+    width: auto;
+}
+
+nav {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #588157;
+    font-weight: bold;
+    font-size: 0.9em;
+    transition: color 0.3s ease;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+nav ul li a:hover {
+    color: #36c97c;
+}
+
+/* Sezione Hero */
+.hero-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px 20px;
+}
+
+.hero-image-container {
+    flex: 1;
+    text-align: right;
+    padding-right: 20px;
+}
+
+.hero-image-container img {
+    max-width: 80%;
+    height: auto;
+    max-height: 300px;
+    object-fit: contain;
+}
+
+.brand-text-container {
+    flex: 1;
+    text-align: left;
+    padding-left: 20px;
+}
+
+.brand-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5em;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: #3a5a40;
+    line-height: 1.1;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.brand-slogan {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9em;
+    font-style: normal;
+    text-transform: uppercase;
+    color: #588157;
+    margin-top: 10px;
+}
+
+/* Piante in evidenza */
+.highlight-plants-section {
+    background-color: #dcedc8;
+    padding: 40px 0;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.highlight-plants-section .plants-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+.plant-highlight-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.plant-highlight-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.plant-highlight-card .plant-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.plant-highlight-card .scientific-name {
+    font-size: 0.9em;
+    font-style: italic;
+    color: #588157;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.plant-highlight-card .common-name {
+    font-size: 0.8em;
+    color: #777;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Sezione "Il segreto delle piante" */
+.secret-plants-section {
+    background-color: #dcedc8;
+    text-align: center;
+    padding: 30px 20px;
+    margin-top: 30px;
+}
+
+.secret-plants-section .secret-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5em;
+    color: #3a5a40;
+    margin-bottom: 10px;
+}
+
+.secret-plants-section p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9em;
+    color: #588157;
+    margin: 0;
+}
+
+/* Link categorie */
+.category-links-section {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 50px 0;
+    background-color: white;
+}
+
+.category-card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.2s ease;
+    width: 250px;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+}
+
+.category-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.category-card img {
+    width: 100px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.category-card h3 {
+    font-size: 1.1em;
+    color: #3a5a40;
+    margin: 0;
+}
+
+/* Sezioni a larghezza intera (Pino Loricato e Vasi Modulari) */
+.full-width-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 20px;
+    background-color: #f4f8f4;
+}
+
+.content-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    width: 100%;
+    gap: 40px;
+}
+
+.pine-text-content,
+.pine-image-container,
+.modular-vases-content,
+.modular-vases-image {
+    flex: 1;
+}
+
+.pine-image-container img,
+.modular-vases-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Ordine invertito per la sezione dei vasi */
+.modular-vases .content-section {
+    flex-direction: row-reverse;
+}
+
+.pine-text-content h2,
+.modular-vases-content h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5em;
+    color: #3a5a40;
+}
+
+.pine-text-content p,
+.modular-vases-content p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1em;
+    color: #555;
+}
+
+/* Footer */
+footer {
+    background-color: #dcedc8;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.8em;
+    color: #555;
+    margin-top: 50px;
+}
+
+/* Media Queries */
+@media (max-width: 1024px) {
+    .header-container {
+        flex-direction: column;
+    }
+    nav ul {
+        margin-top: 15px;
+        gap: 15px;
+    }
+    .highlight-plants-section .plants-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .content-section {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) {
+    .brand-title {
+        font-size: 2em;
+    }
+    .highlight-plants-section .plants-grid {
+        grid-template-columns: 1fr;
+    }
+    .category-links-section {
+        flex-direction: column;
+        align-items: center;
+    }
+    .category-card {
+        width: 80%;
+    }
+    .pine-loricato .content-section,
+    .modular-vases .content-section {
+        flex-direction: column;
+    }
+    .modular-vases .content-section {
+        flex-direction: column-reverse; /* Corregge l'ordine per il mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    nav ul li {
+        margin: 0 10px;
+    }
+    .brand-title {
+        font-size: 1.5em;
+    }
+}

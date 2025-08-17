@@ -1,0 +1,335 @@
+@charset "ISO-8859-1";
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #d7eddd; 
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #6C7D47; 
+    color: white;
+    padding: 15px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centra verticalmente */
+    flex-wrap: wrap; /* Permette alla navigazione di andare a capo su schermi piccoli */
+}
+
+nav ul li {
+    margin: 0 15px;
+    padding: 8px 0; /* Aggiunge un po' di padding per una migliore area cliccabile */
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease, transform 0.2s ease;
+    padding: 5px 10px; /* Padding per rendere i link più "bottone" */
+    border-radius: 3px;
+}
+
+nav ul li a:hover {
+    color: #DAF7A6; /* Verde più chiaro per l'hover */
+    transform: translateY(-2px); /* Effetto leggero al passaggio del mouse */
+}
+
+/* Stile specifico per "Il Mio Account" e "Logout" per farli risaltare leggermente */
+nav ul li:last-child a,
+nav ul li:nth-last-child(2) a {
+    background-color: rgba(255, 255, 255, 0.1); /* Sfondo leggermente trasparente */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+nav ul li:last-child a:hover,
+nav ul li:nth-last-child(2) a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+
+/* --- Sezione Il Mio Account --- */
+.user-account-section {
+    max-width: 900px; /* Larghezza leggermente ridotta rispetto all'esempio generico */
+    margin: 50px auto;
+    padding: 30px 40px; /* Più padding orizzontale */
+    background-color: #f5f5f5; /* Stesso sfondo del container in Registra.css */
+    border-radius: 8px; /* Leggero bordo arrotondato per un look più rifinito */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); /* Ombra più pronunciata */
+}
+
+.user-account-section h1 {
+    text-align: center;
+    color: #6C7D47; /* Verde scuro, come l'header */
+    margin-bottom: 40px;
+    font-size: 2.8em; /* Dimensioni più grandi per il titolo principale */
+    font-weight: 700;
+    border-bottom: 3px solid #DAF7A6; /* Linea sotto il titolo */
+    padding-bottom: 15px;
+    display: inline-block; /* Per far sì che la linea sia solo sotto il testo */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.user-account-section h3 {
+    color: #8D9F6D; /* Un verde leggermente più chiaro per i sottotitoli */
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 2em; /* Dimensione maggiore per i sottotitoli di sezione */
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+/* Messaggi di stato */
+.message {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.message.success {
+    background-color: #c7edd0; /* Verde chiaro per successo */
+    color: #216d30;
+    border: 1px solid #9dc7a5;
+}
+
+.message.error {
+    background-color: #f8d7da; /* Rosso chiaro per errore */
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Informazioni utente */
+.user-info p {
+    font-size: 1.1em;
+    margin-bottom: 8px;
+    line-height: 1.6;
+    display: flex;
+    align-items: baseline;
+}
+
+.user-info strong {
+    color: #555; /* Colore più scuro per le etichette */
+    min-width: 120px; /* Allinea i due punti */
+    display: inline-block;
+}
+
+.edit-link {
+    display: inline-block;
+    background-color: #8D9F6D; /* Colore verde simile ai bottoni nel Registra.css */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 25px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.edit-link:hover {
+    background-color: #6C7D47;
+    transform: translateY(-2px);
+}
+
+/* Sezioni Carrello e Ordini (Tabelle) */
+.cart-section, .order-list {
+    margin-top: 50px; /* Spazio maggiore tra le sezioni */
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+    border-radius: 8px; /* Bordo arrotondato per la tabella */
+    overflow: hidden; /* Assicura che i bordi arrotondati funzionino con overflow */
+}
+
+.data-table th, .data-table td {
+    padding: 14px 18px;
+    border: 1px solid #e0e0e0; /* Bordo leggero per le celle */
+    text-align: left;
+    vertical-align: middle;
+}
+
+.data-table thead th {
+    background-color: #DAF7A6; /* Verde chiaro, come la riga verde sotto il logo in Registra.css */
+    color: #333;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.95em;
+}
+
+.data-table tbody tr:nth-child(even) {
+    background-color: #f9fdfa; /* Leggermente diverso dal bianco per le righe pari */
+}
+
+.data-table tbody tr:hover {
+    background-color: #eaf8ed; /* Hover sottile */
+}
+
+/* Link di azione nelle tabelle */
+.action-link {
+    color: #007979; /* Colore del link, dal tuo Registra.css per i link */
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.action-link:hover {
+    color: #005f5f;
+    text-decoration: underline;
+}
+
+/* Totale Carrello e Azioni Carrello */
+.cart-total {
+    text-align: right;
+    font-size: 1.4em;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #DAF7A6; /* Linea più spessa per il totale */
+    color: #6C7D47;
+    font-weight: bold;
+}
+
+.cart-actions {
+    text-align: right;
+    margin-top: 25px;
+}
+
+.cart-actions button {
+    background-color: #6C7D47; /* Stesso colore dei bottoni di registrazione */
+    color: white;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-left: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.cart-actions button:hover {
+    background-color: #5A6B3B;
+    transform: translateY(-2px);
+}
+
+.empty-cart-btn {
+    background-color: #dc3545; /* Rosso per svuota carrello */
+}
+
+.empty-cart-btn:hover {
+    background-color: #c82333;
+}
+
+/* Testo "Carrello/Ordini vuoti" */
+.cart-section p, .order-list p {
+    text-align: center;
+    color: #777;
+    font-style: italic;
+    margin-top: 20px;
+    font-size: 1.1em;
+}
+
+
+/* Footer (dovrebbe essere globale) */
+footer {
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 50px;
+    background-color: #6C7D47; /* Abbinato all'header */
+    color: white;
+    font-size: 0.9em;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+/* --- Media Queries per la Responsività --- */
+@media (max-width: 768px) {
+    .user-account-section {
+        margin: 30px 15px;
+        padding: 20px;
+    }
+
+    .user-account-section h1 {
+        font-size: 2.2em;
+        margin-bottom: 30px;
+    }
+
+    .user-account-section h3 {
+        font-size: 1.6em;
+        margin-top: 25px;
+    }
+
+    .data-table th, .data-table td {
+        padding: 10px 12px;
+        font-size: 0.9em;
+    }
+
+    .data-table thead {
+        display: none; /* Nasconde l'intestazione su schermi piccoli */
+    }
+
+    .data-table tbody, .data-table tr, .data-table td {
+        display: block; /* Ogni cella diventa un blocco */
+        width: 100%; /* Occupa tutta la larghezza */
+        text-align: right; /* Allinea il testo a destra */
+    }
+
+    .data-table tr {
+        margin-bottom: 15px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .data-table td:before {
+        content: attr(data-label); /* Mostra l'etichetta del thead */
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #555;
+        margin-right: 10px;
+    }
+    /* Aggiungi data-label agli <td> nel tuo JSP:
+    <td data-label="Prodotto"><c:out value="${item.nomeProdotto}"/></td>
+    */
+
+    .cart-actions button {
+        display: block;
+        width: 100%;
+        margin: 10px 0 0 0; /* Centra i bottoni e aggiunge spazio */
+    }
+
+    .cart-total {
+        text-align: center;
+        font-size: 1.2em;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 5px 0;
+    }
+}9-1";
