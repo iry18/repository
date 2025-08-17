@@ -8,167 +8,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Il Mio Carrello - La Teca del Giardiniere</title>
-
-    <style>
-        /* Stili di base per il carrello se non hai un carrello.css specifico */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start; /* Align at the top */
-            min-height: 100vh; /* Full viewport height */
-            padding-top: 20px; /* Add some space from the top */
-        }
-        .cart-container {
-            width: 80%;
-            max-width: 900px; /* Max width for better readability on large screens */
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Leggera ombra per un aspetto migliore */
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 25px;
-        }
-        .cart-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        .cart-table th, .cart-table td {
-            border: 1px solid #ddd;
-            padding: 12px; /* Aumentato il padding per migliore leggibilità */
-            text-align: left;
-            vertical-align: middle; /* Allinea verticalmente il contenuto */
-        }
-        .cart-table th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-            color: #555;
-        }
-        .cart-table tbody tr:nth-child(even) {
-            background-color: #f9f9f9; /* Colore di sfondo alternato per le righe */
-        }
-        .cart-total {
-            text-align: right;
-            margin-top: 20px;
-            font-size: 1.3em; /* Leggermente più grande */
-            font-weight: bold;
-            color: #333;
-        }
-        .cart-actions {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee; /* Separatore visivo */
-        }
-        .cart-actions .btn {
-            display: inline-block;
-            padding: 12px 25px; /* Padding aumentato */
-            background-color: #4CAF50; /* Verde, puoi cambiarlo */
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            font-size: 1.1em; /* Testo più grande */
-            margin: 8px; /* Margine aumentato */
-            transition: background-color 0.3s ease; /* Effetto hover più fluido */
-        }
-        .cart-actions .btn:hover {
-            background-color: #45a049;
-        }
-        .remove-btn {
-            background-color: #f44336; /* Rosso per rimuovi */
-            padding: 8px 15px; /* Padding leggermente ridotto per i pulsanti azione nella tabella */
-            font-size: 0.9em;
-            margin: 0; /* Rimuovi margine per inline-flex */
-        }
-        .remove-btn:hover {
-            background-color: #da190b;
-        }
-        .quantity-input {
-            width: 70px; /* Larghezza leggermente aumentata */
-            padding: 8px; /* Padding aumentato */
-            border: 1px solid #ccc; /* Bordo leggermente più scuro */
-            border-radius: 4px; /* Raggio del bordo leggermente aumentato */
-            text-align: center;
-            -moz-appearance: textfield; /* Rimuove le frecce per Firefox */
-        }
-        .quantity-input::-webkit-outer-spin-button,
-        .quantity-input::-webkit-inner-spin-button {
-            -webkit-appearance: none; /* Rimuove le frecce per Chrome/Safari */
-            margin: 0;
-        }
-        .small-btn { /* Stile per il pulsante "Aggiorna" nella riga del carrello */
-            padding: 8px 15px;
-            font-size: 0.9em;
-            background-color: #007bff; /* Blu per l'aggiornamento */
-            margin-left: 5px;
-        }
-        .small-btn:hover {
-            background-color: #0056b3;
-        }
-        .message {
-            padding: 15px; /* Aumentato il padding */
-            margin-bottom: 20px; /* Aumentato il margine */
-            border-radius: 8px; /* Raggio del bordo aumentato */
-            font-size: 1.1em;
-            font-weight: bold;
-            text-align: center;
-        }
-        .message.success {
-            background-color: #d4edda;
-            color: #155724;
-            border-color: #c3e6cb;
-        }
-        .message.error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border-color: #f5c6cb;
-        }
-        .message.warning { /* Aggiungi stile per i messaggi di warning */
-            background-color: #fff3cd;
-            color: #856404;
-            border-color: #ffeeba;
-        }
-        .empty-cart-message {
-            text-align: center;
-            padding: 80px 20px; /* Padding aumentato per centrare meglio */
-            font-size: 1.3em;
-            color: #777;
-            background-color: #fefefe;
-            border-radius: 8px;
-            margin-top: 30px;
-        }
-        .empty-cart-message p {
-            margin-bottom: 25px;
-        }
-    </style>
+    <link rel="stylesheet" href="carrello.css">
 </head>
 <body>
+    <header>
+        <div class="header-container">
+            <div class="logo-area">
+                <a href="${pageContext.request.contextPath}/homepage.jsp">
+                    <img src="${pageContext.request.contextPath}/images/logo.png" alt="La Teca del Giardiniere Logo" class="site-logo">
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="${pageContext.request.contextPath}/homepage.jsp">HOME</a></li>
+                    <li><a href="${pageContext.request.contextPath}/catalogo-piante?tipo=interno">PIANTE INTERNO</a></li>
+                    <li><a href="${pageContext.request.contextPath}/catalogo-piante?tipo=esterno">PIANTE ESTERNO</a></li>
+                    <li><a href="${pageContext.request.contextPath}/catalogo-accessori">ACCESSORI</a></li>
+                    <li><a href="${pageContext.request.contextPath}/Carrello.jsp">CARRELLO</a></li>
+                    <li><a href="${pageContext.request.contextPath}/userlogged/MyAccount.jsp">Account</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
     <div class="cart-container">
         <h1>Il Mio Carrello</h1>
-
-        <%-- Messaggi di Feedback (Successo/Errore/Warning) --%>
         <c:if test="${not empty requestScope.messaggio}">
             <div class="message ${requestScope.tipoMessaggio}">
                 <c:out value="${requestScope.messaggio}"/>
             </div>
         </c:if>
 
-        <%-- Visualizzazione Carrello --%>
-        <%-- L'attributo si chiama "carrello" e contiene una Map --%>
         <c:choose>
-            <c:when test="${empty requestScope.carrello}">
+            <c:when test="${empty requestScope.carrello || requestScope.carrello.isEmpty()}">
                 <div class="empty-cart-message">
                     <p>Il tuo carrello è vuoto. Inizia ad esplorare i nostri prodotti!</p>
                     <a href="${pageContext.request.contextPath}/homepage.jsp" class="btn">Vai allo Shopping</a>
@@ -186,36 +58,32 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <%-- Iterate over the Map entries. 'entry' will have 'key' (idPianta string) and 'value' (RigaCarrello object) --%>
                         <c:forEach var="entry" items="${requestScope.carrello}">
                             <c:set var="riga" value="${entry.value}" />
-                            <c:set var="pianta" value="${riga.pianta}" /> <%-- Assuming RigaCarrello has getPianta() --%>
                             <tr>
                                 <td>
-                                    <c:out value="${pianta.nomeComune}" />
+                                    <c:out value="${riga.nomeProdotto}" />
                                     <br>
-                                    <small>(ID: ${pianta.id})</small> <%-- Utile per debug, puoi rimuoverlo in produzione --%>
+                                    <small>(ID: ${riga.idProdotto})</small>
                                 </td>
-                                <td><fmt:formatNumber value="${pianta.prezzo}" type="currency" currencySymbol="€" minFractionDigits="2"/></td>
+                                <td><fmt:formatNumber value="${riga.prezzoUnitario}" type="currency" currencySymbol="€" minFractionDigits="2"/></td>
                                 <td>
                                     <form action="${pageContext.request.contextPath}/aggiornaQuantitaCarrello" method="post" style="display:inline-flex; align-items:center;">
-                                        <%-- Passiamo l'ID della pianta come chiave per l'HashMap --%>
-                                        <input type="hidden" name="idPianta" value="${pianta.id}"> 
+                                        <input type="hidden" name="idProdotto" value="${riga.idProdotto}">
+                                        <input type="hidden" name="tipoProdotto" value="${riga.tipoProdotto}">
                                         <input type="number" name="quantita" value="${riga.quantita}" min="0" class="quantity-input" onchange="this.form.submit()">
-                                        <%-- Rimuoviamo il pulsante "Aggiorna" separato se l'aggiornamento avviene onchange --%>
-                                        <%-- <button type="submit" class="btn small-btn">Aggiorna</button> --%>
                                     </form>
                                 </td>
                                 <td>
-                                    <%-- Calcoliamo il subtotale della riga qui nella JSP --%>
-                                    <fmt:formatNumber value="${pianta.prezzo * riga.quantita}" type="currency" currencySymbol="€" minFractionDigits="2"/>
+                                    <c:set var="subtotale" value="${riga.prezzoUnitario * riga.quantita}" />
+                                    <fmt:formatNumber value="${subtotale}" type="currency" currencySymbol="€" minFractionDigits="2"/>
                                 </td>
                                 <td>
-                                    <form action="${pageContext.request.contextPath}/aggiornaQuantitaCarrello" method="post">
-                                        <%-- Per rimuovere, impostiamo la quantità a 0 o usiamo un parametro specifico per la rimozione --%>
-                                        <input type="hidden" name="Id" value="${pianta.Id}">
-                                        <input type="hidden" name="quantita" value="0"> <%-- Imposta quantità a 0 per rimuovere --%>
-                                        <button type="submit" class="btn remove-btn" onclick="return confirm('Sei sicuro di voler rimuovere ${pianta.nomeComune} dal carrello?');">Rimuovi</button>
+                                    <form action="${pageContext.request.contextPath}/AggiornaQuantitaCarrello" method="post">
+                                        <input type="hidden" name="idProdotto" value="${riga.idProdotto}">
+                                        <input type="hidden" name="tipoProdotto" value="${riga.tipoProdotto}">
+                                        <input type="hidden" name="quantita" value="0">
+                                        <button type="submit" class="btn remove-btn" onclick="return confirm('Sei sicuro di voler rimuovere l\'articolo dal carrello?');">Rimuovi</button>
                                     </form>
                                 </td>
                             </tr>
@@ -232,11 +100,13 @@
 
                 <div class="cart-actions">
                     <a href="${pageContext.request.contextPath}/homepage.jsp" class="btn">Continua lo Shopping</a>
-                    <a href="${pageContext.request.contextPath}/processaCheckout" class="btn">Procedi al Checkout</a> <%-- Assicurati il percorso corretto per la servlet di checkout --%>
+                    <a href="${pageContext.request.contextPath}/processaCheckout" class="btn">Procedi al Checkout</a>
                 </div>
             </c:otherwise>
         </c:choose>
     </div>
-
+    <footer>
+        <p>&copy; 2025 La Teca del Giardiniere</p>
+    </footer>
 </body>
 </html>

@@ -14,81 +14,80 @@
 </head>
 
 <body>
-    <header>
-        <div class="header-container">
-            <div class="logo-area">
-                <a href="homepage.jsp">
-                    <img src="${pageContext.request.contextPath}/images/logo.png" alt="La Teca del Giardiniere Logo" class="site-logo">
-                </a>
-            </div>
-            <nav>
-                <ul>
+    <header>
+        <div class="header-container">
+            <div class="logo-area">
+                <a href="homepage.jsp">
+                    <img src="${pageContext.request.contextPath}/images/logo.png" alt="La Teca del Giardiniere Logo" class="site-logo">
+                </a>
+            </div>
+            <nav>
+                <ul>
                     <li><a href="homepage.jsp">HOME</a></li>
-                   <li><a href="${pageContext.request.contextPath}/catalogo-piante?tipo=interno">PIANTE INTERNO</a></li>
-                   <li><a href="${pageContext.request.contextPath}/catalogo-piante?tipo=esterno">PIANTE ESTERNO</a></li>
-                   <li><a href="${pageContext.request.contextPath}/catalogo-accessori">ACCESSORI</a></li>
+                    <li><a href="${pageContext.request.contextPath}/catalogo-piante?tipo=interno">Piante da interno</a></li>
+					<li><a href="${pageContext.request.contextPath}/catalogo-piante?tipo=esterno">Piante da esterno</a></li>
+                    <li><a href="${pageContext.request.contextPath}/catalogo-accessori">ACCESSORI</a></li>
                     <li><a href="Carrello.jsp">CARRELLO</a></li>
                     <li><a href="userlogged/MyAccount.jsp">Account</a></li>
                 </ul>
-            </nav>
-        </div>
-    </header>
-
-    <main class="content-wrapper">
-        <aside class="sidebar-left">
-            <h2 class="sidebar-title">Ogni pianta ha il suo scopo</h2>
-            <div class="sidebar-item">
-                <img src="${pageContext.request.contextPath}/images/soggiorno.png" alt="Piante per il soggiorno">
-                <p>piante per il soggiorno</p>
-            </div>
-            <div class="sidebar-item">
-                <img src="${pageContext.request.contextPath}/images/bagno.png" alt="Piante per il bagno">
-                <p>piante per il bagno</p>
-            </div>
-            <div class="sidebar-item">
-                <img src="${pageContext.request.contextPath}/images/cucina.png" alt="Piante per la cucina">
-                <p>piante per la cucina</p>
-            </div>
-        </aside>
-
-        <section class="main-content">
-            <div class="category-header-box">
-                <div class="category-text-content">
-                    <h2>piante da appartamento</h2>
-                    <p>Scopri la nostra selezione di piante facilissime da curare e con qualità uniche per la casa e la propria salute</p>
-                </div>
-                <div class="category-image-content">
-                    <img src="${pageContext.request.contextPath}/images/presentazionepiante.png" alt="Piante da appartamento">
-                </div>
-            </div>
-
-            <section class="plants-grid">
-    <c:forEach var="pianta" items="${listaPiante}">
-        <div class="plant-card">
-            <div class="plant-info">
-                <img src="${pageContext.request.contextPath}/images/${pianta.immagine}" alt="${pianta.nomeComune}">
-                <h3><c:out value="${pianta.nomeComune}"/></h3>
-            </div>
-            <div class="price-section">
-                <span>€<c:out value="${pianta.prezzo}"/></span>
-                <small>IVA inclusa</small>
-            </div>
-            <form action="AddToCartServlet" method="post" class="add-to-cart-form">
-                <input type="hidden" name="productId" value="${pianta.id}">
-                <input type="hidden" name="productType" value="pianta">
-                <button type="submit" class="add-to-cart-btn">
-                    <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello"/>
-                    <span>Aggiungi al Carrello</span>
-                </button>
-            </form>
+            </nav>
         </div>
-    </c:forEach>
-</section>
- </section>   
-    </main>
+    </header>
 
-    <footer>
-        <p>&copy; 2025 La Teca del Giardiniere</p>
-    </footer>
+    <main class="content-wrapper">
+        <aside class="sidebar-left">
+            <h2 class="sidebar-title">Ogni pianta ha il suo scopo</h2>
+            <div class="sidebar-item">
+                <img src="${pageContext.request.contextPath}/images/soggiorno.png" alt="Piante per il soggiorno">
+                <p>piante per il soggiorno</p>
+            </div>
+            <div class="sidebar-item">
+                <img src="${pageContext.request.contextPath}/images/bagno.png" alt="Piante per il bagno">
+                <p>piante per il bagno</p>
+            </div>
+            <div class="sidebar-item">
+                <img src="${pageContext.request.contextPath}/images/cucina.png" alt="Piante per la cucina">
+                <p>piante per la cucina</p>
+            </div>
+        </aside>
+
+        <section class="main-content">
+            <div class="category-header-box">
+                <div class="category-text-content">
+                    <h2>piante da appartamento</h2>
+                    <p>Scopri la nostra selezione di piante facilissime da curare e con qualità uniche per la casa e la propria salute</p>
+                </div>
+                <div class="category-image-content">
+                    <img src="${pageContext.request.contextPath}/images/presentazionepiante.png" alt="Piante da appartamento">
+                </div>
+            </div>
+
+            <section class="plants-grid">
+                <c:forEach var="pianta" items="${listaPiante}">
+                    <div class="plant-card">
+                        <div class="plant-info">
+                            <img src="${pageContext.request.contextPath}/images/${pianta.immagine}" alt="${pianta.nomeComune}">
+                            <h3><c:out value="${pianta.nomeComune}"/></h3>
+                        </div>
+                        <div class="price-section">
+                            <span>€<c:out value="${pianta.prezzo}"/></span>
+                            <small>IVA inclusa</small>
+                        </div>
+                        <form action="AddToCartServlet" method="post" class="add-to-cart-form">
+                            <input type="hidden" name="productId" value="${pianta.id}">
+                            <input type="hidden" name="productType" value="pianta">
+                            <button type="submit" class="add-to-cart-btn">
+                                <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello"/>
+                                <span>Aggiungi al Carrello</span>
+                            </button>
+                        </form>
+                    </div>
+                </c:forEach>
+            </section>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 La Teca del Giardiniere</p>
+    </footer>
 </body>
 </html>

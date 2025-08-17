@@ -60,6 +60,11 @@
 			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/edera.png</locationURI>
 		</link>
 		<link>
+			<name>WebContent/images/giardiniera.png</name>
+			<type>1</type>
+			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/giardiniera.png</locationURI>
+		</link>
+		<link>
 			<name>WebContent/images/logo.png</name>
 			<type>1</type>
 			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/logo.png</locationURI>

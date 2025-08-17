@@ -5,7 +5,6 @@ import la_teca_del_giardiniere.classes.Piante;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,9 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/catalogo-piante")
 public class CatalogoPianteServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private PianteDAO pianteDAO;
     private static final Logger LOGGER = Logger.getLogger(CatalogoPianteServlet.class.getName());
-
+    private PianteDAO pianteDAO;
+    
     @Override
     public void init() throws ServletException {
         super.init();
@@ -29,36 +28,44 @@ public class CatalogoPianteServlet extends HttpServlet {
             pianteDAO = new PianteDAO();
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "ERRORE CRITICO: Impossibile inizializzare PianteDAO.", e);
-            throw new ServletException("Errore di inizializzazione del database.", e);
+            pianteDAO = null;
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String tipo = request.getParameter("tipo");
-        List<Piante> listaPiante = new ArrayList<>();
-
         if (pianteDAO == null) {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "DAO non disponibile.");
+            LOGGER.severe("DAO non disponibile. Errore di inizializzazione.");
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore di configurazione del server.");
             return;
         }
 
-        try {
-            if (tipo != null && !tipo.trim().isEmpty()) {
-                listaPiante = pianteDAO.getPianteByTipo(tipo);
-                request.setAttribute("listaPiante", listaPiante);
+        String tipo = request.getParameter("tipo");
+        LOGGER.info("Richiesta per tipo: " + tipo);
+        String destinazioneJSP;
 
-                if ("interno".equalsIgnoreCase(tipo)) {
-                    request.getRequestDispatcher("/Piantedainterno.jsp").forward(request, response);
-                } else if ("esterno".equalsIgnoreCase(tipo)) {
-                    request.getRequestDispatcher("/Piantedaesterno.jsp").forward(request, response);
-                } else {
-                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Categoria non valida.");
-                }
+        try {
+            List<Piante> listaPiante = null;
+            if ("interno".equalsIgnoreCase(tipo)) {
+                listaPiante = pianteDAO.getPianteByTipo("interno");
+                destinazioneJSP = "/Piantedainterno.jsp";
+            } else if ("esterno".equalsIgnoreCase(tipo)) {
+                listaPiante = pianteDAO.getPianteByTipo("esterno");
+                destinazioneJSP = "/Piantedaesterno.jsp";
             } else {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Parametro 'categoria' mancante.");
+                LOGGER.warning("Tipo di pianta non valido richiesto: " + tipo + ". Reindirizzamento al catalogo completo.");
+                listaPiante = pianteDAO.getAllPiante();
+                destinazioneJSP = "/CatalogoPiante.jsp"; 
             }
+
+            // Logga il numero di piante trovate
+            LOGGER.info("Trovate " + (listaPiante != null ? listaPiante.size() : 0) + " piante per il tipo: " + tipo);
+            LOGGER.info("Reindirizzamento a: " + destinazioneJSP);
+
+            request.setAttribute("listaPiante", listaPiante);
+            request.getRequestDispatcher(destinazioneJSP).forward(request, response);
+
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Errore SQL durante il recupero delle piante.", e);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore del database.");

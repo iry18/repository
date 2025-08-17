@@ -48,7 +48,6 @@ public class Piante {
     public String getTipoDiTerreno() { return tipoDiTerreno; }
     public void setTipoDiTerreno(String tipoDiTerreno) { this.tipoDiTerreno = tipoDiTerreno; }
 
-    // Questo è il setter cruciale: deve accettare una String
     public String getTemperaturaIdeale() { return temperaturaIdeale; }
     public void setTemperaturaIdeale(String temperaturaIdeale) { // <-- Qui deve essere String
         this.temperaturaIdeale = temperaturaIdeale;
@@ -74,7 +73,6 @@ public class Piante {
     public String getImmagine() { return Immagine; }
     public void setImmagine(String Immagine) { this.Immagine = Immagine; }
 
-    // Override di equals e hashCode (opzionale ma consigliato per oggetti ben definiti)
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -88,7 +86,6 @@ public class Piante {
         return Objects.hash(id);
     }
 
-    // Override di toString (utile per il logging e il debugging)
     @Override
     public String toString() {
         return "Piante{" +

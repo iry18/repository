@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>La Teca del Giardiniere - Piante da Esterno</title>
+<link rel="stylesheet" href="Piantedainterni.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
@@ -18,7 +19,7 @@
         <div class="header-container"> 
             <div class="logo-area">
                 <a href="homepage.jsp">
-                    <img src="${pageContext.request.contextPath}/images/accessori.png" alt="La Teca del Giardiniere Logo" class="site-logo">
+                                        <img src="${pageContext.request.contextPath}/images/logo.png" alt="La Teca del Giardiniere Logo" class="site-logo">
                 </a>
             </div>
             <nav>

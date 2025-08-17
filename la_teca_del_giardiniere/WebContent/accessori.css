@@ -107,14 +107,14 @@ nav ul li a:hover {
 }
 
 .hero-text-content h1 {
-    font-size: 2.5em; /* Dimensione del titolo hero */
+    font-size: 2.0em; /* Dimensione del titolo hero */
     color: #6C7D47;
     margin-bottom: 15px;
     font-family: 'Cormorant Garamond', serif;
 }
 
 .hero-text-content p {
-    font-size: 1.0em;
+    font-size: 0.5em;
     color: #555;
     line-height: 1.6;
     margin: 0; /* Rimuovi margini predefiniti */

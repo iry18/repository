@@ -88,7 +88,6 @@
                                 <td><c:out value="${pianta.nomeComune}"/></td>
                                 <td><c:out value="${pianta.tipo}"/></td>
                                 <td><em><c:out value="${pianta.nomeScientificoBotanico}"/></em></td>
-                                <td><c:out value="${pianta.categoria}"/></td>
                                 <td><fmt:formatNumber value="${pianta.prezzo}" type="currency" currencySymbol="€"/></td>
                                 <td>
                                     <c:choose>

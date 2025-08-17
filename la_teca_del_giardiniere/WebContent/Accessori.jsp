@@ -39,12 +39,12 @@
 
     <section class="hero">
         <div class="hero-logo">
-            <img src="${pageContext.request.contextPath}/images/logoaccessori.png" alt="Vaso Sorridente"> <%-- Immagine del vaso sorridente --%>
+            <img src="${pageContext.request.contextPath}/images/accessori.png" alt="Vaso Sorridente"> <%-- Immagine del vaso sorridente --%>
         </div>
         <div class="hero-text-content">
-            <h1>il segreto delle piante</h1>
-         <p>Scopri la nostra selezione di accessori essenziali e innovativi. 
-         Strumenti intelligenti, vasi di design e kit completi per rendere la cura delle tue piante un vero piacere, anche per i meno esperti."</p>
+            <h2>La teca del giardiniere</h2>
+         <p>Scopri la nostra selezione di accessori essenziali e innovativi. </p>
+         <p>Strumenti intelligenti, vasi di design e kit completi per rendere la cura delle tue piante un vero piacere, anche per i meno esperti."</p>
             </div>
     </section>
 
@@ -73,9 +73,15 @@
                                     <span class="tax-info">IVA inclusa</span>
                                 </div>
                                 <div class="add-to-cart-container">
-                                    <a href="${pageContext.request.contextPath}/CarrelloServlet?action=aggiungi&idProdotto=${accessorio.accessorio_id}&tipo=accessorio" class="add-to-cart-btn" data-product-id="${accessorio.accessorio_id}">
-                                        <span>Aggiungi al Carrello</span>
-                                    </a>
+                                    <form action="${pageContext.request.contextPath}/aggiungiAlCarrello" method="post">
+								        <input type="hidden" name="idProdotto" value="${accessorio.accessorio_id}">
+								        <input type="hidden" name="tipoProdotto" value="ACCESSORIO">
+								        <input type="hidden" name="quantita" value="1">
+								        <button type="submit" class="add-to-cart-btn">
+								        <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello"/>
+								        <span>Aggiungi al Carrello</span>
+                                    </button>
+                                   </form>
                                 </div>
                             </div>
                         </c:forEach>

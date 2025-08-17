@@ -5,7 +5,9 @@ import java.util.Objects;
 import java.math.BigDecimal;
 
 public class RigaCarrello implements Serializable {
-    private int idProdotto;
+    private static final long serialVersionUID = 1L; 
+	
+	private int idProdotto;
     private String tipoProdotto; // "PIANTA" o "ACCESSORIO"
     private int quantita;
     private String nomeProdotto;

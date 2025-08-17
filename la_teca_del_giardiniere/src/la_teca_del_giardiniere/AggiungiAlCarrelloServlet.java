@@ -46,11 +46,10 @@ public class AggiungiAlCarrelloServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
 
-        String idProdottoStr = request.getParameter("idProdotto");
-        String tipoProdotto = request.getParameter("tipoProdotto"); // Esempio: "PIANTA" o "ACCESSORIO"
+        String idProdottoStr = request.getParameter("productId");
+        String tipoProdotto = request.getParameter("productType");
         String quantitaStr = request.getParameter("quantita");
 
-        // Validazione dei parametri essenziali
         if (idProdottoStr == null || idProdottoStr.trim().isEmpty() || tipoProdotto == null || tipoProdotto.trim().isEmpty()) {
             LOGGER.log(Level.WARNING, "Tentativo di aggiungere al carrello senza ID prodotto o tipo prodotto.");
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID Prodotto o Tipo Prodotto mancante.");
@@ -59,20 +58,23 @@ public class AggiungiAlCarrelloServlet extends HttpServlet {
 
         int quantitaAggiungere = 1;
         try {
-            quantitaAggiungere = Integer.parseInt(quantitaStr.trim());
+            if (quantitaStr != null && !quantitaStr.trim().isEmpty()) {
+                quantitaAggiungere = Integer.parseInt(quantitaStr.trim());
+            }
             if (quantitaAggiungere <= 0) {
                 quantitaAggiungere = 1;
             }
         } catch (NumberFormatException e) {
             LOGGER.log(Level.WARNING, "Quantità non valida per prodotto: " + idProdottoStr + ". Usando quantità di default 1.", e);
+            quantitaAggiungere = 1;
         }
 
         Object prodottoDaAggiungere = null;
         try {
             int id = Integer.parseInt(idProdottoStr);
-            if ("PIANTA".equalsIgnoreCase(tipoProdotto)) {
+            if ("pianta".equalsIgnoreCase(tipoProdotto)) {
                 prodottoDaAggiungere = pianteDAO.getPiantaById(id);
-            } else if ("ACCESSORIO".equalsIgnoreCase(tipoProdotto)) {
+            } else if ("accessorio".equalsIgnoreCase(tipoProdotto)) {
                 prodottoDaAggiungere = accessoriDAO.getAccessorioByaccessorio_id(id);
             } else {
                 LOGGER.warning("Tipo prodotto non valido: " + tipoProdotto);
@@ -95,20 +97,17 @@ public class AggiungiAlCarrelloServlet extends HttpServlet {
             return;
         }
 
-        // Recupera il carrello dalla sessione
         Map<String, RigaCarrello> carrello = (Map<String, RigaCarrello>) session.getAttribute("carrello");
         if (carrello == null) {
             carrello = new HashMap<>();
-            LOGGER.info("Nuovo carrello creato in sessione.");
+            session.setAttribute("carrello", carrello);
+            LOGGER.info("Carrello creato in sessione.");
         }
 
-        // Crea una chiave univoca per la riga del carrello (es. "PIANTA-123")
         String chiaveRiga = tipoProdotto.toUpperCase() + "-" + idProdottoStr;
-
         RigaCarrello rigaEsistente = carrello.get(chiaveRiga);
 
         if (rigaEsistente == null) {
-            // Aggiunge una nuova riga al carrello
             String nomeProdotto = "";
             BigDecimal prezzoUnitario = BigDecimal.ZERO;
             
@@ -126,14 +125,11 @@ public class AggiungiAlCarrelloServlet extends HttpServlet {
             carrello.put(chiaveRiga, rigaEsistente);
             LOGGER.info("Aggiunta nuova riga al carrello. Prodotto: " + chiaveRiga + ", Quantità: " + quantitaAggiungere);
         } else {
-            // Incrementa la quantità di una riga esistente
             rigaEsistente.incrementaQuantita(quantitaAggiungere);
             LOGGER.info("Incrementata quantità per prodotto: " + chiaveRiga + ". Nuova quantità: " + rigaEsistente.getQuantita());
         }
 
-        session.setAttribute("carrello", carrello);
-
         // Reindirizza alla pagina del carrello
-        response.sendRedirect(request.getContextPath() + "/carrello.jsp");
+        response.sendRedirect(request.getContextPath() + "/Carrello.jsp");
     }
 }

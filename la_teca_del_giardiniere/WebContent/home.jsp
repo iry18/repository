@@ -59,6 +59,40 @@
                 </c:forEach>
             </div>
         </section>
+
+        <section class="highlight-accessories-section">
+            <div class="highlight-title-wrapper">
+                <h2 class="highlight-section-title">Accessori in Evidenza</h2>
+            </div>
+            <div class="plants-grid">
+                <c:forEach items="${listaAccessoriInEvidenza}" var="accessorio">
+                    <div class="plant-highlight-card">
+                        <img src="<%= request.getContextPath() %>/images/${accessorio.immagine}" alt="${accessorio.nome}">
+                        <div class="plant-info">
+                            <h3 class="scientific-name">${accessorio.nome}</h3>
+                            <p class="common-name">${accessorio.descrizioneBreve}</p>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </section>
+
+        <section class="highlight-outdoor-plants-section">
+            <div class="highlight-title-wrapper">
+                <h2 class="highlight-section-title">Piante da Esterno</h2>
+            </div>
+            <div class="plants-grid">
+                <c:forEach items="${listaPianteDaEsterno}" var="plant">
+                    <div class="plant-highlight-card">
+                        <img src="<%= request.getContextPath() %>/images/${plant.immagine}" alt="${plant.nomeComune}">
+                        <div class="plant-info">
+                            <h3 class="scientific-name">${plant.nomeScientificoBotanico}</h3>
+                            <p class="common-name">(${plant.nomeComune})</p>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </section>
     </div>
 
     <section class="secret-plants-section">
@@ -104,40 +138,6 @@
             </div>
         </div>
     </div>
-    
-    <section class="highlight-accessories-section">
-            <div class="highlight-title-wrapper">
-                <h2 class="highlight-section-title">Accessori in Evidenza</h2>
-            </div>
-            <div class="plants-grid">
-                <c:forEach items="${listaAccessoriInEvidenza}" var="accessorio">
-                    <div class="plant-highlight-card">
-                        <img src="<%= request.getContextPath() %>/images/${accessorio.immagine}" alt="${accessorio.nome}">
-                        <div class="plant-info">
-                            <h3 class="scientific-name">${accessorio.nome}</h3>
-                            <p class="common-name">${accessorio.descrizioneBreve}</p>
-                        </div>
-                    </div>
-                </c:forEach>
-            </div>
-        </section>
-
-        <section class="highlight-outdoor-plants-section">
-            <div class="highlight-title-wrapper">
-                <h2 class="highlight-section-title">Piante da Esterno</h2>
-            </div>
-            <div class="plants-grid">
-                <c:forEach items="${listaPianteDaEsterno}" var="plant">
-                    <div class="plant-highlight-card">
-                        <img src="<%= request.getContextPath() %>/images/${plant.immagine}" alt="${plant.nomeComune}">
-                        <div class="plant-info">
-                            <h3 class="scientific-name">${plant.nomeScientificoBotanico}</h3>
-                            <p class="common-name">(${plant.nomeComune})</p>
-                        </div>
-                    </div>
-                </c:forEach>
-            </div>
-        </section>
 
     <div class="full-width-section modular-vases">
         <div class="content-wrapper">
