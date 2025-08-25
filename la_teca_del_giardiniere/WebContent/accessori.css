@@ -1,0 +1,402 @@
+@charset "UTF-8";
+
+/* --- General Layout and Header --- */
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f8f4; /* Sfondo leggermente verdognolo */
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    background-color: white;
+    padding: 10px 30px;
+    border-bottom: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 10px 0;
+}
+
+.site-logo {
+    height: 40px;
+    width: auto;
+}
+
+nav {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #588157;
+    font-weight: bold;
+    font-size: 0.9em;
+    transition: color 0.3s ease;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+nav ul li a:hover {
+    color: #3a5a40;
+}
+
+/* --- Hero Section (Adattata come riquadro superiore con immagine e testo) --- */
+.hero {
+    background-color: #e0f2e0; /* Sfondo chiaro per la sezione hero */
+    padding: 60px 20px;
+    text-align: center; /* Centra il testo e l'immagine all'interno */
+    border-bottom: 2px solid #DAF7A6; /* Linea sotto la hero */
+    margin-bottom: 40px; /* Spazio sotto la hero */
+    max-width: 1200px; /* Larghezza massima come il resto del contenuto */
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px; /* Leggera arrotondatura */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Leggera ombra */
+    display: flex; /* Utilizza flexbox per allineare logo e testo */
+    align-items: center; /* Allinea verticalmente */
+    justify-content: center; /* Centra orizzontalmente */
+    gap: 40px; /* Spazio tra logo e testo */
+}
+
+.hero-logo { /* Nuovo stile per il logo nell'hero */
+    flex: 0 0 auto; /* Non cresce, non si restringe */
+    text-align: center;
+}
+
+.hero-logo img {
+    width: 120px; /* Dimensione del logo, puoi adattarla */
+    height: auto;
+    display: block; /* Rimuove spazio extra */
+}
+
+.hero-text-content { /* Contenitore per il testo della hero */
+    flex: 1; /* Occupa lo spazio rimanente */
+    text-align: center; /* Testo centrato come nella foto */
+}
+
+.hero-text-content h1 {
+    font-size: 2.0em; /* Dimensione del titolo hero */
+    color: #6C7D47;
+    margin-bottom: 15px;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.hero-text-content p {
+    font-size: 0.5em;
+    color: #555;
+    line-height: 1.6;
+    margin: 0; /* Rimuovi margini predefiniti */
+}
+
+/* --- Messaggi di stato (aggiunti per feedback utente) --- */
+.message {
+    padding: 15px;
+    margin: 20px auto;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    max-width: 900px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.message.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+.message.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+.message.warning { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+
+/* --- Main Content (Ora senza sidebar) --- */
+.main-content {
+    /* Il main-content ora non è più una colonna a destra, ma il contenitore principale per la griglia */
+    max-width: 1200px; /* Larghezza massima del contenuto */
+    margin: 20px auto; /* Centra il wrapper e aggiungi margine */
+    padding: 0 20px; /* Padding laterale */
+    display: flex; /* Rimanere flex per centrare il contenuto interno se necessario */
+    flex-direction: column; /* Gli elementi al suo interno si disporranno in colonna */
+    gap: 30px; /* Spazio tra sezioni (es. griglia e possibili futuri elementi) */
+}
+
+/* --- Products Grid Section --- */
+.products-grid-section {
+    background-color: #ffffff; /* Sfondo per la sezione della griglia */
+    padding: 25px; /* Padding interno */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Ombra più pronunciata */
+    /* Non ha più bisogno di margin: 0 auto qui, è gestito da .main-content */
+}
+
+.no-products-message {
+    text-align: center;
+    font-size: 1.4em;
+    color: #777;
+    margin: 50px 0;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Aumentata la min-width per card più spaziose */
+    gap: 30px; /* Aumentato lo spazio tra le card */
+    padding: 0;
+    margin: 0;
+}
+
+.product-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    justify-content: space-between;
+    min-height: 400px; /* Altezza minima per le card */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.product-card img {
+    width: 100%;
+    height: 180px; /* Altezza fissa per le immagini delle card */
+    object-fit: contain; /* Usa 'contain' per le immagini degli accessori per non tagliarle */
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+.product-card h3 {
+    color: #388e3c;
+    font-size: 1.3em;
+    margin-top: 0;
+    margin-bottom: 10px;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    text-transform: capitalize;
+}
+
+.product-card .short-description {
+    color: #777;
+    font-size: 0.9em;
+    margin-top: 0;
+    margin-bottom: 15px;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    flex-grow: 1;
+}
+
+/* STILI: Price Info */
+.price-info {
+    margin-top: auto;
+    margin-bottom: 15px;
+    font-family: 'Montserrat', sans-serif;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.price-info .price {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #2e7d32;
+    margin-bottom: 5px;
+}
+
+.price-info .tax-info {
+    font-size: 0.8em;
+    color: #666;
+    font-style: italic;
+}
+
+/* --- Add to Cart Button Styling --- */
+.add-to-cart-container {
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.add-to-cart-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #588157;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    min-width: 180px;
+    box-sizing: border-box;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #3a5a40;
+    transform: translateY(-3px);
+}
+
+.add-to-cart-btn img {
+    width: 22px;
+    height: 22px;
+    margin-right: 10px;
+}
+
+/* --- Footer --- */
+footer {
+    background-color: #dcedc8;
+    padding: 25px 0;
+    text-align: center;
+    color: #558b2f;
+    font-size: 0.9em;
+    border-top: 1px solid #d0e0d0;
+    margin-top: 50px;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 992px) {
+    .hero {
+        flex-direction: column; /* Colonna su schermi medi */
+        gap: 20px;
+        padding: 40px 15px;
+        text-align: center;
+    }
+    .hero-logo {
+        flex: none; /* Rimuovi flessibilità specifica */
+    }
+    .hero-logo img {
+        width: 100px; /* Riduci dimensione logo hero */
+    }
+    .hero-text-content {
+        flex: 1; /* Occupa lo spazio rimanente */
+        text-align: center;
+    }
+    .hero-text-content h1 { font-size: 2.2em; }
+    .hero-text-content p { font-size: 0.95em; }
+
+    .main-content {
+        padding: 0 15px;
+        margin-top: 20px;
+    }
+
+    .products-grid-section {
+        padding: 20px;
+    }
+    .products-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+    .product-card {
+        min-height: 360px;
+    }
+    .product-card img {
+        height: 150px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        padding: 15px 20px;
+    }
+    .logo-area {
+        margin-bottom: 15px;
+    }
+    nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    nav ul li {
+        margin: 5px 10px;
+    }
+
+    .hero {
+        padding: 30px 10px;
+        gap: 15px;
+    }
+    .hero-logo img {
+        width: 80px; /* Ulteriore riduzione logo hero */
+    }
+    .hero-text-content h1 { font-size: 1.8em; }
+    .hero-text-content p { font-size: 0.9em; }
+
+    .main-content {
+        padding: 0 10px;
+    }
+    .products-grid-section {
+        padding: 15px;
+    }
+    .products-grid {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 15px;
+    }
+    .product-card {
+        min-height: 320px;
+    }
+    .product-card img {
+        height: 130px;
+    }
+    .add-to-cart-btn {
+        padding: 8px 12px;
+        font-size: 0.9em;
+        min-width: 140px;
+    }
+    .add-to-cart-btn img {
+        width: 18px;
+        height: 18px;
+        margin-right: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-text-content h1 { font-size: 1.5em; }
+    .hero-text-content p { font-size: 0.85em; }
+    .hero-logo img {
+        width: 60px; /* Ancora più piccolo su mobile */
+    }
+
+    .products-grid {
+        grid-template-columns: 1fr; /* Una singola colonna */
+        gap: 15px;
+    }
+    .product-card {
+        padding: 10px;
+        min-height: 280px;
+    }
+    .product-card img {
+        height: 150px;
+    }
+    .add-to-cart-btn {
+        width: 100%;
+        min-width: unset;
+        padding: 10px;
+    }
+}

@@ -1,0 +1,363 @@
+@charset "ISO-8859-1";
+
+/* ========================================================= */
+/* Global Styles */
+/* ========================================================= */
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f8f4;
+    color: #333;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+}
+
+/* ========================================================= */
+/* Header */
+/* ========================================================= */
+header {
+    background-color: white;
+    padding: 10px 30px;
+    border-bottom: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 10px 0;
+}
+
+.site-logo {
+    height: 40px;
+    width: auto;
+}
+
+nav {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #588157;
+    font-weight: bold;
+    font-size: 0.9em;
+    transition: color 0.3s ease;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+nav ul li a:hover {
+    color: #3a5a40;
+}
+
+/* ========================================================= */
+/* Page Layout (Catalog & Homepage) */
+/* ========================================================= */
+.content-wrapper {
+    display: flex;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.main-content {
+    flex: 1;
+}
+
+/* ========================================================= */
+/* Sidebar */
+/* ========================================================= */
+.sidebar-left .sidebar-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5em;
+    color: #3a5a40;
+    margin-bottom: 20px;
+}
+
+.sidebar-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar-item img {
+    width: 100px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+/* ========================================================= */
+/* Category Header Box */
+/* ========================================================= */
+.category-header-box {
+    background-color: #e0f2e0;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.category-text-content {
+    flex: 1;
+}
+
+.category-text-content h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5em;
+    color: #3a5a40;
+    margin: 0 0 10px 0;
+    line-height: 1.1;
+    text-transform: capitalize;
+}
+
+.category-text-content p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9em;
+    color: #588157;
+    margin: 0;
+}
+
+.category-image-content {
+    flex: 0 0 50%;
+    text-align: right;
+}
+
+.category-image-content img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ========================================================= */
+/* Product Grid & Cards */
+/* ========================================================= */
+.plants-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.plant-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: auto;
+}
+
+.plant-card img {
+    width: 100%;
+    height: auto;
+}
+
+.plant-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.plant-info h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2em;
+    color: #3a5a40;
+    margin: 0;
+}
+
+.price-section {
+    margin-top: auto;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.price-section span {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #3a5a40;
+}
+
+.price-section small {
+    font-size: 0.7em;
+    color: #777;
+}
+
+.add-to-cart-form {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.add-to-cart-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #588157;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.95em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: auto;
+    min-width: 150px;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #3a5a40;
+}
+
+.add-to-cart-btn img {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+}
+
+/* ========================================================= */
+/* Footer */
+/* ========================================================= */
+footer {
+    background-color: #dcedc8;
+    padding: 20px 0;
+    text-align: center;
+    color: #558b2f;
+    font-size: 0.8em;
+    border-top: 1px solid #d0e0d0;
+    margin-top: 50px;
+}
+
+/* ========================================================= */
+/* Responsive Styles */
+/* ========================================================= */
+@media (max-width: 1024px) {
+    .header-container {
+        flex-direction: column;
+    }
+
+    nav ul {
+        margin-top: 15px;
+        gap: 15px;
+    }
+
+    .content-wrapper {
+        flex-direction: column;
+    }
+    
+    .sidebar-left {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .sidebar-left .sidebar-title {
+        flex-basis: 100%;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .sidebar-item {
+        flex: 1 1 calc(33.33% - 20px);
+        padding: 10px;
+    }
+
+    .category-header-box {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .category-image-content {
+        flex: none;
+        width: 40%;
+        margin-top: 20px;
+    }
+
+    .full-width-section .content-section {
+        flex-direction: column;
+    }
+
+    .pine-loricato .pine-image-container, .modular-vases .modular-vases-image {
+        order: -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .brand-title {
+        font-size: 2.5em;
+    }
+    
+    .plants-grid {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+    
+    .category-links-section {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .category-card {
+        width: 80%;
+    }
+}
+
+@media (max-width: 480px) {
+    nav ul {
+        gap: 10px;
+    }
+    
+    .brand-title {
+        font-size: 2em;
+    }
+    
+    .plants-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .sidebar-item {
+        flex: 1 1 90%;
+        margin: 5px auto;
+    }
+}
