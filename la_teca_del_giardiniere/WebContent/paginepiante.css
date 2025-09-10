@@ -1,0 +1,187 @@
+@charset "ISO-8859-1";
+
+body {
+    font-family: Arial, sans-serif; /* Un font comune */
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Sfondo generale chiaro */
+    color: #333;
+}
+
+
+/* Stili del Footer (copiate dalla homepage.css) */
+footer {
+    background-color: #dcedc8; /* Verde chiaro più intenso della homepage */
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.8em;
+    color: #555;
+    margin-top: 50px; /* Spazio sopra il footer */
+}
+
+
+/* Stili specifici della pagina Dettagli Pianta */
+.container-dettagli-pianta {
+    max-width: 960px;
+    margin: 40px auto;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto auto; /* Aggiunta una riga per i consigli utili */
+    gap: 30px;
+}
+
+.immagine-principale {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    text-align: center;
+}
+
+.immagine-principale img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.nome-pianta-sezione {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    text-align: center;
+}
+
+.nome-pianta {
+    font-size: 2.5em;
+    margin-top: 15px;
+    color: #444;
+    margin-bottom: 5px;
+}
+
+.nome-scientifico {
+    font-style: italic;
+    color: #777;
+    font-size: 1.1em;
+    margin-top: 5px;
+}
+
+.caratteristiche-principali {
+    grid-column: 2 / 3;
+    grid-row: 1 / 3;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.difficolta, .strumenti, .lavorazione, .acqua {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1em;
+    color: #666;
+    padding: 15px;
+    background-color: #f9f9f9; /* Sfondo più chiaro per le card di homepage */
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.difficolta i, .strumenti i, .lavorazione i, .acqua i {
+    color: #8fbc8f; /* Colore verde simile ai dettagli della homepage */
+    font-size: 1.4em;
+    width: 30px;
+    text-align: center;
+}
+
+.difficolta span, .strumenti span, .lavorazione span, .acqua span {
+    font-weight: bold;
+}
+
+.cure, .descrizione-estesa {
+    grid-column: 1 / -1; /* Occupano entrambe le colonne */
+}
+
+.cure h2, .descrizione-estesa h2 {
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 15px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    color: #555;
+    font-size: 1.4em;
+}
+
+.cure div { /* Applica stili simili alle 'card' della homepage */
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    color: #666;
+    padding: 10px 15px; /* Aggiungi padding */
+    background-color: #f9f9f9; /* Sfondo leggero */
+    border-radius: 8px; /* Bordi arrotondati */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* Ombra leggera */
+}
+
+
+.cure div i {
+    margin-right: 15px;
+    color: #8fbc8f; /* Colore verde */
+    font-size: 1.4em;
+    width: 30px;
+    text-align: center;
+}
+
+.descrizione-estesa p {
+    font-size: 1.1em;
+    color: #555;
+    line-height: 1.8;
+}
+
+.consigli-utili {
+    grid-column: 1 / -1;
+    text-align: center;
+    margin-top: 30px;
+    padding: 20px; /* Aggiungi un po' di padding per separare visivamente */
+    background-color: #e8f5e9; /* Sfondo verde chiaro come la sezione featured-plants */
+    border-radius: 12px; /* Angoli arrotondati */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.consigli-utili img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Media Queries per la Responsività (opzionale ma consigliato) */
+@media (max-width: 768px) {
+    .container-dettagli-pianta {
+        grid-template-columns: 1fr; /* Una singola colonna su schermi più piccoli */
+        padding: 20px;
+        margin: 20px auto;
+    }
+
+    .immagine-principale,
+    .nome-pianta-sezione,
+    .caratteristiche-principali,
+    .cure,
+    .descrizione-estesa,
+    .consigli-utili {
+        grid-column: 1 / -1; /* Tutti gli elementi occupano l'intera colonna */
+    }
+
+    .caratteristiche-principali {
+        flex-direction: column; /* Assicurati che rimanga verticale */
+    }
+
+    header nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    header nav li {
+        margin: 10px 0;
+    }
+}

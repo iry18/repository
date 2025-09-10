@@ -1,0 +1,94 @@
+@charset "ISO-8859-1";
+
+header {
+    background-color: white;
+    padding: 10px 30px;
+    border-bottom: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 10px 0;
+}
+
+.site-logo {
+    height: 50px;
+    width: auto;
+}
+
+nav {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #588157;
+    font-weight: bold;
+    font-size: 1.1em;
+    transition: color 0.3s ease;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+nav ul li a:hover {
+    color: #36c97c;
+}
+
+/* Stili per Hero Section */
+.hero-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px 20px;
+}
+
+.hero-image-container {
+    flex: 1;
+    text-align: right;
+    padding-right: 20px;
+}
+
+.hero-image-container img {
+    max-width: 80%;
+    height: auto;
+    max-height: 300px;
+    object-fit: contain;
+}
+
+.brand-text-container {
+    flex: 1;
+    text-align: left;
+    padding-left: 20px;
+}
+
+.brand-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5em;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: #3a5a40;
+    line-height: 1.1;
+    margin: 0;
+    text-transform: uppercase;
+}
