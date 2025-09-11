@@ -1,8 +1,5 @@
 @charset "ISO-8859-1";
 
-/* ========================================================= */
-/* Global Styles */
-/* ========================================================= */
 body {
     font-family: 'Montserrat', sans-serif;
     margin: 0;
@@ -17,65 +14,7 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 400;
 }
 
-/* ========================================================= */
-/* Header */
-/* ========================================================= */
-header {
-    background-color: white;
-    padding: 10px 30px;
-    border-bottom: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
 
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px;
-    padding: 10px 0;
-}
-
-.site-logo {
-    height: 40px;
-    width: auto;
-}
-
-nav {
-    display: flex;
-    flex-grow: 1;
-    justify-content: center;
-    align-items: center;
-}
-
-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 30px;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #588157;
-    font-weight: bold;
-    font-size: 0.9em;
-    transition: color 0.3s ease;
-    font-family: 'Cormorant Garamond', serif;
-}
-
-nav ul li a:hover {
-    color: #3a5a40;
-}
-
-/* ========================================================= */
-/* Page Layout (Catalog & Homepage) */
-/* ========================================================= */
 .content-wrapper {
     display: flex;
     max-width: 1200px;
@@ -89,9 +28,8 @@ nav ul li a:hover {
     flex: 1;
 }
 
-/* ========================================================= */
 /* Sidebar */
-/* ========================================================= */
+
 .sidebar-left .sidebar-title {
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.5em;
@@ -113,9 +51,8 @@ nav ul li a:hover {
     margin-bottom: 10px;
 }
 
-/* ========================================================= */
 /* Category Header Box */
-/* ========================================================= */
+
 .category-header-box {
     background-color: #e0f2e0;
     padding: 20px 30px;
@@ -159,9 +96,8 @@ nav ul li a:hover {
     display: block;
 }
 
-/* ========================================================= */
-/* Product Grid & Cards */
-/* ========================================================= */
+/* Grid & Cards */
+
 .plants-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -180,13 +116,11 @@ nav ul li a:hover {
     height: auto;
 }
 
-/* --- MODIFICA QUI --- */
 .plant-card a {
     text-decoration: none;
     color: inherit;
     display: block; /* Essenziale per rendere l'intera area cliccabile */
 }
-/* --- FINE MODIFICA --- */
 
 .plant-card img {
     width: 100%;
@@ -227,13 +161,6 @@ nav ul li a:hover {
     font-size: 0.7em;
     color: #777;
 }
-
-.add-to-cart-form {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-}
-
 .add-to-cart-btn {
     display: inline-flex;
     align-items: center;
@@ -248,36 +175,16 @@ nav ul li a:hover {
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: auto;
-    min-width: 150px;
 }
 
 .add-to-cart-btn:hover {
     background-color: #3a5a40;
 }
 
-.add-to-cart-btn img {
-    width: 20px;
-    height: 20px;
+.add-to-cart-btn .fas.fa-shopping-cart {
     margin-right: 8px;
 }
 
-/* ========================================================= */
-/* Footer */
-/* ========================================================= */
-footer {
-    background-color: #dcedc8;
-    padding: 20px 0;
-    text-align: center;
-    color: #558b2f;
-    font-size: 0.8em;
-    border-top: 1px solid #d0e0d0;
-    margin-top: 50px;
-}
-
-/* ========================================================= */
-/* Responsive Styles */
-/* ========================================================= */
 @media (max-width: 1024px) {
     .header-container {
         flex-direction: column;

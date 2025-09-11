@@ -10,45 +10,6 @@ body {
     box-sizing: border-box;
 }
 
-/* --- Header e Navigazione (Adatta dal tuo codice, dovrebbe essere globale) --- */
-header {
-    background-color: #6C7D47; /* Verde scuro per l'header */
-    color: white;
-    padding: 15px 0;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    text-align: center;
-}
-
-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-nav ul li {
-    margin: 0 15px;
-    padding: 8px 0;
-}
-
-nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease, transform 0.2s ease;
-    padding: 5px 10px;
-    border-radius: 3px;
-}
-
-nav ul li a:hover {
-    color: #DAF7A6; /* Verde più chiaro per l'hover */
-    transform: translateY(-2px);
-}
-
-/* --- Hero Section (Adattato) --- */
 .hero {
     background-color: #f9f9f9; /* Sfondo chiaro per la sezione hero */
     padding: 60px 20px;
@@ -226,16 +187,6 @@ nav ul li a:hover {
     border-radius: 8px;
 }
 
-/* --- Footer (Adatta dal tuo codice, dovrebbe essere globale) --- */
-footer {
-    text-align: center;
-    padding: 30px 0;
-    margin-top: 50px;
-    background-color: #6C7D47;
-    color: white;
-    font-size: 0.9em;
-    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-}
 
 /* --- Media Queries per la Responsività --- */
 @media (max-width: 768px) {

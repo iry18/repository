@@ -51,7 +51,6 @@ public class OrdineDAO {
                 rs.getString("metodo_pagamento"),
                 rs.getBigDecimal("IVA"),
                 rs.getString("stato_ordine"),
-                // Aggiungi i nuovi campi di spedizione, se esistono nel tuo database
                 rs.getString("nome_spedizione"),
                 rs.getString("cognome_spedizione"),
                 rs.getString("indirizzo_spedizione"),

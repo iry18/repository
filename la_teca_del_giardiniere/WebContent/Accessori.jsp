@@ -13,6 +13,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
 </head>
 
 <body>
@@ -58,10 +60,13 @@
 								        <input type="hidden" name="idProdotto" value="${accessorio.accessorio_id}">
 								        <input type="hidden" name="tipoProdotto" value="ACCESSORIO">
 								        <input type="hidden" name="quantita" value="1">
-								        <button type="submit" class="add-to-cart-btn">
-								        <span>Aggiungi al Carrello</span>
-                                    </button>
-                                   </form>
+								         
+								         <button type="submit" class="add-to-cart-btn"> 
+						   
+							           	    <i class="fas fa-shopping-cart"></i> Aggiungi al Carrello
+						
+						                </button>
+                                     </form>
                                 </div>
                             </div>
                         </c:forEach>
@@ -73,9 +78,7 @@
 </main>
 
 
-    <footer>
-        <p>&copy; 2025 La Teca del Giardiniere. Tutti i diritti riservati.</p>
-    </footer>
+    <jsp:include page="/footer.jsp" />
 
 </body>
 </html>

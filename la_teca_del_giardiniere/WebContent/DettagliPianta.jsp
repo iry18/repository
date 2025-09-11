@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-      <jsp:include page="/header.jsp" />
+    <jsp:include page="/header.jsp" />
 
     <div class="container-dettagli-pianta">
         <c:choose><c:when test="${pianta != null}">
@@ -40,32 +40,96 @@
 
             <section class="caratteristiche-principali">
                 <h2>Cure e Caratteristiche</h2>
-                <div class="caratteristica">
-                    <i class="fas fa-seedling"></i> <span>Difficoltà:</span> ${pianta.difficolta}
-                </div>
-                <div class="caratteristica">
-                    <i class="fas fa-sun"></i> <span>Illuminazione:</span> ${pianta.esposizioneLuminosa}
-                </div>
-                <div class="caratteristica">
-                    <i class="fas fa-thermometer-half"></i> <span>Temperatura Ideale:</span> ${pianta.temperaturaIdeale}
-                </div>
-                <div class="caratteristica">
-                    <i class="fas fa-hand-holding-water"></i> <span>Irrigazione:</span> ${pianta.frequenzaIrrigazione}
-                </div>
-                <div class="caratteristica">
-                    <i class="fas fa-search-location"></i> <span>Terreno:</span> ${pianta.tipoDiTerreno}
-                </div>
-                <div class="caratteristica">
-                    <i class="fas fa-cut"></i> <span>Potatura:</span> ${pianta.potatura}
-                </div>
-                <div class="caratteristica">
-                    <i class="fas fa-spray-can"></i> <span>Concimazione:</span> ${pianta.concimazione}
-                </div>
-                <div class="caratteristica">
-                    <i class="fas fa-tools"></i> <span>Attrezzi utili:</span> ${pianta.attrezziUtili}
-                </div>
-                <div class="caratteristica">
-                    <i class="fas fa-calendar-alt"></i> <span>Frequenza Lavorazione:</span> ${pianta.frequenzaLavorazione}
+                <div class="info-list">
+                    <div class="info-item">
+                        <div class="icon-circle">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <div class="text-container">
+                            <h3 class="info-title">DIFFICOLTÀ</h3>
+                            <p class="info-details">${pianta.difficolta}</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="icon-circle">
+                            <i class="fas fa-sun"></i>
+                        </div>
+                        <div class="text-container">
+                            <h3 class="info-title">ILLUMINAZIONE</h3>
+                            <p class="info-details">${pianta.esposizioneLuminosa}</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="icon-circle">
+                            <i class="fas fa-thermometer-half"></i>
+                        </div>
+                        <div class="text-container">
+                            <h3 class="info-title">TEMPERATURA IDEALE</h3>
+                            <p class="info-details">${pianta.temperaturaIdeale}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="icon-circle">
+                            <i class="fas fa-hand-holding-water"></i>
+                        </div>
+                        <div class="text-container">
+                            <h3 class="info-title">IRRIGAZIONE</h3>
+                            <p class="info-details">${pianta.frequenzaIrrigazione}</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="icon-circle">
+                            <i class="fas fa-search-location"></i>
+                        </div>
+                        <div class="text-container">
+                            <h3 class="info-title">TERRENO</h3>
+                            <p class="info-details">${pianta.tipoDiTerreno}</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="icon-circle">
+                            <i class="fas fa-cut"></i>
+                        </div>
+                        <div class="text-container">
+                            <h3 class="info-title">POTATURA</h3>
+                            <p class="info-details">${pianta.potatura}</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="icon-circle">
+                            <i class="fas fa-spray-can"></i>
+                        </div>
+                        <div class="text-container">
+                            <h3 class="info-title">CONCIMAZIONE</h3>
+                            <p class="info-details">${pianta.concimazione}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="icon-circle">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <div class="text-container">
+                            <h3 class="info-title">ATTREZZI UTILI</h3>
+                            <p class="info-details">${pianta.attrezziUtili}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="icon-circle">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="text-container">
+                            <h3 class="info-title">FREQUENZA LAVORAZIONE</h3>
+                            <p class="info-details">${pianta.frequenzaLavorazione}</p>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -85,8 +149,6 @@
         </section>
     </div>
 
-    <footer>
-        <p>&copy; 2025 La Teca del Giardiniere. Tutti i diritti riservati.</p>
-    </footer>
+    <jsp:include page="/footer.jsp" />
 </body>
 </html>

@@ -21,9 +21,9 @@
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="<%= request.getContextPath() %>/homepage">HOME</a></li>
-                    <li><a href="${pageContext.request.contextPath}/catalogo-piante?tipo=interno">Piante da interno</a></li>
-                    <li><a href="${pageContext.request.contextPath}/catalogo-piante?tipo=esterno">Piante da esterno</a></li>
+                    <li><a href="<%= request.getContextPath() %>/homepage">HOME La Teca del Giardiniere </a></li>
+                    <li><a href="${pageContext.request.contextPath}/catalogo-piante?tipo=interno">PIANTE DA INTERNI</a></li>
+                    <li><a href="${pageContext.request.contextPath}/catalogo-piante?tipo=esterno">PIANTE DA ESTERNO</a></li>
                     <li><a href="${pageContext.request.contextPath}/catalogo-accessori">ACCESSORI</a></li>
                     <li><a href="${pageContext.request.contextPath}/visualizzaCarrello">CARRELLO</a></li>
                     <li><a href="<%= request.getContextPath() %>/userlogged/MyAccount.jsp">Account</a></li>

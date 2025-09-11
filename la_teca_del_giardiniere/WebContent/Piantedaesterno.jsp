@@ -12,6 +12,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 </head>
 
 <body>
@@ -55,10 +57,12 @@
                         <form action="${pageContext.request.contextPath}/aggiungiAlCarrello" method="post" class="add-to-cart-form">
 						    <input type="hidden" name="idProdotto" value="${pianta.id}">
 						    <input type="hidden" name="tipoProdotto" value="pianta">
-						    <button type="submit" class="add-to-cart-btn">
-						        <img src="${pageContext.request.contextPath}/images/cart-icon.png" alt="Aggiungi al Carrello"/>
-						        <span>Aggiungi al Carrello</span>
-						    </button>
+						    
+						    <button type="submit" class="add-to-cart-btn"> 
+						   
+								    <i class="fas fa-shopping-cart"></i> Aggiungi al Carrello
+						
+						    </button>
 						</form>
                     </div>
                 </c:forEach>
@@ -66,8 +70,6 @@
        </section>
     </main>
 
-    <footer>
-        <p>&copy; 2025 La Teca del Giardiniere</p>
-    </footer>
+    <jsp:include page="/footer.jsp" />
 </body>
 </html>

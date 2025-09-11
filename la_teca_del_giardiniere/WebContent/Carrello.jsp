@@ -228,28 +228,21 @@
             font-size: 1.5em;
             color: #588157;
         }
+        footer {
+		    background-color: #dcedc8;
+		    padding: 20px 0;
+		    text-align: center;
+		    color: #558b2f;
+		    font-size: 0.8em;
+		    border-top: 1px solid #d0e0d0;
+		    margin-top: 50px;
+		}
+        
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <div class="logo-area">
-                <a href="${pageContext.request.contextPath}/homepage.jsp">
-                    <img src="${pageContext.request.contextPath}/images/logo.png" alt="La Teca del Giardiniere Logo" class="site-logo">
-                </a>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="${pageContext.request.contextPath}/homepage.jsp">HOME</a></li>
-                    <li><a href="${pageContext.request.contextPath}/catalogo-piante?tipo=interno">PIANTE INTERNO</a></li>
-                    <li><a href="${pageContext.request.contextPath}/catalogo-piante?tipo=esterno">PIANTE ESTERNO</a></li>
-                    <li><a href="${pageContext.request.contextPath}/catalogo-accessori">ACCESSORI</a></li>
-                    <li><a href="${pageContext.request.contextPath}/visualizzaCarrello">CARRELLO</a></li>
-                    <li><a href="${pageContext.request.contextPath}/userlogged/MyAccount.jsp">Account</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    
+    <jsp:include page="/header.jsp" />
 
     <div class="cart-container">
         <h1>Il Mio Carrello</h1>
@@ -323,8 +316,6 @@
                 </div>
         </c:otherwise></c:choose>
     </div>
-    <footer>
-        <p>&copy; 2025 La Teca del Giardiniere</p>
-    </footer>
+    <jsp:include page="/footer.jsp" />
 </body>
 </html>

@@ -9,59 +9,6 @@ body {
     line-height: 1.6;
 }
 
-header {
-    background-color: white;
-    padding: 10px 30px;
-    border-bottom: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px;
-    padding: 10px 0;
-}
-
-.site-logo {
-    height: 50px;
-    width: auto;
-}
-
-nav {
-    display: flex;
-    flex-grow: 1;
-    justify-content: center;
-    align-items: center;
-}
-
-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 30px;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #588157;
-    font-weight: bold;
-    font-size: 0.9em;
-    transition: color 0.3s ease;
-    font-family: 'Cormorant Garamond', serif;
-}
-
-nav ul li a:hover {
-    color: #36c97c;
-}
-
 /* Stili per Hero Section */
 .hero-section {
     display: flex;
@@ -361,16 +308,6 @@ nav ul li a:hover {
     border-radius: 8px;
 }
 
-footer {
-    background-color: #dcedc8;
-    text-align: center;
-    padding: 20px 0;
-    font-size: 0.8em;
-    color: #555;
-    margin-top: 50px;
-}
-
-/* Media Queries per la responsività */
 @media (max-width: 1024px) {
     .header-container {
         flex-direction: column;
