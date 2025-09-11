@@ -135,7 +135,8 @@
                             </li>
                         </c:when>
                         <c:otherwise>
-                            <li>Il tuo carrello non contiene articoli . <a href="WEB-INF/homepage.jsp">Torna allo shopping</a></li> 
+                            <li>Il tuo carrello non contiene articoli . <a href="${pageContext.request.contextPath}/homepage.jsp" class="btn">Torna allo shopping</a>  </li>
+         
                         </c:otherwise>
                     </c:choose>
                 </ul>

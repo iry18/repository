@@ -30,11 +30,19 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Sidebar */
 
+.sidebar-left {
+    padding: 30px 20px;
+    background-color: #e0f2e0; /* Sfondo verde chiaro come nella foto */
+    border-radius: 8px; /* Angoli arrotondati */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombra per profondità */
+}
+
 .sidebar-left .sidebar-title {
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.5em;
-    color: #3a5a40;
+    color: #588157; /* Verde più scuro per il titolo */
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .sidebar-item {
@@ -42,13 +50,22 @@ h1, h2, h3, h4, h5, h6 {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .sidebar-item img {
-    width: 100px;
+    width: 100%;
+    max-width: 200px;
     height: auto;
     margin-bottom: 10px;
+    border-radius: 8px; /* Angoli arrotondati per le immagini */
+}
+
+.sidebar-item p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9em;
+    color: #3a5a40; /* Verde scuro per il testo */
+    margin: 0;
 }
 
 /* Category Header Box */

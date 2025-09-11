@@ -22,7 +22,7 @@
 
     <section class="hero">
         <div class="hero-logo">
-            <img src="${pageContext.request.contextPath}/images/accessori.png" alt="Vaso Sorridente"> <%-- Immagine del vaso sorridente --%>
+            <img src="${pageContext.request.contextPath}/images/presentazioneaccessori.png" alt="Presentazione"> 
         </div>
         <div class="hero-text-content">
             <h2>La teca del giardiniere</h2>

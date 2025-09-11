@@ -39,7 +39,7 @@
 		            <p>Scopri la nostra selezione di piante facilissime da curare e con qualità uniche per i piccoli e grandi ambienti e la propria salute</p>
 		        </div>
 		        <div class="category-image-content">
-		            <img src="${pageContext.request.contextPath}/images/logoesterno.png" alt="Pianta in Vaso Esterno">
+		            <img src="${pageContext.request.contextPath}/images/presentazionepianteesterne.png".png" alt="Pianta in Vaso Esterno">
 		        </div>
 			</div>
 		

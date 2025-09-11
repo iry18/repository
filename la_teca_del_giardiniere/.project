@@ -30,6 +30,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>WebContent/images/404.png</name>
+			<type>1</type>
+			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/404.png</locationURI>
+		</link>
+		<link>
 			<name>WebContent/images/accessori.png</name>
 			<type>1</type>
 			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/accessori.png</locationURI>
@@ -43,6 +48,11 @@
 			<name>WebContent/images/balcone.png</name>
 			<type>1</type>
 			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/balcone.png</locationURI>
+		</link>
+		<link>
+			<name>WebContent/images/bambù.png</name>
+			<type>1</type>
+			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/bamb%C3%B9.png</locationURI>
 		</link>
 		<link>
 			<name>WebContent/images/consigli.png</name>
@@ -98,6 +108,16 @@
 			<name>WebContent/images/presentazione.png</name>
 			<type>1</type>
 			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/presentazione.png</locationURI>
+		</link>
+		<link>
+			<name>WebContent/images/presentazioneaccessori.png</name>
+			<type>1</type>
+			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/presentazioneaccessori.png</locationURI>
+		</link>
+		<link>
+			<name>WebContent/images/presentazionepianteesterne.png</name>
+			<type>1</type>
+			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/presentazionepianteesterne.png</locationURI>
 		</link>
 		<link>
 			<name>WebContent/images/set professionale.png</name>
