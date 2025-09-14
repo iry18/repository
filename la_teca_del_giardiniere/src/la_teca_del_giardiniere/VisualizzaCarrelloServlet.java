@@ -33,6 +33,7 @@ public class VisualizzaCarrelloServlet extends HttpServlet {
         // 1. Recupero del carrello dalla sessione
         Map<String, RigaCarrello> carrello = null;
         BigDecimal totaleCarrello = BigDecimal.ZERO;
+        int numeroArticoliCarrello = 0; 
 
         if (session != null) {
             Object carrelloObject = session.getAttribute("carrello");
@@ -44,6 +45,8 @@ public class VisualizzaCarrelloServlet extends HttpServlet {
                     for (RigaCarrello riga : carrello.values()) {
                         BigDecimal subtotale = riga.getPrezzoUnitario().multiply(new BigDecimal(riga.getQuantita()));
                         totaleCarrello = totaleCarrello.add(subtotale);
+                     // Calcolo del numero totale di articoli
+                        numeroArticoliCarrello += riga.getQuantita();
                     }
                 }
             }
@@ -52,6 +55,7 @@ public class VisualizzaCarrelloServlet extends HttpServlet {
         // 3. Impostazione degli attributi per la JSP
         request.setAttribute("carrello", carrello);
         request.setAttribute("totaleCarrello", totaleCarrello);
+        request.setAttribute("numeroArticoliCarrello", numeroArticoliCarrello); // Passa il conteggio alla JSP
         
         // 4. Inoltro alla pagina JSP per la visualizzazione
         request.getRequestDispatcher("/Carrello.jsp").forward(request, response);

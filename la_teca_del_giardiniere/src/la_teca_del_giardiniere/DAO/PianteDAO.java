@@ -292,10 +292,10 @@ public class PianteDAO {
      */
     public List<Piante> getPianteByTipo(String tipo) throws SQLException {
         List<Piante> piante = new ArrayList<>();
-        String sql = "SELECT * FROM piante WHERE LOWER(Tipo) = ?"; // Rende la query case-insensitive
+        String sql = "SELECT * FROM piante WHERE LOWER(Tipo) = ?"; 
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, tipo.toLowerCase().trim()); // Converti in minuscolo e rimuovi spazi
+            ps.setString(1, tipo.toLowerCase().trim()); 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     piante.add(mapResultSetToPianta(rs));

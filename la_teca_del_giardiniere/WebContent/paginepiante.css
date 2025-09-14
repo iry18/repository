@@ -84,9 +84,9 @@ body {
 
 /* Stili specifici della pagina Dettagli Pianta */
 .container-dettagli-pianta {
-    max-width: 960px;
-    margin: 40px auto;
-    padding: 40px;
+    max-width: 990px;
+    margin: 30px auto;
+    padding: 35px;
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
@@ -224,7 +224,29 @@ body {
     color: #555;
     line-height: 1.8;
 }
+.add-to-cart-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #588157;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.95em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
+.add-to-cart-btn:hover {
+    background-color: #3a5a40;
+}
+
+.add-to-cart-btn .fas.fa-shopping-cart {
+    margin-right: 8px;
+}
 .consigli-utili {
     grid-column: 1 / -1;
     text-align: center;

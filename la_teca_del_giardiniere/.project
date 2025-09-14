@@ -40,6 +40,11 @@
 			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/accessori.png</locationURI>
 		</link>
 		<link>
+			<name>WebContent/images/aloevera.png</name>
+			<type>1</type>
+			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/aloevera.png</locationURI>
+		</link>
+		<link>
 			<name>WebContent/images/bagno.png</name>
 			<type>1</type>
 			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/bagno.png</locationURI>
@@ -75,6 +80,11 @@
 			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/edera.png</locationURI>
 		</link>
 		<link>
+			<name>WebContent/images/flebo.png</name>
+			<type>1</type>
+			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/flebo.png</locationURI>
+		</link>
+		<link>
 			<name>WebContent/images/giardiniera.png</name>
 			<type>1</type>
 			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/giardiniera.png</locationURI>
@@ -83,6 +93,11 @@
 			<name>WebContent/images/logo.png</name>
 			<type>1</type>
 			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/logo.png</locationURI>
+		</link>
+		<link>
+			<name>WebContent/images/paletti.png</name>
+			<type>1</type>
+			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/paletti.png</locationURI>
 		</link>
 		<link>
 			<name>WebContent/images/piantedaesterno.png</name>
@@ -98,6 +113,11 @@
 			<name>WebContent/images/pino-loricato.png</name>
 			<type>1</type>
 			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/pino-loricato.png</locationURI>
+		</link>
+		<link>
+			<name>WebContent/images/pino.png</name>
+			<type>1</type>
+			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/pino.png</locationURI>
 		</link>
 		<link>
 			<name>WebContent/images/prato.png</name>
@@ -120,6 +140,26 @@
 			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/presentazionepianteesterne.png</locationURI>
 		</link>
 		<link>
+			<name>WebContent/images/rosagialla.png</name>
+			<type>1</type>
+			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/rosagialla.png</locationURI>
+		</link>
+		<link>
+			<name>WebContent/images/salvapianta.png</name>
+			<type>1</type>
+			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/salvapianta.png</locationURI>
+		</link>
+		<link>
+			<name>WebContent/images/sedum.png</name>
+			<type>1</type>
+			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/sedum.png</locationURI>
+		</link>
+		<link>
+			<name>WebContent/images/sempervivum.png</name>
+			<type>1</type>
+			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/sempervivum.png</locationURI>
+		</link>
+		<link>
 			<name>WebContent/images/set professionale.png</name>
 			<type>1</type>
 			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/set%20professionale.png</locationURI>
@@ -128,6 +168,16 @@
 			<name>WebContent/images/soggiorno.png</name>
 			<type>1</type>
 			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/soggiorno.png</locationURI>
+		</link>
+		<link>
+			<name>WebContent/images/stickers-calendario.png</name>
+			<type>1</type>
+			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/stickers-calendario.png</locationURI>
+		</link>
+		<link>
+			<name>WebContent/images/stikers.png</name>
+			<type>1</type>
+			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/stikers.png</locationURI>
 		</link>
 		<link>
 			<name>WebContent/images/teca.png</name>

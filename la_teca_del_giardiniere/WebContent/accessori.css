@@ -10,105 +10,101 @@ body {
     line-height: 1.6;
 }
 
-header {
-    background-color: white;
-    padding: 10px 30px;
-    border-bottom: none;
+.content-wrapper {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
     max-width: 1200px;
-    padding: 10px 0;
+    margin: 20px auto;
+    padding: 0 20px;
+    gap: 20px;
+    align-items: flex-start;
 }
 
-.site-logo {
-    height: 40px;
-    width: auto;
+.main-content {
+    flex: 1;
 }
 
-nav {
-    display: flex;
-    flex-grow: 1;
-    justify-content: center;
-    align-items: center;
+/* Sidebar */
+
+.sidebar-left {
+    padding: 20px 10px;
+    background-color: #e0f2e0; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /
 }
 
-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 30px;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #588157;
-    font-weight: bold;
-    font-size: 0.9em;
-    transition: color 0.3s ease;
+.sidebar-left .sidebar-title {
     font-family: 'Cormorant Garamond', serif;
-}
-
-nav ul li a:hover {
-    color: #3a5a40;
-}
-
-/* --- Hero Section (Adattata come riquadro superiore con immagine e testo) --- */
-.hero {
-    background-color: #e0f2e0; /* Sfondo chiaro per la sezione hero */
-    padding: 60px 20px;
-    text-align: center; /* Centra il testo e l'immagine all'interno */
-    border-bottom: 2px solid #DAF7A6; /* Linea sotto la hero */
-    margin-bottom: 40px; /* Spazio sotto la hero */
-    max-width: 1200px; /* Larghezza massima come il resto del contenuto */
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 8px; /* Leggera arrotondatura */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Leggera ombra */
-    display: flex; /* Utilizza flexbox per allineare logo e testo */
-    align-items: center; /* Allinea verticalmente */
-    justify-content: center; /* Centra orizzontalmente */
-    gap: 40px; /* Spazio tra logo e testo */
-}
-
-.hero-logo { /* Nuovo stile per il logo nell'hero */
-    flex: 0 0 auto; /* Non cresce, non si restringe */
+    font-size: 1.5em;
+    color: #588157; 
+    margin-bottom: 20px;
     text-align: center;
 }
 
-.hero-logo img {
-    width: 120px; /* Dimensione del logo, puoi adattarla */
+.sidebar-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.sidebar-item img {
+    width: 100%;
+    max-width: 200px;
     height: auto;
-    display: block; /* Rimuove spazio extra */
+    margin-bottom: 10px;
+    border-radius: 8px; /* Angoli arrotondati per le immagini */
 }
 
-.hero-text-content { /* Contenitore per il testo della hero */
-    flex: 1; /* Occupa lo spazio rimanente */
-    text-align: center; /* Testo centrato come nella foto */
+.sidebar-item p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9em;
+    color: #3a5a40; /* Verde scuro per il testo */
+    margin: 0;
 }
 
-.hero-text-content h1 {
-    font-size: 2.0em; /* Dimensione del titolo hero */
-    color: #6C7D47;
-    margin-bottom: 15px;
+/* --- Category Header Box --- */
+.category-header-box {
+    background-color: #e0f2e0; /* Il colore verde pastello del banner */
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.category-text-content {
+    flex: 1;
+}
+
+.category-text-content h2 {
     font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5em;
+    color: #3a5a40;
+    margin: 0 0 10px 0;
+    line-height: 1.1;
+    text-transform: capitalize;
 }
 
-.hero-text-content p {
-    font-size: 0.5em;
-    color: #555;
-    line-height: 1.6;
-    margin: 0; /* Rimuovi margini predefiniti */
+.category-text-content p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9em;
+    color: #588157;
+    margin: 0;
+}
+
+.category-image-content {
+    flex: 0 0 50%;
+    text-align: right;
+}
+
+.category-image-content img {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 /* --- Messaggi di stato (aggiunti per feedback utente) --- */
@@ -125,15 +121,8 @@ nav ul li a:hover {
 .message.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
 .message.warning { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
 
-/* --- Main Content (Ora senza sidebar) --- */
 .main-content {
-    /* Il main-content ora non è più una colonna a destra, ma il contenitore principale per la griglia */
-    max-width: 1200px; /* Larghezza massima del contenuto */
-    margin: 20px auto; /* Centra il wrapper e aggiungi margine */
-    padding: 0 20px; /* Padding laterale */
-    display: flex; /* Rimanere flex per centrare il contenuto interno se necessario */
-    flex-direction: column; /* Gli elementi al suo interno si disporranno in colonna */
-    gap: 30px; /* Spazio tra sezioni (es. griglia e possibili futuri elementi) */
+    flex: 1;
 }
 
 /* --- Products Grid Section --- */
@@ -281,6 +270,18 @@ footer {
     margin-top: 50px;
 }
 
+@media (max-width: 1024px) {
+  .category-header-box {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .category-image-content {
+        flex: none;
+        width: 40%;
+        margin-top: 20px;
+    }
+}
 /* --- Responsive Adjustments --- */
 @media (max-width: 992px) {
     .hero {

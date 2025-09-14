@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La Teca del Giardiniere - Accessori</title>
     
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/accessori.css"> 
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/accessori.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
@@ -18,65 +18,67 @@
 </head>
 
 <body>
-      <jsp:include page="/header.jsp" />
+    <jsp:include page="/header.jsp" />
 
-    <section class="hero">
-        <div class="hero-logo">
-            <img src="${pageContext.request.contextPath}/images/presentazioneaccessori.png" alt="Presentazione"> 
-        </div>
-        <div class="hero-text-content">
-            <h2>La teca del giardiniere</h2>
-         <p>Scopri la nostra selezione di accessori essenziali e innovativi. </p>
-         <p>Strumenti intelligenti, vasi di design e kit completi per rendere la cura delle tue piante un vero piacere, anche per i meno esperti."</p>
-            </div>
-    </section>
-
-    <%-- Messaggi di stato dalla Servlet (successo/errore/warning) --%>
     <c:if test="${not empty requestScope.messaggio}">
         <div class="message ${requestScope.tipoMessaggio}">
             <c:out value="${requestScope.messaggio}"/>
         </div>
     </c:if>
+    
+    <main class="content-wrapper">
+        <aside class="sidebar-left">
+            <h2 class="sidebar-title">Ogni pianta ha il suo scopo</h2>
+            <div class="sidebar-item">
+                <img src="${pageContext.request.contextPath}/images/stikers.png" alt="Piante per la cucina">
+                <p> Accessori carini ed utili </p>
+            </div>
+            <div class="sidebar-item">
+                <img src="${pageContext.request.contextPath}/images/paletti.png" alt="Piante per la cucina">
+                <p> coltiva la tua creatività </p>
+            </div>
+            <div class="sidebar-item">
+                <img src="${pageContext.request.contextPath}/images/flebo.png" alt="Piante per la cucina">
+                <p> fatti ispirare </p>
+            </div>
+        </aside>
 
-    <main class="main-content"> <%-- main-content ora non è più in flex con sidebar --%>
-        <section class="products-grid-section"> <%-- Contenitore principale per la griglia --%>
-            <c:choose>
-                <c:when test="${empty requestScope.listaAccessori}">
-                    <p class="no-products-message">Nessun accessorio disponibile al momento. Torna presto!</p>
-                </c:when>
-                <c:otherwise>
-                    <div class="products-grid">
-                        <c:forEach var="accessorio" items="${requestScope.listaAccessori}">
-                            <div class="product-card">
-                                <img src="${pageContext.request.contextPath}/images/<c:out value='${accessorio.immagine}'/>" alt="<c:out value='${accessorio.nome}'/>">
-                                <h3><c:out value="${accessorio.nome}"/></h3>
-                                <p class="short-description"><c:out value="${accessorio.descrizioneBreve}"/></p>
-                                <div class="price-info">
-                                    <span class="price">€ <fmt:formatNumber value="${accessorio.prezzo}" pattern="0.00"/></span>
-                                    <span class="tax-info">IVA inclusa</span>
+        <section class="main-content">
+           
+            <section class="products-grid-section">
+                <c:choose>
+                    <c:when test="${empty requestScope.listaAccessori}">
+                        <p class="no-products-message">Nessun accessorio disponibile al momento. Torna presto!</p>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="products-grid">
+                            <c:forEach var="accessorio" items="${requestScope.listaAccessori}">
+                                <div class="product-card">
+                                    <img src="${pageContext.request.contextPath}/images/<c:out value='${accessorio.immagine}'/>" alt="<c:out value='${accessorio.nome}'/>">
+                                    <h3><c:out value="${accessorio.nome}"/></h3>
+                                    <p class="short-description"><c:out value="${accessorio.descrizioneBreve}"/></p>
+                                    <div class="price-info">
+                                        <span class="price">€ <fmt:formatNumber value="${accessorio.prezzo}" pattern="0.00"/></span>
+                                        <span class="tax-info">IVA inclusa</span>
+                                    </div>
+                                    <div class="add-to-cart-container">
+                                        <form action="${pageContext.request.contextPath}/aggiungiAlCarrello" method="post">
+                                            <input type="hidden" name="idProdotto" value="${accessorio.accessorio_id}">
+                                            <input type="hidden" name="tipoProdotto" value="ACCESSORIO">
+                                            <input type="hidden" name="quantita" value="1">
+                                            <button type="submit" class="add-to-cart-btn">
+                                                <i class="fas fa-shopping-cart"></i> Aggiungi al Carrello
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
-                                <div class="add-to-cart-container">
-                                    <form action="${pageContext.request.contextPath}/aggiungiAlCarrello" method="post">
-								        <input type="hidden" name="idProdotto" value="${accessorio.accessorio_id}">
-								        <input type="hidden" name="tipoProdotto" value="ACCESSORIO">
-								        <input type="hidden" name="quantita" value="1">
-								         
-								         <button type="submit" class="add-to-cart-btn"> 
-						   
-							           	    <i class="fas fa-shopping-cart"></i> Aggiungi al Carrello
-						
-						                </button>
-                                     </form>
-                                </div>
-                            </div>
-                        </c:forEach>
-                    </div>
-                </c:otherwise>
-            </c:choose>
+                            </c:forEach>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+            </section>
         </section>
-
-</main>
-
+    </main>
 
     <jsp:include page="/footer.jsp" />
 

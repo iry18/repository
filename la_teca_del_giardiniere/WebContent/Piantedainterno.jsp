@@ -5,77 +5,66 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>La Teca del Giardiniere - Piante da Interni</title>
-<link rel="stylesheet" href="Piantedainterni.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Teca del Giardiniere - Piante da Interni</title>
+    <link rel="stylesheet" href="Piantedainterni.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
-   <jsp:include page="/header.jsp" />
+    <jsp:include page="/header.jsp" />
 
-    <main class="content-wrapper">
-        <aside class="sidebar-left">
-            <h2 class="sidebar-title">Ogni pianta ha il suo scopo</h2>
-            <div class="sidebar-item">
-                <img src="${pageContext.request.contextPath}/images/soggiorno.png" alt="Piante per il soggiorno">
-                <p>piante per il soggiorno</p>
-            </div>
-            <div class="sidebar-item">
-                <img src="${pageContext.request.contextPath}/images/bagno.png" alt="Piante per il bagno">
-                <p>piante per il bagno</p>
-            </div>
-            <div class="sidebar-item">
-                <img src="${pageContext.request.contextPath}/images/cucina.png" alt="Piante per la cucina">
-                <p>piante per la cucina</p>
-            </div>
-        </aside>
+    <main class="content-wrapper">
+        <aside class="sidebar-left">
+            <h2 class="sidebar-title">Ogni pianta ha il suo scopo</h2>
+            <div class="sidebar-item">
+                <img src="${pageContext.request.contextPath}/images/soggiorno.png" alt="Piante per il soggiorno">
+                <p>piante per il soggiorno</p>
+            </div>
+            <div class="sidebar-item">
+                <img src="${pageContext.request.contextPath}/images/bagno.png" alt="Piante per il bagno">
+                <p>piante per il bagno</p>
+            </div>
+            <div class="sidebar-item">
+                <img src="${pageContext.request.contextPath}/images/cucina.png" alt="Piante per la cucina">
+                <p>piante per la cucina</p>
+            </div>
+        </aside>
 
-        <section class="main-content">
-            <div class="category-header-box">
-                <div class="category-text-content">
-                    <h2>piante da appartamento</h2>
-                    <p>Scopri la nostra selezione di piante facilissime da curare e con qualità uniche per la casa e la propria salute</p>
-                </div>
-                <div class="category-image-content">
-                    <img src="${pageContext.request.contextPath}/images/presentazionepiante.png" alt="Piante da appartamento">
-                </div>
-            </div>
+        <section class="main-content">
+            <div class="category-header-box">
 
-            <section class="plants-grid">
-                <c:forEach var="pianta" items="${listaPiante}">
-                    <div class="plant-card">
-                         <a href="${pageContext.request.contextPath}/dettagliPianta?id=${pianta.id}">
-                            <div class="plant-info">
-                                <img src="${pageContext.request.contextPath}/images/${pianta.immagine}" alt="${pianta.nomeComune}">
-                                <h3><c:out value="${pianta.nomeComune}"/></h3>
-                            </div>
-                        </a>
-                        <div class="price-section">
-                            <span>€<c:out value="${pianta.prezzo}"/></span>
-                            <small>IVA inclusa</small>
-                        </div>
-                        <form action="${pageContext.request.contextPath}/aggiungiAlCarrello" method="post" class="add-to-cart-form">
-						    <input type="hidden" name="idProdotto" value="${pianta.id}">
-						    <input type="hidden" name="tipoProdotto" value="pianta">
-						   
-						 <button type="submit" class="add-to-cart-btn"> 
-						   
-								    <i class="fas fa-shopping-cart"></i> Aggiungi al Carrello
-						
-						    </button>
-						  </form>
-                    </div>
-                </c:forEach>
-            </section>
-        </section>
-    </main>
-    
-    <jsp:include page="/footer.jsp" />
+            <section class="plants-grid">
+                <c:forEach var="pianta" items="${listaPiante}">
+                    <div class="plant-card">
+                        <a href="${pageContext.request.contextPath}/dettagliPianta?id=${pianta.id}">
+                            <div class="plant-info">
+                                <img src="${pageContext.request.contextPath}/images/${pianta.immagine}" alt="${pianta.nomeComune}">
+                                <h3><c:out value="${pianta.nomeComune}"/></h3>
+                            </div>
+                        </a>
+                        <div class="price-section">
+                            <span>€<fmt:formatNumber value="${pianta.prezzo}" pattern="0.00"/></span>
+                            <small>IVA inclusa</small>
+                        </div>
+                        <form action="${pageContext.request.contextPath}/aggiungiAlCarrello" method="post" class="add-to-cart-form">
+                            <input type="hidden" name="idProdotto" value="${pianta.id}">
+                            <input type="hidden" name="tipoProdotto" value="pianta">
+                            <button type="submit" class="add-to-cart-btn">
+                                <i class="fas fa-shopping-cart"></i> Aggiungi al Carrello
+                            </button>
+                        </form>
+                    </div>
+                </c:forEach>
+            </section>
+           </div>
+        </section>
+    </main>
+
+    <jsp:include page="/footer.jsp" />
 </body>
 </html>

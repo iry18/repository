@@ -171,11 +171,11 @@ public class AccessoriDAO {
     }
 
     // Elimina
-    public boolean deleteAccessori(int accessorio_id) throws SQLException { // CORREZIONE: Da "id" a "accessorio_id" nel parametro del metodo
-        String sql = "DELETE FROM accessori WHERE accessorio_id = ?"; // CORREZIONE: Da "id" a "accessorio_id"
+    public boolean deleteAccessori(int accessorio_id) throws SQLException { 
+        String sql = "DELETE FROM accessori WHERE accessorio_id = ?"; 
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, accessorio_id); // CORREZIONE: Usa accessorio_id qui
+            preparedStatement.setInt(1, accessorio_id); 
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {

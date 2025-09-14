@@ -26,6 +26,8 @@
             <p class="brand-slogan">COMFORT WITH PLANT-BASED INGREDIENTS AND LOTS OF LOVE</p>
         </div>
     </div>
+    
+    <div class="main-container">
 
     <div class="green-background-wrapper">
         <section class="highlight-plants-section">
@@ -56,6 +58,7 @@
                 </c:forEach>
             </div>
         </section>
+    </div>
     </div>
 
     <section class="secret-plants-section">
@@ -101,7 +104,7 @@
             </div>
         </div>
     </div>
-    
+   
     <section class="highlight-accessories-section">
         <div class="highlight-title-wrapper">
             <h2 class="highlight-section-title">Accessori in Evidenza</h2>
@@ -118,12 +121,11 @@
                         <small>IVA inclusa</small>
                     </div>
                     <form action="<%= request.getContextPath() %>/aggiungiAlCarrello" method="post" class="add-to-cart-form">
-                        <input type="hidden" name="idProdotto" value="${accessorio.id}">
+                        <input type="hidden" name="idProdotto" value="${accessorio.accessorio_id}">
                         <input type="hidden" name="tipoProdotto" value="accessorio">
-                        <button type="submit" class="add-to-cart-btn">
-                            <img src="<%= request.getContextPath() %>/images/cart-icon.png" alt="Aggiungi al Carrello"/>
-                            <span>Aggiungi al Carrello</span>
-                        </button>
+                        <button type="submit" class="add-to-cart-btn"> 
+						    <i class="fas fa-shopping-cart"></i> Aggiungi al Carrello
+					    </button>
                     </form>
                 </div>
             </c:forEach>
@@ -148,10 +150,9 @@
                     <form action="<%= request.getContextPath() %>/aggiungiAlCarrello" method="post" class="add-to-cart-form">
                         <input type="hidden" name="idProdotto" value="${pianta.id}">
                         <input type="hidden" name="tipoProdotto" value="pianta">
-                        <button type="submit" class="add-to-cart-btn">
-                            <img src="<%= request.getContextPath() %>/images/cart-icon.png" alt="Aggiungi al Carrello"/>
-                            <span>Aggiungi al Carrello</span>
-                        </button>
+                        <button type="submit" class="add-to-cart-btn"> 
+						  <i class="fas fa-shopping-cart"></i> Aggiungi al Carrello
+					    </button>
                     </form>
                 </div>
             </c:forEach>
@@ -173,7 +174,7 @@
         </div>
     </div>
 
- <jsp:include page="/footer.jsp" />
+  <jsp:include page="/footer.jsp" />
  
 </body>
 </html>

@@ -9,6 +9,22 @@ body {
     line-height: 1.6;
 }
 
+/* Stile per il cerchio in alto a destra */
+.circle.top-right {
+    width: 150px;
+    height: 150px;
+    top: -50px;
+    right: -50px;
+}
+
+/* Stile per il cerchio in basso a sinistra */
+.circle.bottom-left {
+    width: 250px;
+    height: 250px;
+    bottom: -125px;
+    left: -125px;
+}
+
 /* Stili per Hero Section */
 .hero-section {
     display: flex;

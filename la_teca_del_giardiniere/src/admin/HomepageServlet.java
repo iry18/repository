@@ -42,7 +42,7 @@ public class HomepageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            int numeroEvidenza = 4;
+            int numeroEvidenza = 5;
 
             List<Piante> listaPianteInEvidenza = pianteDAO.getPianteInEvidenza(numeroEvidenza);
             request.setAttribute("listaPianteInEvidenza", listaPianteInEvidenza);
