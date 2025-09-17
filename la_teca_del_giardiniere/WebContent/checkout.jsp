@@ -9,9 +9,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout - La Teca del Giardiniere</title><link rel="stylesheet" type="homepage.css">
-    
+     <jsp:include page="/header.jsp" />
     <style>
-        /* Stili temporanei o specifici per questa pagina */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -157,7 +156,7 @@
                     <input type="text" id="indirizzo" name="indirizzo" value="${utenteCorrente.indirizzo}" required>
                 </div>
                 <div class="form-group">
-                    <label for="citta">Città:</label>
+                    <label for="citta">Città :</label>
                     <input type="text" id="citta" name="citta" value="${utenteCorrente.citta}" required>
                 </div>
                 <div class="form-group">
@@ -194,12 +193,6 @@
                         <input type="radio" name="metodoPagamento" value="Bonifico Bancario"> Bonifico Bancario
                     </label>
                 </div>
-                <%-- Puoi aggiungere altri metodi di pagamento qui, es. carta di credito se prevedi integrazioni --%>
-                <%-- <div class="form-group">
-                    <label>
-                        <input type="radio" name="metodoPagamento" value="Carta di Credito" disabled> Carta di Credito (Prossimamente)
-                    </label>
-                </div> --%>
             </div>
 
             <div class="button-container">

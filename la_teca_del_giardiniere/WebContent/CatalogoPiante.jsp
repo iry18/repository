@@ -15,25 +15,6 @@
 </head>
 
 <body>
-    <header>
-        <div class="header-container">
-            <div class="logo-area">
-                <a href="homepage.jsp">
-                    <img src="${pageContext.request.contextPath}/images/logo.png" alt="La Teca del Giardiniere Logo" class="site-logo">
-                </a>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="homepage.jsp">HOME</a></li>
-                    <li><a href="${pageContext.request.contextPath}/catalogo-piante?tipo=interno">Piante da interno</a></li>
-                    <li><a href="${pageContext.request.contextPath}/catalogo-piante?tipo=esterno">Piante da esterno</a></li>
-                    <li><a href="${pageContext.request.contextPath}/catalogo-accessori">ACCESSORI</a></li>
-                    <li><a href="${pageContext.request.contextPath}/visualizzaCarrello">CARRELLO</a></li>
-                    <li><a href="userlogged/MyAccount.jsp">Account</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
 
     <main class="content-wrapper">
         <aside class="sidebar-left">

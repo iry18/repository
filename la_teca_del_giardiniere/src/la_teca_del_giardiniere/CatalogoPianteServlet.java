@@ -32,43 +32,47 @@ public class CatalogoPianteServlet extends HttpServlet {
         }
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
+        throws ServletException, IOException {
         if (pianteDAO == null) {
-            LOGGER.severe("DAO non disponibile. Errore di inizializzazione.");
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore di configurazione del server.");
+            LOGGER.severe("DAO unavailable. Initialization error.");
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Server configuration error.");
             return;
         }
 
         String tipo = request.getParameter("tipo");
-        LOGGER.info("Richiesta per tipo: " + tipo);
-        String destinazioneJSP;
+        String searchQuery = request.getParameter("query");
+
+        List<Piante> listaPiante = null;
+        String destinazioneJSP = "/CatalogoPiante.jsp";
 
         try {
-            List<Piante> listaPiante = null;
-            if ("interno".equalsIgnoreCase(tipo)) {
+            if (tipo != null && !tipo.trim().isEmpty() && searchQuery != null && !searchQuery.trim().isEmpty()) {
+                LOGGER.info("Ricerca per query e tipo: " + searchQuery + ", " + tipo);
+            } else if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+                // Caso: solo ricerca per nome (su tutte le piante)
+                listaPiante = pianteDAO.getPianteByNomeComune(searchQuery);
+                LOGGER.info("Ricerca per query: " + searchQuery);
+            } else if ("interno".equalsIgnoreCase(tipo)) {
+                // Caso: solo filtro per tipo "interno"
                 listaPiante = pianteDAO.getPianteByTipo("interno");
                 destinazioneJSP = "/Piantedainterno.jsp";
             } else if ("esterno".equalsIgnoreCase(tipo)) {
+                // Caso: solo filtro per tipo "esterno"
                 listaPiante = pianteDAO.getPianteByTipo("esterno");
                 destinazioneJSP = "/Piantedaesterno.jsp";
             } else {
-                LOGGER.warning("Tipo di pianta non valido richiesto: " + tipo + ". Reindirizzamento al catalogo completo.");
+                // Caso: recupera tutte le piante (nessun filtro)
                 listaPiante = pianteDAO.getAllPiante();
-                destinazioneJSP = "/CatalogoPiante.jsp"; 
             }
-
-            // Logga il numero di piante trovate
-            LOGGER.info("Trovate " + (listaPiante != null ? listaPiante.size() : 0) + " piante per il tipo: " + tipo);
-            LOGGER.info("Reindirizzamento a: " + destinazioneJSP);
-
-            request.setAttribute("listaPiante", listaPiante);
-            request.getRequestDispatcher(destinazioneJSP).forward(request, response);
-
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Errore SQL durante il recupero delle piante.", e);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore del database.");
+            return;
         }
+
+        request.setAttribute("listaPiante", listaPiante);
+        request.getRequestDispatcher(destinazioneJSP).forward(request, response);
     }
-}
+  }

@@ -290,12 +290,32 @@ public class PianteDAO {
      * @return Una lista di oggetti Piante.
      * @throws SQLException Se si verifica un errore SQL.
      */
+    public List<Piante> filterPianteByNomeComune(List<Piante> lista, String nome) {
+        if (lista == null || nome == null || nome.trim().isEmpty()) {
+            return lista; 
+        }
+        
+        List<Piante> filteredPiante = new ArrayList<>();
+        String lowerCaseNome = nome.toLowerCase().trim();
+        
+        for (Piante pianta : lista) {
+            if (pianta.getNomeComune() != null && pianta.getNomeComune().toLowerCase().contains(lowerCaseNome)) {
+                filteredPiante.add(pianta);
+            }
+        }
+        
+        return filteredPiante;
+    }
+    
     public List<Piante> getPianteByTipo(String tipo) throws SQLException {
         List<Piante> piante = new ArrayList<>();
         String sql = "SELECT * FROM piante WHERE LOWER(Tipo) = ?"; 
+        
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
+            
             ps.setString(1, tipo.toLowerCase().trim()); 
+            
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     piante.add(mapResultSetToPianta(rs));

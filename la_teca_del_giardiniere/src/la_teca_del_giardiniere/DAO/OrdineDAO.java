@@ -41,24 +41,24 @@ public class OrdineDAO {
 
     private Ordine createOrdineFromResultSet(ResultSet rs) throws SQLException {
         return new Ordine(
-        		rs.getInt("ordine_id"),
-                rs.getInt("utente_id"),
-                rs.getTimestamp("data_ordine"),
-                rs.getString("citta_spedizione"),
-                rs.getString("paese_spedizione"),
-                rs.getString("CAP_spedizione"),
-                rs.getBigDecimal("tot_ordine"),
-                rs.getString("metodo_pagamento"),
-                rs.getBigDecimal("IVA"),
-                rs.getString("stato_ordine"),
-                rs.getString("nome_spedizione"),
-                rs.getString("cognome_spedizione"),
-                rs.getString("indirizzo_spedizione"),
-                rs.getString("telefono_spedizione"),
-                rs.getString("email_spedizione")
+            rs.getInt("ordine_id"),
+            rs.getInt("utente_id"),
+            rs.getTimestamp("data_ordine"),
+            rs.getString("citta_spedizione"),
+            rs.getString("paese_spedizione"),
+            rs.getString("CAP_spedizione"),
+            rs.getBigDecimal("tot_ordine"),
+            rs.getString("metodo_pagamento"),
+            rs.getBigDecimal("IVA"),
+            rs.getString("stato_ordine"),
+            rs.getString("note"),
+            rs.getString("nome_spedizione"),
+            rs.getString("cognome_spedizione"),
+            rs.getString("indirizzo_spedizione"),
+            rs.getString("telefono_spedizione"),
+            rs.getString("email_spedizione")
         );
     }
-    
     private List<DettaglioOrdine> loadDettagliOrdine(Connection connection, int ordineId) throws SQLException {
         List<DettaglioOrdine> dettagliOrdineList = new ArrayList<>();
         String sqlDettagli = "SELECT do.dettaglio_id, do.ordine_id, do.p_codprodotto, do.accessorio_id, " +
@@ -98,7 +98,6 @@ public class OrdineDAO {
             try (ResultSet rsOrdini = psOrdini.executeQuery()) {
                 while (rsOrdini.next()) {
                     Ordine ordine = createOrdineFromResultSet(rsOrdini);
-                    ordine.setDettagliOrdine(loadDettagliOrdine(connection, ordine.getOrdineId()));
                     ordini.add(ordine);
                 }
             }
@@ -111,8 +110,10 @@ public class OrdineDAO {
 
     private int insertOrdine(Connection connection, Ordine ordine) throws SQLException {
         String sql = "INSERT INTO ordine (utente_id, data_ordine, citta_spedizione, paese_spedizione, CAP_spedizione, " +
-                     "tot_ordine, metodo_pagamento, IVA, stato_ordine) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                     "tot_ordine, metodo_pagamento, IVA, stato_ordine, nome_spedizione, cognome_spedizione, " +
+                     "indirizzo_spedizione, telefono_spedizione, email_spedizione) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
         int generatedId = -1;
 
         try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -125,6 +126,12 @@ public class OrdineDAO {
             ps.setString(7, ordine.getMetodoPagamento());
             ps.setBigDecimal(8, ordine.getIva());
             ps.setString(9, ordine.getStatoOrdine());
+            // Add the new parameters
+            ps.setString(10, ordine.getNomeSpedizione());
+            ps.setString(11, ordine.getCognomeSpedizione());
+            ps.setString(12, ordine.getIndirizzoSpedizione());
+            ps.setString(13, ordine.getTelefonoSpedizione());
+            ps.setString(14, ordine.getEmailSpedizione());
 
             int rowsAffected = ps.executeUpdate();
             if (rowsAffected > 0) {
@@ -173,13 +180,6 @@ public class OrdineDAO {
 
             generatedOrderId = insertOrdine(connection, ordine);
 
-            if (generatedOrderId != -1 && ordine.getDettagliOrdine() != null) {
-                for (DettaglioOrdine dettaglio : ordine.getDettagliOrdine()) {
-                    dettaglio.setOrdineId(generatedOrderId);
-                    insertDettaglioOrdine(connection, dettaglio);
-                }
-            }
-
             connection.commit();
             LOGGER.log(Level.INFO, "Ordine e dettagli inseriti con successo in transazione, ID: {0}", generatedOrderId);
         } catch (SQLException e) {
@@ -216,7 +216,6 @@ public class OrdineDAO {
             try (ResultSet rsOrdine = psOrdine.executeQuery()) {
                 if (rsOrdine.next()) {
                     ordine = createOrdineFromResultSet(rsOrdine);
-                    ordine.setDettagliOrdine(loadDettagliOrdine(connection, ordine.getOrdineId()));
                 }
             }
         } catch (SQLException e) {
@@ -236,7 +235,6 @@ public class OrdineDAO {
             try (ResultSet rsOrdini = psOrdini.executeQuery()) {
                 while (rsOrdini.next()) {
                     Ordine ordine = createOrdineFromResultSet(rsOrdini);
-                    ordine.setDettagliOrdine(loadDettagliOrdine(connection, ordine.getOrdineId()));
                     ordini.add(ordine);
                 }
             }
@@ -261,4 +259,23 @@ public class OrdineDAO {
             throw e;
         }
     }
+       
+    public List<Ordine> getAllOrdini() throws SQLException {
+    	        List<Ordine> ordini = new ArrayList<>();
+    	        String sql = "SELECT * FROM ordine ORDER BY data_ordine DESC";
+
+    	        try (Connection connection = getConnection();
+    	             PreparedStatement ps = connection.prepareStatement(sql);
+    	             ResultSet rs = ps.executeQuery()) {
+    	            
+    	            while (rs.next()) {
+    	                Ordine ordine = createOrdineFromResultSet(rs);
+    	               ordini.add(ordine);
+    	            }
+    	        } catch (SQLException e) {
+    	            LOGGER.log(Level.SEVERE, "Errore SQL durante il recupero di tutti gli ordini.", e);
+    	            throw e;
+    	        }
+    	        return ordini;
+    	    }
 }

@@ -1,12 +1,15 @@
-@charset "ISO-8859-1";
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    color: #3a5a40;
+    background-color: white;
+}
 
 header {
     background-color: white;
     padding: 10px 30px;
-    border-bottom: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
@@ -16,99 +19,178 @@ header {
     align-items: center;
     width: 100%;
     max-width: 1200px;
-    padding: 10px 0;
+    margin: 0 auto;
+}
+
+.logo-area {
+    flex-shrink: 0;
 }
 
 .site-logo {
-    height: 50px;
+    height: 60px;
     width: auto;
 }
 
-nav {
-    display: flex;
+/* Main Navigation Links */
+.main-nav {
     flex-grow: 1;
+    display: flex;
     justify-content: center;
-    align-items: center;
+    padding: 0 20px; /* Add some padding to prevent links from touching the logo/search area */
 }
 
-nav ul {
+.main-nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
-    align-items: center;
     gap: 30px;
 }
 
-nav ul li a {
+nav ul li a, .nav-link {
     text-decoration: none;
-    color: #588157;
-    font-weight: bold;
+    color: #3a5a40;
+    font-weight: normal;
     font-size: 1.1em;
-    transition: color 0.3s ease;
     font-family: 'Cormorant Garamond', serif;
 }
 
-nav ul li a:hover {
-    color: #36c97c;
+/* Right Side Navigation */
+.right-nav {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    /* This makes the search bar visually contained with the other right nav elements */
 }
 
-/* Stili per Hero Section */
-.hero-section {
+.cart-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    position: relative;
+    text-decoration: none;
+    color: #3a5a40;
+    font-size: 1.1em;
+}
+
+.cart-link img {
+    height: 24px;
+    width: auto;
+}
+
+.main-nav {
+    flex-grow: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 50px 20px;
 }
 
-.hero-image-container {
-    flex: 1;
-    text-align: right;
-    padding-right: 20px;
-}
-
-.hero-image-container img {
-    max-width: 80%;
-    height: auto;
-    max-height: 300px;
-    object-fit: contain;
-}
-
-.brand-text-container {
-    flex: 1;
-    text-align: left;
-    padding-left: 20px;
-}
-
-.brand-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 5em;
-    font-weight: 300;
-    letter-spacing: 2px;
-    color: #3a5a40;
-    line-height: 1.1;
+.main-nav ul {
+    list-style: none;
+    padding: 0;
     margin: 0;
-    text-transform: uppercase;
+    display: flex;
+    gap: 30px;
 }
 
-.cart-icon {
-    position: relative; 
+nav ul li a, .nav-link {
+    text-decoration: none;
+    color: #3a5a40;
+    font-weight: normal;
+    font-size: 1.1em;
+    font-family: 'Cormorant Garamond', serif;
 }
 
-/* Stile per il badge */
-.cart-badge {
+/* ======================== */
+/* Stili degli Elementi di Destra */
+/* ======================== */
+.right-nav {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+/* Allinea il testo e l'immagine all'interno dei link */
+.cart-link, .account-link {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Spazio tra testo e icona */
+    position: relative;
+    text-decoration: none;
+    color: #3a5a40;
+    font-size: 1.1em;
+}
+
+.cart-link img, .account-link img {
+    height: 24px;
+    width: auto;
+}
+
+/* Rimuovi la regola per .cart-badge */
+/* ... */
+
+/* Form di ricerca */
+.search-form {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #c9d8bd;
+    border-radius: 25px;
+    padding: 5px 10px;
+}
+
+.search-form input[type="text"] {
+    border: none;
+    background: transparent;
+    padding: 8px 30px 8px 10px;
+    font-size: 1em;
+    outline: none;
+    width: 100%;
+}
+
+.search-form button {
+    background: none;
+    border: none;
+    cursor: pointer;
     position: absolute;
-    top: -10px;
-    right: -15px;
-    background-color: #588157; 
-    color: white;
-    border-radius: 50%;
-    padding: 3px 6px;
-    font-size: 0.7em;
-    font-weight: bold;
-    line-height: 1;
-    min-width: 18px; 
-    text-align: center;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0;
+}
+
+.search-form button img {
+    height: 20px;
+}
+
+/* Correzione per la ricerca */
+.search-form {
+    display: flex;
+    align-items: center;
+    background-color: #f3f8ec;
+    border: 1px solid #c9d8bd;
+    border-radius: 25px;
+    padding: 5px 10px;
+    position: relative;
+    width: 200px;
+}
+.search-form input[type="text"] {
+    border: none;
+    background: transparent;
+    padding: 8px 30px 8px 10px;
+    font-size: 1em;
+    outline: none;
+    width: 100%;
+}
+.search-form button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0;
+}
+.search-form button img {
+    height: 20px;
 }

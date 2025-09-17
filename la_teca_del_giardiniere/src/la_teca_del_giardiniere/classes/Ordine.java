@@ -2,45 +2,43 @@ package la_teca_del_giardiniere.classes;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.List;
 
 public class Ordine {
     private int ordineId;
     private int utenteId;
     private Timestamp dataOrdine;
-    private String nomeSpedizione;
-    private String cognomeSpedizione;
-    private String indirizzoSpedizione;
-    private String cittaSpedizione;
+    private String cittaSpedizion;
     private String paeseSpedizione;
     private String capSpedizione;
-    private String telefonoSpedizione;
-    private String emailSpedizione;
+    private String cittaSpedizione;
     private BigDecimal totaleOrdine;
     private String metodoPagamento;
     private BigDecimal iva;
     private String statoOrdine;
     private String note;
-    private List<DettaglioOrdine> dettagliOrdine;
+    private String nomeSpedizione;
+    private String cognomeSpedizione;
+    private String indirizzoSpedizione;
+    private String telefonoSpedizione;
+    private String emailSpedizione;
 
-    // Costruttore completo (per il recupero dal DB)
-    public Ordine(int ordineId, int utenteId, Timestamp dataOrdine, String nomeSpedizione, String cognomeSpedizione, String indirizzoSpedizione, String cittaSpedizione, String paeseSpedizione, String capSpedizione, String telefonoSpedizione, String emailSpedizione, BigDecimal totaleOrdine, String metodoPagamento, BigDecimal iva, String statoOrdine, String note) {
+    public Ordine(int ordineId, int utenteId, Timestamp dataOrdine, String cittaSpedizione, String paeseSpedizione, String capSpedizione, BigDecimal totaleOrdine, String metodoPagamento, BigDecimal iva, String statoOrdine, String note, String nomeSpedizione, String cognomeSpedizione, String indirizzoSpedizione, String telefonoSpedizione, String emailSpedizione) {
         this.ordineId = ordineId;
         this.utenteId = utenteId;
         this.dataOrdine = dataOrdine;
-        this.nomeSpedizione = nomeSpedizione;
-        this.cognomeSpedizione = cognomeSpedizione;
-        this.indirizzoSpedizione = indirizzoSpedizione;
         this.cittaSpedizione = cittaSpedizione;
         this.paeseSpedizione = paeseSpedizione;
         this.capSpedizione = capSpedizione;
-        this.telefonoSpedizione = telefonoSpedizione;
-        this.emailSpedizione = emailSpedizione;
         this.totaleOrdine = totaleOrdine;
         this.metodoPagamento = metodoPagamento;
         this.iva = iva;
         this.statoOrdine = statoOrdine;
         this.note = note;
+        this.nomeSpedizione = nomeSpedizione;
+        this.cognomeSpedizione = cognomeSpedizione;
+        this.indirizzoSpedizione = indirizzoSpedizione;
+        this.telefonoSpedizione = telefonoSpedizione;
+        this.emailSpedizione = emailSpedizione;
     }
     
     // Costruttore semplificato (per il salvataggio nel DB)
@@ -95,7 +93,7 @@ public class Ordine {
     public void setIndirizzoSpedizione(String indirizzoSpedizione) {
         this.indirizzoSpedizione = indirizzoSpedizione;
     }
-
+    
     public String getCittaSpedizione() {
         return cittaSpedizione;
     }
@@ -174,13 +172,5 @@ public class Ordine {
 
     public void setNote(String note) {
         this.note = note;
-    }
-
-    public List<DettaglioOrdine> getDettagliOrdine() {
-        return dettagliOrdine;
-    }
-
-    public void setDettagliOrdine(List<DettaglioOrdine> dettagliOrdine) {
-        this.dettagliOrdine = dettagliOrdine;
     }
 }

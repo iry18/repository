@@ -269,7 +269,7 @@
                 <h3>Gestione Ordini</h3>
                 <p>Tieni traccia ed elabora gli ordini dei clienti.</p>
                 <div class="button-group">
-                    <a href="gestione-ordini.jsp" class="button">Gestione Ordini</a>
+                    <a href="ListaOrdini.jsp" class="button">Gestione Ordini</a>
                 </div>
             </div>
         </div>

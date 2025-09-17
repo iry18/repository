@@ -46,7 +46,7 @@ public class ProcessaCheckoutServlet extends HttpServlet {
         // RECUPERA CARRELLO E UTENTE DALLA SESSIONE
         @SuppressWarnings("unchecked")
         Map<String, RigaCarrello> carrello = (Map<String, RigaCarrello>) session.getAttribute("carrello");
-        Utente utente = (Utente) session.getAttribute("utente");
+        Utente utente = (Utente) session.getAttribute("utenteCorrente");
 
         // 1. Verifica la presenza del carrello
         if (carrello == null || carrello.isEmpty()) {
@@ -58,9 +58,9 @@ public class ProcessaCheckoutServlet extends HttpServlet {
 
         // 2. Verifica la presenza dell'utente (se il login è obbligatorio)
         if (utente == null) {
-            LOGGER.log(Level.WARNING, "Tentativo di processare un checkout senza utente loggato.");
-            response.sendRedirect(request.getContextPath() + "/login.jsp"); // Reindirizza al login
-            return;
+        	request.setAttribute("errore", "Devi essere loggato per completare l'ordine.");
+            request.getRequestDispatcher("/Login.jsp").forward(request, response);
+            return; 
         }
 
         // 3. Calcola il totale e l'IVA
@@ -108,7 +108,6 @@ public class ProcessaCheckoutServlet extends HttpServlet {
             dettaglio.setQuantita(riga.getQuantita());
             dettagliOrdineList.add(dettaglio);
         }
-        nuovoOrdine.setDettagliOrdine(dettagliOrdineList);
 
         try {
             // 7. Salva l'ordine e i dettagli nel database
