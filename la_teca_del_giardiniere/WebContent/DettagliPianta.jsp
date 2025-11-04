@@ -11,9 +11,10 @@
     <link rel="stylesheet" href="paginepiante.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
+
 <body>
     <jsp:include page="/header.jsp" />
-
+    
     <div class="container-dettagli-pianta">
         <c:choose><c:when test="${pianta != null}">
             <section class="immagine-principale">

@@ -1,6 +1,4 @@
 @charset "UTF-8";
-
-/* General Body and Typography */
 body {
     font-family: 'Montserrat', sans-serif;
     margin: 0;
@@ -15,7 +13,6 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 400;
 }
 
-/* --- Layout Structure --- */
 .content-wrapper {
     display: flex;
     flex-direction: row;

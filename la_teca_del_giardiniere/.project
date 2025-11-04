@@ -95,6 +95,11 @@
 			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/logo.png</locationURI>
 		</link>
 		<link>
+			<name>WebContent/images/mascotte.png</name>
+			<type>1</type>
+			<locationURI>copy_PARENT/Downloads/mascotte.png</locationURI>
+		</link>
+		<link>
 			<name>WebContent/images/paletti.png</name>
 			<type>1</type>
 			<locationURI>copy_PARENT/Desktop/ROBA%20TSW/paletti.png</locationURI>

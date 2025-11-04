@@ -85,8 +85,8 @@ public class AccessoriDAO {
     }
 
     // Leggi by accessorio_id
-    public Accessori getAccessorioByaccessorio_id(int accessorio_id) throws SQLException { // Ho mantenuto il nome del metodo che avevi, ma vedi nota sotto
-        String sql = "SELECT * FROM accessori WHERE accessorio_id = ?"; // CORREZIONE: Da "id" a "accessorio_id"
+    public Accessori getAccessorioByaccessorio_id(int accessorio_id) throws SQLException { 
+        String sql = "SELECT * FROM accessori WHERE accessorio_id = ?"; 
         Accessori accessorio = null;
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -94,7 +94,7 @@ public class AccessoriDAO {
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 if (rs.next()) {
                     accessorio = new Accessori();
-                    accessorio.setAccessorio_id(rs.getInt("accessorio_id")); // CORREZIONE: Da "id" a "accessorio_id"
+                    accessorio.setAccessorio_id(rs.getInt("accessorio_id")); 
                     accessorio.setNome(rs.getString("nome"));
                     accessorio.setPrezzo(rs.getBigDecimal("prezzo"));
                     accessorio.setDisponibilita(rs.getInt("disponibilita"));
@@ -119,7 +119,7 @@ public class AccessoriDAO {
              ResultSet rs = preparedStatement.executeQuery()) {
             while (rs.next()) {
                 Accessori accessorio = new Accessori();
-                accessorio.setAccessorio_id(rs.getInt("accessorio_id")); // CORREZIONE: Da "id" a "accessorio_id"
+                accessorio.setAccessorio_id(rs.getInt("accessorio_id")); 
                 accessorio.setNome(rs.getString("nome"));
                 accessorio.setPrezzo(rs.getBigDecimal("prezzo"));
                 accessorio.setDisponibilita(rs.getInt("disponibilita"));
@@ -163,8 +163,7 @@ public class AccessoriDAO {
             preparedStatement.setString(6, accessorio.getDimensioni());
             preparedStatement.setString(7, accessorio.getImmagine());
             preparedStatement.setString(8, accessorio.getCategoria());
-            // dataInserimento solitamente non si aggiorna, ma se necessario:
-            preparedStatement.setInt(9, accessorio.getAccessorio_id()); // La condizione WHERE
+            preparedStatement.setInt(9, accessorio.getAccessorio_id()); 
 
             return preparedStatement.executeUpdate() > 0;
         }
@@ -182,5 +181,43 @@ public class AccessoriDAO {
             LOGGER.log(Level.SEVERE, "Errore SQL durante l'eliminazione dell'accessorio con ID: " + accessorio_id, e);
             throw e;
         }
+    }
+    public List<Accessori> searchByQuery(String searchQuery) throws SQLException {
+        List<Accessori> risultatiAccessori = new ArrayList<>();
+        
+        // La query cerca la stringa in tre campi principali: nome, descrizione e categoria.
+        // L'uso di LOWER() e il Prepared Statement con parametri (?) garantisce sicurezza e flessibilità.
+        String sql = "SELECT * FROM accessori WHERE "
+                   + "LOWER(nome) LIKE LOWER(?) OR "
+                   + "LOWER(descrizioneBreve) LIKE LOWER(?) OR "
+                   + "LOWER(categoria) LIKE LOWER(?)";
+        
+        // La stringa di ricerca viene preparata aggiungendo i simboli jolly '%'
+        String likeQuery = "%" + searchQuery.trim() + "%";
+        
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            
+            // Imposta il parametro di ricerca per i tre campi nella query.
+            // Poiché usiamo LOWER(?) e la stringa è già formattata con %, la ricerca è case-insensitive.
+            preparedStatement.setString(1, likeQuery); 
+            preparedStatement.setString(2, likeQuery); 
+            preparedStatement.setString(3, likeQuery); 
+            
+            LOGGER.log(Level.INFO, "Esecuzione query di ricerca accessori per: " + likeQuery);
+            
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    // Riutilizza il metodo esistente per mappare il risultato su un oggetto Accessori
+                    risultatiAccessori.add(mapResultSetToAccessorio(rs));
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Errore SQL durante la ricerca degli accessori per query: " + searchQuery, e);
+            // Rilancia l'eccezione per essere gestita dal livello superiore (la Servlet)
+            throw e; 
+        }
+        
+        return risultatiAccessori;
     }
 }

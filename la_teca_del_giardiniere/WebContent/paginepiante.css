@@ -1,12 +1,13 @@
+@charset "UTF-8";
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+/*   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+*/  background-color: #f4f4f4; 
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .info-list {
@@ -85,15 +86,17 @@ body {
 /* Stili specifici della pagina Dettagli Pianta */
 .container-dettagli-pianta {
     max-width: 990px;
-    margin: 30px auto;
     padding: 35px;
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
     display: grid;
+    flex-grow: 0;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto auto auto;
     gap: 30px;
+    margin: 30px auto;
+    flex: 1;
 }
 
 .immagine-principale {
@@ -155,8 +158,10 @@ body {
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     width: 100%;
-    max-width: 450px;
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 colonne per desktop */
+    gap: 15px;
 }
 
 .info-item {

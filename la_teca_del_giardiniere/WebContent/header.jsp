@@ -10,7 +10,12 @@
     <title>La Teca del Giardiniere</title>
     <link rel="stylesheet" href="header.css">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJTM7jQyE+H1aB0T1iM5Wp7mB4q3F3pC/x5/381f/C/w2K5TqG5x/43p+H5/Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
+
 <body>
 <header>
     <div class="header-container">
@@ -29,21 +34,24 @@
             </ul>
         </nav>
         
-        <div class="right-nav">
-            <a href="${pageContext.request.contextPath}/visualizzaCarrello" class="nav-link cart-link">
-                CARRELLO
-                <img src="<%= request.getContextPath() %>/images/cart.svg" alt="Carrello">
-            </a>
-            <a href="<%= request.getContextPath() %>/userlogged/MyAccount.jsp" class="nav-link account-link"> 
-            </a>
-            
-           <form action="${pageContext.request.contextPath}/catalogo-piante" method="GET" class="search-form">
-			    <input type="hidden" name="tipo" value="${param.tipo != null ? param.tipo : ''}">
-			    <input type="text" name="query" value="${param.query != null ? param.query : ''}">
-			    <button type="submit">
-			        <img src="<%= request.getContextPath() %>/images/search-icon.svg" alt="Cerca">
-			    </button>
-			</form>
-        </div>
-    </div>
+	<div class="right-nav">
+    
+    <a href="${pageContext.request.contextPath}/MyAccount.jsp" class="nav-icon-link" aria-label="Il mio Account">
+        <i class="bi bi-person"></i>
+    </a>
+    
+    <a href="${pageContext.request.contextPath}/carrello" class="nav-icon-link cart-link" aria-label="Carrello">
+        <i class="bi bi-bag"></i> 
+        <c:if test="${numeroArticoliCarrello > 0}">
+            <span class="cart-badge">${numeroArticoliCarrello}</span>
+        </c:if>
+    </a>
+    
+    <form action="${pageContext.request.contextPath}/catalogo" method="GET" class="search-form-header"> 
+        <input type="text" name="query" placeholder="Cerca Piante e Accessori..." value="${param.query != null ? param.query : ''}">
+        <button type="submit" aria-label="Cerca">
+            <i class="bi bi-search"></i>
+        </button>
+    </form>
+</div>
 </header>

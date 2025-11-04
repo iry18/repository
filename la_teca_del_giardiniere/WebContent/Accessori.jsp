@@ -44,7 +44,17 @@
         </aside>
 
         <section class="main-content">
-           
+        
+           <div class="category-header-box">
+                <div class="category-text-content">
+                    <h2><c:out value="${requestScope.titoloCatalogo}"/></h2>
+                    <p><c:out value="${requestScope.descrizioneCatalogo}"/></p>
+                </div>
+                <div class="category-image-content">
+                    <img src="${pageContext.request.contextPath}/images/<c:out value='${requestScope.immagineCatalogo}'/>" 
+                         alt="Immagine di presentazione per gli accessori">
+                </div>
+            </div>
             <section class="products-grid-section">
                 <c:choose>
                     <c:when test="${empty requestScope.listaAccessori}">

@@ -37,21 +37,20 @@
             <div class="plants-grid">
                 <c:forEach items="${listaPianteInEvidenza}" var="plant">
                     <div class="plant-card">
+                        <a href="${pageContext.request.contextPath}/dettagliPianta?id=${plant.id}">
                         <div class="plant-info">
-                            <img src="<%= request.getContextPath() %>/images/${plant.immagine}" alt="${plant.nomeComune}">
-                            <h3><c:out value="${plant.nomeComune}"/></h3>
-                        </div>
+					            <img src="<%= request.getContextPath() %>/images/${plant.immagine}" alt="${plant.nomeComune}">
+					            <h3><c:out value="${plant.nomeComune}"/></h3>
+					        </div>
                         <div class="price-section">
-                            <span>€<c:out value="${plant.prezzo}"/></span>
+                            <span>€<fmt:formatNumber value="${plant.prezzo}" pattern="0.00"/></span>
                             <small>IVA inclusa</small>
                         </div>
-                        <form action="<%= request.getContextPath() %>/aggiungiAlCarrello" method="post" class="add-to-cart-form">
-                            <input type="hidden" name="idProdotto" value="${plant.id}">
+                        <form action="${pageContext.request.contextPath}/aggiungiAlCarrello" method="post" class="add-to-cart-form">
+                             <input type="hidden" name="idProdotto" value="${plant.id}">
                             <input type="hidden" name="tipoProdotto" value="pianta">
                              <button type="submit" class="add-to-cart-btn"> 
-						   
-								    <i class="fas fa-shopping-cart"></i> Aggiungi al Carrello
-						
+								<i class="fas fa-shopping-cart"></i> Aggiungi al Carrello
 						    </button>
                         </form>
                     </div>
@@ -113,9 +112,9 @@
             <c:forEach items="${listaAccessoriInEvidenza}" var="accessorio">
                 <div class="plant-card">
                     <div class="plant-info">
-                        <img src="<%= request.getContextPath() %>/images/${accessorio.immagine}" alt="${accessorio.nome}">
-                        <h3><c:out value="${accessorio.nome}"/></h3>
-                    </div>
+				            <img src="<%= request.getContextPath() %>/images/${accessorio.immagine}" alt="${accessorio.nome}">
+				            <h3><c:out value="${accessorio.nome}"/></h3>
+				        </div>
                     <div class="price-section">
                         <span>€<c:out value="${accessorio.prezzo}"/></span>
                         <small>IVA inclusa</small>

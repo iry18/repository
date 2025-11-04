@@ -327,4 +327,41 @@ public class PianteDAO {
         }
         return piante;
     }
+    
+    public List<Piante> searchByQuery(String searchQuery) throws SQLException {
+        List<Piante> risultatiPiante = new ArrayList<>();
+
+        // La query usa LIKE per la ricerca parziale e LOWER() per la case-insensitivity.
+        String sql = "SELECT * FROM piante WHERE "
+                   + "LOWER(NomeComune) LIKE LOWER(?) OR "
+                   + "LOWER(NomeScientificoBotanico) LIKE LOWER(?) OR "
+                   + "LOWER(DescrizioneBreve) LIKE LOWER(?)";
+
+        // Prepara la query di ricerca aggiungendo i simboli jolly '%'
+        String likeQuery = "%" + searchQuery.trim() + "%";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            // Imposta il parametro di ricerca per i tre campi
+            preparedStatement.setString(1, likeQuery);
+            preparedStatement.setString(2, likeQuery);
+            preparedStatement.setString(3, likeQuery);
+
+            LOGGER.log(Level.INFO, "Esecuzione query di ricerca piante per: " + likeQuery);
+
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    // Riutilizza il metodo helper esistente
+                    risultatiPiante.add(mapResultSetToPianta(rs));
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Errore SQL durante la ricerca delle piante per query: " + searchQuery, e);
+            // Rilancia l'eccezione per essere gestita dalla Servlet
+            throw e;
+        }
+
+        return risultatiPiante;
+    }
 }
