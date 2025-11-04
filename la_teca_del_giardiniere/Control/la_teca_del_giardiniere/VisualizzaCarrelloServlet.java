@@ -23,9 +23,7 @@ public class VisualizzaCarrelloServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger(VisualizzaCarrelloServlet.class.getName());
 
-    /**
-     * Gestisce le richieste GET per la visualizzazione del carrello.
-     */
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false); // Non crea una nuova sessione se non esiste
@@ -61,10 +59,7 @@ public class VisualizzaCarrelloServlet extends HttpServlet {
         request.getRequestDispatcher("/Carrello.jsp").forward(request, response);
     }
     
-    /**
-     * Gestisce le richieste POST reindirizzandole al metodo GET.
-     * Questo è utile per la coerenza del reindirizzamento da altre servlet.
-     */
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);

@@ -50,7 +50,7 @@ public class HomepageServlet extends HttpServlet {
             List<Accessori> listaAccessoriInEvidenza = accessoriDAO.getAccessoriInEvidenza(numeroEvidenza);
             request.setAttribute("listaAccessoriInEvidenza", listaAccessoriInEvidenza);
 
-            List<Piante> listaPianteDaEsterno = pianteDAO.getPianteByNomeComune("esterno");
+            List<Piante> listaPianteDaEsterno = pianteDAO.getPianteByTipo("esterno");
             request.setAttribute("listaPianteDaEsterno", listaPianteDaEsterno);
 
             request.getRequestDispatcher("/homepage.jsp").forward(request, response);

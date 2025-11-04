@@ -40,11 +40,12 @@
     <i class="bi bi-flower1"></i> <span>ACCOUNT</span>
    </a>
     
-    <a href="${pageContext.request.contextPath}/Carrello.jsp" class="nav-icon-link cart-link" aria-label="Carrello">
-    <i class="bi bi-basket"></i>  <c:if test="${numeroArticoliCarrello > 0}">
+    <a href="${pageContext.request.contextPath}/visualizzaCarrello" class="nav-icon-link cart-link" aria-label="Carrello">
+    <i class="bi bi-basket"></i>
+    <c:if test="${numeroArticoliCarrello > 0}">
         <span class="cart-badge">${numeroArticoliCarrello}</span>
     </c:if>
-	</a>
+    </a>
     
     <form action="${pageContext.request.contextPath}/catalogo" method="GET" class="search-form-header"> 
         <input type="text" name="query" placeholder="Cerca Piante e Accessori..." value="${param.query != null ? param.query : ''}">

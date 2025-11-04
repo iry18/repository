@@ -43,8 +43,7 @@
 		                    <p><c:out value="${requestScope.descrizioneCatalogo}"/></p>
 		                </div>
 		                <div class="category-image-content">
-		                    <img src="${pageContext.request.contextPath}/images/<c:out value='${requestScope.immagineCatalogo}'/>" 
-		                         alt="Immagine di presentazione per gli accessori">
+		                    <img src="${pageContext.request.contextPath}/images/presentazionepiante.png"  alt="Immagine di presentazione per gli accessori">
 		                </div>
 		            </div>
             <section class="plants-grid">

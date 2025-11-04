@@ -213,7 +213,7 @@
             border: 1px solid #ffeeba;
         }
 
-        /* Carrello vuoto */
+        
         .empty-cart-message {
             text-align: center;
             padding: 80px 20px;

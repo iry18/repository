@@ -36,12 +36,7 @@ public class PianteDAO {
         return dataSource.getConnection();
     }
 
-    /**
-     * Metodo per aggiungere una nuova pianta nel database.
-     *
-     * @param pianta L'oggetto Piante da aggiungere.
-     * @throws SQLException Se si verifica un errore SQL.
-     */
+  
     public void aggiungiPianta(Piante pianta) throws SQLException {
         String sql = "INSERT INTO piante(" +
                 "NomeComune, Tipo, NomeScientificoBotanico, DescrizioneBreve, DescrizioneDettagliata, " +
@@ -84,13 +79,6 @@ public class PianteDAO {
         }
     }
 
-    /**
-     * Metodo per recuperare una pianta dal database tramite il suo ID.
-     *
-     * @param id L'ID della pianta da cercare.
-     * @return L'oggetto Piante corrispondente, o null se non trovato.
-     * @throws SQLException Se si verifica un errore SQL.
-     */
     public Piante getPiantaById(int id) throws SQLException {
         String sql = "SELECT * FROM piante WHERE Id = ?";
         try (Connection connection = getConnection();
@@ -108,13 +96,6 @@ public class PianteDAO {
         }
     }
 
-    /**
-     * Metodo per recuperare una lista di piante dal database tramite il loro NomeComune.
-     *
-     * @param nome Il nome comune della pianta da cercare.
-     * @return Una lista di oggetti Piante.
-     * @throws SQLException Se si verifica un errore SQL.
-     */
     public List<Piante> getPianteByNomeComune(String nome) throws SQLException {
         List<Piante> piante = new ArrayList<>();
         String sql = "SELECT * FROM piante WHERE LOWER(NomeComune) LIKE ?";
@@ -133,12 +114,7 @@ public class PianteDAO {
         return piante;
     }
 
-    /**
-     * Metodo per recuperare tutte le piante dal database.
-     *
-     * @return Una lista di oggetti Piante.
-     * @throws SQLException Se si verifica un errore SQL.
-     */
+
     public List<Piante> getAllPiante() throws SQLException {
         String sql = "SELECT * FROM piante";
         List<Piante> listaPiante = new ArrayList<>();
@@ -155,12 +131,7 @@ public class PianteDAO {
         return listaPiante;
     }
 
-    /**
-     * Metodo per aggiornare i dati di una pianta nel database tramite il suo ID.
-     *
-     * @param pianta L'oggetto Piante con i dati aggiornati.
-     * @throws SQLException Se si verifica un errore SQL.
-     */
+
     public void aggiornaPianta(Piante pianta) throws SQLException {
         String sql = "UPDATE piante SET " +
                 "NomeComune = ?, Tipo = ?, NomeScientificoBotanico = ?, DescrizioneBreve = ?, DescrizioneDettagliata = ?, " +
@@ -205,13 +176,6 @@ public class PianteDAO {
         }
     }
 
-    /**
-     * Metodo per eliminare una pianta dal database tramite il suo ID.
-     *
-     * @param id L'ID della pianta da eliminare.
-     * @return true se la pianta è stata eliminata, false altrimenti.
-     * @throws SQLException Se si verifica un errore SQL.
-     */
     public boolean deletePianta(int id) throws SQLException {
         String sql = "DELETE FROM piante WHERE Id = ?";
         boolean deleted = false;
@@ -232,13 +196,7 @@ public class PianteDAO {
         return deleted;
     }
 
-    /**
-     * Metodo privato per mappare una riga del ResultSet a un oggetto Piante.
-     *
-     * @param resultSet Il ResultSet da cui leggere i dati.
-     * @return Un oggetto Piante popolato con i dati del ResultSet.
-     * @throws SQLException Se si verifica un errore SQL.
-     */
+
     private Piante mapResultSetToPianta(ResultSet resultSet) throws SQLException {
         Piante pianta = new Piante();
         pianta.setId(resultSet.getInt("Id"));
@@ -261,13 +219,7 @@ public class PianteDAO {
         return pianta;
     }
     
-    /**
-     * Metodo per recuperare un numero limitato di piante in evidenza (ad es. per la homepage).
-     *
-     * @param limit Il numero massimo di piante da recuperare.
-     * @return Una lista di oggetti Piante.
-     * @throws SQLException Se si verifica un errore SQL.
-     */
+
     public List<Piante> getPianteInEvidenza(int limit) throws SQLException {
         String sql = "SELECT * FROM piante ORDER BY data_inserimento DESC LIMIT ?";
         List<Piante> piante = new ArrayList<>();
@@ -283,13 +235,7 @@ public class PianteDAO {
         return piante;
     }
     
-    /**
-     * Metodo per recuperare le piante per tipologia (interno/esterno).
-     *
-     * @param tipo Il tipo di pianta da cercare.
-     * @return Una lista di oggetti Piante.
-     * @throws SQLException Se si verifica un errore SQL.
-     */
+
     public List<Piante> filterPianteByNomeComune(List<Piante> lista, String nome) {
         if (lista == null || nome == null || nome.trim().isEmpty()) {
             return lista; 
@@ -331,19 +277,17 @@ public class PianteDAO {
     public List<Piante> searchByQuery(String searchQuery) throws SQLException {
         List<Piante> risultatiPiante = new ArrayList<>();
 
-        // La query usa LIKE per la ricerca parziale e LOWER() per la case-insensitivity.
         String sql = "SELECT * FROM piante WHERE "
                    + "LOWER(NomeComune) LIKE LOWER(?) OR "
                    + "LOWER(NomeScientificoBotanico) LIKE LOWER(?) OR "
                    + "LOWER(DescrizioneBreve) LIKE LOWER(?)";
 
-        // Prepara la query di ricerca aggiungendo i simboli jolly '%'
-        String likeQuery = "%" + searchQuery.trim() + "%";
+     String likeQuery = "%" + searchQuery.trim() + "%";
 
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-            // Imposta il parametro di ricerca per i tre campi
+           
             preparedStatement.setString(1, likeQuery);
             preparedStatement.setString(2, likeQuery);
             preparedStatement.setString(3, likeQuery);
@@ -352,13 +296,12 @@ public class PianteDAO {
 
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
-                    // Riutilizza il metodo helper esistente
                     risultatiPiante.add(mapResultSetToPianta(rs));
                 }
             }
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Errore SQL durante la ricerca delle piante per query: " + searchQuery, e);
-            // Rilancia l'eccezione per essere gestita dalla Servlet
+            
             throw e;
         }
 

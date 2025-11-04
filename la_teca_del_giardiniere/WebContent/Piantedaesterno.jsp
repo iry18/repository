@@ -33,7 +33,10 @@
 
         <section class="main-content">
           <div class="category-header-box">
-        
+          
+        <div class="category-image-content">
+		                    <img src="${pageContext.request.contextPath}/images/presentazionepianteesterne.png"  alt="Immagine di presentazione per gli accessori">
+		                </div>
             <section class="plants-grid">
                 <c:forEach var="pianta" items="${listaPiante}">
                     <div class="plant-card">

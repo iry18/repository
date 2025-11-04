@@ -30,15 +30,15 @@
         <aside class="sidebar-left">
             <h2 class="sidebar-title">Ogni pianta ha il suo scopo</h2>
             <div class="sidebar-item">
-                <img src="${pageContext.request.contextPath}/images/stikers.png" alt="Piante per la cucina">
+                <img src="${pageContext.request.contextPath}/images/stikers.png" alt="stikers">
                 <p> Accessori carini ed utili </p>
             </div>
             <div class="sidebar-item">
-                <img src="${pageContext.request.contextPath}/images/paletti.png" alt="Piante per la cucina">
+                <img src="${pageContext.request.contextPath}/images/paletti.png" alt="Paletti">
                 <p> coltiva la tua creatività </p>
             </div>
             <div class="sidebar-item">
-                <img src="${pageContext.request.contextPath}/images/flebo.png" alt="Piante per la cucina">
+                <img src="${pageContext.request.contextPath}/images/flebo.png" alt="Flebo">
                 <p> fatti ispirare </p>
             </div>
         </aside>
@@ -51,8 +51,7 @@
                     <p><c:out value="${requestScope.descrizioneCatalogo}"/></p>
                 </div>
                 <div class="category-image-content">
-                    <img src="${pageContext.request.contextPath}/images/<c:out value='${requestScope.immagineCatalogo}'/>" 
-                         alt="Immagine di presentazione per gli accessori">
+                    <img src="${pageContext.request.contextPath}/images/presentazioneaccessori.png" alt="Immagine di presentazione per gli accessori">
                 </div>
             </div>
             <section class="products-grid-section">

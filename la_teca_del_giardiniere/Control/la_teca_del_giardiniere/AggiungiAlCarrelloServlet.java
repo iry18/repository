@@ -21,10 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.math.BigDecimal;
 
-/**
- * Servlet che gestisce l'aggiunta di un prodotto al carrello.
- * Aggiunge un nuovo articolo al carrello o incrementa la quantità di un articolo esistente.
- */
+
 @WebServlet("/aggiungiAlCarrello")
 public class AggiungiAlCarrelloServlet extends HttpServlet {
 
@@ -34,9 +31,6 @@ public class AggiungiAlCarrelloServlet extends HttpServlet {
     private PianteDAO pianteDAO;
     private AccessoriDAO accessoriDAO;
 
-    /**
-     * Metodo di inizializzazione del servlet. Inizializza i DAO per l'interazione con il database.
-     */
     @Override
     public void init() throws ServletException {
         super.init();
@@ -51,10 +45,15 @@ public class AggiungiAlCarrelloServlet extends HttpServlet {
         }
     }
 
-    /**
-     * Gestisce le richieste POST per l'aggiunta di prodotti al carrello.
-     * Recupera i parametri, verifica il prodotto e lo aggiunge o aggiorna nel carrello in sessione.
-     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        
+        LOGGER.log(Level.WARNING, "Tentativo di accesso GET all'URL /aggiungiAlCarrello. Reindirizzo al carrello.");
+
+        response.sendRedirect(request.getContextPath() + "/visualizzaCarrello");
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();

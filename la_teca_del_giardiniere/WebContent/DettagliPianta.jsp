@@ -13,7 +13,6 @@
 </head>
 
 <body>
-    <jsp:include page="/header.jsp" />
     
     <section class="main-content">
     
@@ -153,6 +152,6 @@
     </div>
  </section>
  
-    <jsp:include page="/footer.jsp" />
 </body>
+
 </html>
