@@ -28,11 +28,10 @@
                 <li><a href="${pageContext.request.contextPath}/Piantedaesterno.jsp">PIANTE ESTERNO</a></li>
                 <li><a href="${pageContext.request.contextPath}/Accessori.jsp">ACCESSORI</a></li>
                 <li><a href="${pageContext.request.contextPath}/Carrello.jsp">CARRELLO</a></li>
-                <li><a href="${pageContext.request.contextPath}/MyAccount.jsp">Account</a></li>
                
                 <c:choose>
                     <c:when test="${sessionScope.currentUser != null}">
-                        <li style="margin-left: 20px;"><a href="${pageContext.request.contextPath}/MyAccount.jsp">IL MIO ACCOUNT</a></li>
+                        <li style="margin-left: 20px;"><a href="${pageContext.request.contextPath}/userlogged/MyAccount.jsp">IL MIO ACCOUNT</a></li>
                         <li><a href="${pageContext.request.contextPath}/LogoutServlet">LOGOUT</a></li>
                     </c:when>
                     <c:otherwise>

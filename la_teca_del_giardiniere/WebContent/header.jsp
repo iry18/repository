@@ -36,16 +36,15 @@
         
 	<div class="right-nav">
     
-    <a href="${pageContext.request.contextPath}/MyAccount.jsp" class="nav-icon-link" aria-label="Il mio Account">
-        <i class="bi bi-person"></i>
-    </a>
+    <a href="${pageContext.request.contextPath}/userlogged/MyAccount.jsp" class="nav-icon-link account-link" aria-label="Il mio Account">
+    <i class="bi bi-flower1"></i> <span>ACCOUNT</span>
+   </a>
     
-    <a href="${pageContext.request.contextPath}/carrello" class="nav-icon-link cart-link" aria-label="Carrello">
-        <i class="bi bi-bag"></i> 
-        <c:if test="${numeroArticoliCarrello > 0}">
-            <span class="cart-badge">${numeroArticoliCarrello}</span>
-        </c:if>
-    </a>
+    <a href="${pageContext.request.contextPath}/Carrello.jsp" class="nav-icon-link cart-link" aria-label="Carrello">
+    <i class="bi bi-basket"></i>  <c:if test="${numeroArticoliCarrello > 0}">
+        <span class="cart-badge">${numeroArticoliCarrello}</span>
+    </c:if>
+	</a>
     
     <form action="${pageContext.request.contextPath}/catalogo" method="GET" class="search-form-header"> 
         <input type="text" name="query" placeholder="Cerca Piante e Accessori..." value="${param.query != null ? param.query : ''}">

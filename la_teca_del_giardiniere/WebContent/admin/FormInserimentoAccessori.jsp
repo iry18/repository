@@ -44,8 +44,8 @@
 
         <form action="${pageContext.request.contextPath}/admin/AggiungiAccessorioServlet" method="post">
             
-            <c:if test="${modalita == 'modifica' and not empty accessorio.id}">
-                <input type="hidden" name="id" value="${accessorio.id}">
+            <c:if test="${modalita == 'modifica' and not empty accessorio.accessorio_id}">
+                <input type="hidden" name="id" value="${accessorio.accessorio_id}">
                 <input type="hidden" name="action" value="aggiorna"> 
             </c:if>
             <c:if test="${modalita == 'inserisci'}">
@@ -68,9 +68,15 @@
                        value="<c:if test="${modalita == 'modifica'}">${accessorio.disponibilita}</c:if>">
             </div>
             <div class="form-group">
-                <label for="descrizione">Descrizione:</label>
+                <label for="descrizione">DescrizioneBreve:</label>
                 <textarea id="descrizione" name="descrizione"><c:if test="${modalita == 'modifica'}"><c:out value="${accessorio.descrizione}"/></c:if></textarea>
             </div>
+            
+            <div class="form-group">
+                <label for="descrizione">DescrizioneDettagliata:</label>
+                <textarea id="descrizione" name="descrizione"><c:if test="${modalita == 'modifica'}"><c:out value="${accessorio.descrizione}"/></c:if></textarea>
+            </div>
+            
             <div class="form-group">
                 <label for="dimensioni">Dimensioni:</label>
                 <input type="text" id="dimensioni" name="dimensioni"

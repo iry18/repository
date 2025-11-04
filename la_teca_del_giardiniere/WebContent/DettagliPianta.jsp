@@ -15,6 +15,8 @@
 <body>
     <jsp:include page="/header.jsp" />
     
+    <section class="main-content">
+    
     <div class="container-dettagli-pianta">
         <c:choose><c:when test="${pianta != null}">
             <section class="immagine-principale">
@@ -149,7 +151,8 @@
             <img src="${pageContext.request.contextPath}/images/consigli.png" alt="Consigli Utili per la Cura delle Piante">
         </section>
     </div>
-
+ </section>
+ 
     <jsp:include page="/footer.jsp" />
 </body>
 </html>

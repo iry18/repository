@@ -24,6 +24,7 @@ public class Piante {
     private String frequenzaLavorazione;
     private String potatura;
     private String concimazione;
+    private String categoria;
 
     // Costruttore vuoto
     public Piante() {}
@@ -124,6 +125,14 @@ public class Piante {
     public void setConcimazione(String concimazione) {
         this.concimazione = concimazione;
     }
+    
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
 
 
     @Override
@@ -148,6 +157,7 @@ public class Piante {
                ", disponibilita=" + disponibilita +
                ", dataInserimento=" + dataInserimento +
                ", Immagine='" + Immagine + '\'' +
+               ", categoria='" + categoria + '\'' +
                '}';
     }
 }

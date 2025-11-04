@@ -27,7 +27,7 @@ header {
 }
 
 .site-logo {
-    height: 60px;
+    height: 70px;
     width: auto;
 }
 
@@ -111,11 +111,22 @@ nav ul li a, .nav-link {
     text-decoration: none;
     color: #3a5a40;
     font-size: 1.1em;
+    font-family: 'Cormorant Garamond', serif; 
+    font-weight: normal;
 }
 
 .cart-link img, .account-link img {
     height: 24px;
     width: auto;
+}
+
+.account-link:hover {
+    color: #588157; 
+}
+
+.account-link i {
+    font-size: 1.3em; 
+    color: #3a5a40;
 }
 
 .search-form {
@@ -165,33 +176,30 @@ nav ul li a, .nav-link {
     margin-left: auto; 
 }
 
-/* Unifica lo stile per tutte le icone (MyAccount, Carrello, Ricerca) */
 .nav-icon-link {
     color: #3a5a40; 
-    font-size: 1.4em; /* Icone più grandi e visibili */
+    font-size: 1.2em; 
     text-decoration: none;
     transition: color 0.2s ease;
     padding: 5px; 
     position: relative; 
-    margin-right: 5px; /* Spazio tra icone e barra di ricerca */
+    margin-right: 5px; 
 }
 
 .nav-icon-link:hover {
     color: #588157;
 }
-/* REGOLA GENERICA PER LA DIMENSIONE DELLE ICONE */
+
 .nav-icon-link {
     color: #3a5a40; 
-    font-size: 1.4em; /* Questo imposta la dimensione per <i class="bi bi-..."> */
-    /* ...altri stili... */
+    font-size: 1.4em; 
 }
 
-/* Se avevi una regola specifica per il Font Awesome, aggiornala così: */
-.search-form-header button i.bi { /* Assicurati di specificare .bi */
-    font-size: 1em; 
+.search-form-header button i.bi { 
+	font-size: 1em; 
     color: #3a5a40;
 }
-/* Badge del carrello (il cerchio con il numero) */
+
 .cart-badge {
     position: absolute;
     top: 0px; 
@@ -203,12 +211,11 @@ nav ul li a, .nav-link {
     font-size: 0.7em;
     font-weight: bold;
     line-height: 1;
-    min-width: 15px; /* Assicura che anche i numeri a una cifra siano visibili */
+    min-width: 15px; 
     text-align: center;
 }
 
-/* Stile per l'icona interna al bottone Ricerca */
 .search-form-header button i {
-    font-size: 1em; /* Più piccolo rispetto alle icone autonome */
-    color: #3a5a40;
+    font-size: 1em; 
+     color: #3a5a40;
 }

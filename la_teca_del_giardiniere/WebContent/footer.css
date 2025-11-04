@@ -1,110 +1,112 @@
-/* --- FOOTER STYLES (Delicato e Compatto) --- */
-
 .site-footer {
-    /* Sfondo molto chiaro e sottile */
-    background-color: #fcfcfc; 
-    color: #4a6c4c; /* Verde scuro ma meno intenso */
-    padding: 30px 20px 15px; /* Padding ridotto per compattezza */
+    background-color: #fcfcfc;
+    color: #4a6c4c;
+    padding: 40px 20px;
     font-family: 'Montserrat', sans-serif;
-    border-top: 1px solid #e9e9e9; /* Bordo più leggero */
+    border-top: 1px solid #e9e9e9;
+    text-align: center;
 }
 
-.footer-container {
+.footer-center {
     display: flex;
-    justify-content: space-between;
-    max-width: 1000px; /* Larghezza massima ridotta per un look più raccolto */
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px;
     margin: 0 auto;
-    flex-wrap: wrap;
-    gap: 15px; /* Spazio tra le colonne ridotto */
+    gap: 15px;
 }
 
-.footer-column {
-    flex: 1 1 200px;
-    margin-bottom: 15px; /* Margine ridotto */
+.footer-logo-center .site-logo {
+    height: 50px;
+    margin-bottom: 15px;
 }
 
-.footer-column h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.3em; /* Dimensione titolo ridotta */
-    margin-bottom: 10px;
-    font-weight: 700;
-    color: #6d9670; /* Tono di verde più morbido */
-    text-transform: uppercase; /* Rende i titoli più puliti */
-}
-
-/* Stili per le liste (Link e Servizio Clienti) */
-.footer-column ul {
+.footer-service-links ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
 }
 
-.footer-column ul li {
-    margin-bottom: 5px; /* Spazio ridotto tra i link */
-}
-
-.footer-column a {
+.footer-service-links a {
     text-decoration: none;
     color: #4a6c4c;
     transition: color 0.3s ease;
-    font-size: 0.9em; /* Dimensione link ridotta */
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1em;
 }
 
-.footer-column a:hover {
+.footer-service-links a:hover {
     color: #588157;
 }
 
-/* Stili per la colonna Info e Contatti */
-.footer-info p, 
-.footer-column p {
-    margin-bottom: 8px; /* Spazio ridotto */
-    font-size: 0.9em;
-    line-height: 1.4; /* Migliora la leggibilità del testo compatto */
+.footer-social-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e9e9e9;
+    width: 100%;
 }
 
-.footer-column p i {
-    margin-right: 6px;
-    color: #b1c4a0; /* Icone più tenui */
+.social-icons-circular a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: white;
+    border: 1px solid #4a6c4c;
+    color: #4a6c4c;
+    font-size: 1.1em;
+    margin: 0 5px;
+    transition: all 0.2s ease;
 }
 
-/* Icone Social */
-.social-icons {
+.social-icons-circular a:hover {
+    background-color: #588157;
+    color: white;
+}
+
+.language-button {
+    text-decoration: none;
+    color: #4a6c4c;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1em;
+    padding: 8px 15px;
+    border: 1px solid #4a6c4c;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+}
+
+.language-button:hover {
+    background-color: #588157;
+    color: white;
+}
+
+.footer-copyright-center {
+    width: 100%;
     margin-top: 10px;
 }
 
-.social-icons a {
-    color: #b1c4a0; 
-    font-size: 1.3em; /* Icone leggermente ridotte */
-    margin-right: 12px;
-}
-
-.social-icons a:hover {
-    color: #588157;
-}
-
-/* Sezione inferiore (copyright) */
-.footer-bottom {
-    text-align: center;
-    border-top: 1px solid #e9e9e9;
-    padding-top: 10px; /* Padding ridotto */
-    margin-top: 15px;
-}
-
-.footer-bottom p {
-    font-size: 0.75em; /* Copyright molto piccolo e discreto */
+.footer-copyright-center p {
+    font-size: 0.75em;
     color: #999;
     margin: 0;
 }
 
-/* Media Query per Mobile */
-@media (max-width: 768px) {
-    .footer-container {
+@media (max-width: 600px) {
+    .footer-service-links ul {
         flex-direction: column;
-        align-items: flex-start;
+        gap: 8px;
     }
-
-    .footer-column {
-        flex: 1 1 100%;
-        text-align: left;
+    .footer-social-section {
+        flex-direction: column;
+        gap: 15px;
     }
 }

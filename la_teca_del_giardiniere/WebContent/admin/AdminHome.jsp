@@ -222,7 +222,7 @@
     <header>
         <nav>
             <ul>
-                <li><a href="homepage.jsp">HOME SITO</a></li>
+                <li><a href="<%= request.getContextPath() %>/homepage">HOME</a></li>
                 <li><a href="<%= request.getContextPath() %>/LoginServlet?action=logout">LOGOUT</a></li>
             </ul>
         </nav>

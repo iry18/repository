@@ -111,6 +111,7 @@
         <div class="plants-grid">
             <c:forEach items="${listaAccessoriInEvidenza}" var="accessorio">
                 <div class="plant-card">
+                <a href="${pageContext.request.contextPath}/dettagliPianta?id=${plant.id}" class="plant-details-link">
                     <div class="plant-info">
 				            <img src="<%= request.getContextPath() %>/images/${accessorio.immagine}" alt="${accessorio.nome}">
 				            <h3><c:out value="${accessorio.nome}"/></h3>
@@ -119,6 +120,7 @@
                         <span>€<c:out value="${accessorio.prezzo}"/></span>
                         <small>IVA inclusa</small>
                     </div>
+                    </a>
                     <form action="<%= request.getContextPath() %>/aggiungiAlCarrello" method="post" class="add-to-cart-form">
                         <input type="hidden" name="idProdotto" value="${accessorio.accessorio_id}">
                         <input type="hidden" name="tipoProdotto" value="accessorio">
